@@ -12,6 +12,21 @@
 		B8B3389D1AFB258F00740CCE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8B3389C1AFB258F00740CCE /* Images.xcassets */; };
 		B8B338A01AFB258F00740CCE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B3389E1AFB258F00740CCE /* LaunchScreen.xib */; };
 		B8B338AC1AFB258F00740CCE /* shadowTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B338AB1AFB258F00740CCE /* shadowTests.m */; };
+		B8B338CA1AFB295C00740CCE /* HouseViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B8B338C91AFB295C00740CCE /* HouseViewController.mm */; };
+		B8B338D21AFB2A5A00740CCE /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8B338D01AFB2A4E00740CCE /* Shader.fsh */; };
+		B8B338D31AFB2A6200740CCE /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8B338D11AFB2A4E00740CCE /* Shader.vsh */; };
+		B8B338D61AFB2EFC00740CCE /* Program.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B338D51AFB2EFC00740CCE /* Program.m */; };
+		B8B338DA1AFB2F3400740CCE /* DepthProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B338D91AFB2F3400740CCE /* DepthProgram.m */; };
+		B8B338DD1AFB2F5E00740CCE /* NormalProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B338DC1AFB2F5E00740CCE /* NormalProgram.m */; };
+		B8CD41951AFB491800262B08 /* assimpMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8CD41911AFB491800262B08 /* assimpMesh.cpp */; };
+		B8CD41961AFB491800262B08 /* assimpModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = B8CD41941AFB491800262B08 /* assimpModel.mm */; };
+		B8CD41991AFB499000262B08 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41981AFB499000262B08 /* OpenGLES.framework */; };
+		B8CD419B1AFB499E00262B08 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD419A1AFB499E00262B08 /* QuartzCore.framework */; };
+		B8CD419D1AFB49A800262B08 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD419C1AFB49A800262B08 /* GLKit.framework */; };
+		B8CD419F1AFB49B000262B08 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD419E1AFB49B000262B08 /* libz.dylib */; };
+		B8CD41A11AFB49BD00262B08 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41A01AFB49BD00262B08 /* libc++.dylib */; };
+		B8CD41A31AFB49C700262B08 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41A21AFB49C700262B08 /* libstdc++.dylib */; };
+		B8CD41A51AFB49EA00262B08 /* libassimp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41A41AFB49EA00262B08 /* libassimp.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +50,27 @@
 		B8B338A51AFB258F00740CCE /* shadowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = shadowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8B338AA1AFB258F00740CCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B8B338AB1AFB258F00740CCE /* shadowTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = shadowTests.m; sourceTree = "<group>"; };
+		B8B338C81AFB295C00740CCE /* HouseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HouseViewController.h; sourceTree = "<group>"; };
+		B8B338C91AFB295C00740CCE /* HouseViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HouseViewController.mm; sourceTree = "<group>"; };
+		B8B338D01AFB2A4E00740CCE /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
+		B8B338D11AFB2A4E00740CCE /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
+		B8B338D41AFB2EFC00740CCE /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Program.h; sourceTree = "<group>"; };
+		B8B338D51AFB2EFC00740CCE /* Program.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Program.m; sourceTree = "<group>"; };
+		B8B338D81AFB2F3400740CCE /* DepthProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DepthProgram.h; sourceTree = "<group>"; };
+		B8B338D91AFB2F3400740CCE /* DepthProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DepthProgram.m; sourceTree = "<group>"; };
+		B8B338DB1AFB2F5E00740CCE /* NormalProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NormalProgram.h; sourceTree = "<group>"; };
+		B8B338DC1AFB2F5E00740CCE /* NormalProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NormalProgram.m; sourceTree = "<group>"; };
+		B8CD41911AFB491800262B08 /* assimpMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = assimpMesh.cpp; sourceTree = "<group>"; };
+		B8CD41921AFB491800262B08 /* assimpMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assimpMesh.h; sourceTree = "<group>"; };
+		B8CD41931AFB491800262B08 /* assimpModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assimpModel.h; sourceTree = "<group>"; };
+		B8CD41941AFB491800262B08 /* assimpModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = assimpModel.mm; sourceTree = "<group>"; };
+		B8CD41981AFB499000262B08 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		B8CD419A1AFB499E00262B08 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B8CD419C1AFB49A800262B08 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		B8CD419E1AFB49B000262B08 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		B8CD41A01AFB49BD00262B08 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		B8CD41A21AFB49C700262B08 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		B8CD41A41AFB49EA00262B08 /* libassimp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libassimp.a; path = shadow/libassimp.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +78,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8CD41A51AFB49EA00262B08 /* libassimp.a in Frameworks */,
+				B8CD41A31AFB49C700262B08 /* libstdc++.dylib in Frameworks */,
+				B8CD41A11AFB49BD00262B08 /* libc++.dylib in Frameworks */,
+				B8CD419F1AFB49B000262B08 /* libz.dylib in Frameworks */,
+				B8CD419D1AFB49A800262B08 /* GLKit.framework in Frameworks */,
+				B8CD419B1AFB499E00262B08 /* QuartzCore.framework in Frameworks */,
+				B8CD41991AFB499000262B08 /* OpenGLES.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +101,8 @@
 		B8B338891AFB258F00740CCE = {
 			isa = PBXGroup;
 			children = (
+				B8CD41A61AFB49F200262B08 /* frameworks */,
+				B8B338CF1AFB2A4E00740CCE /* Shaders */,
 				B8B338941AFB258F00740CCE /* shadow */,
 				B8B338A81AFB258F00740CCE /* shadowTests */,
 				B8B338931AFB258F00740CCE /* Products */,
@@ -76,11 +121,15 @@
 		B8B338941AFB258F00740CCE /* shadow */ = {
 			isa = PBXGroup;
 			children = (
+				B8CD41971AFB492600262B08 /* objLoader */,
 				B8B338991AFB258F00740CCE /* AppDelegate.h */,
 				B8B3389A1AFB258F00740CCE /* AppDelegate.m */,
 				B8B3389C1AFB258F00740CCE /* Images.xcassets */,
 				B8B3389E1AFB258F00740CCE /* LaunchScreen.xib */,
 				B8B338951AFB258F00740CCE /* Supporting Files */,
+				B8B338C81AFB295C00740CCE /* HouseViewController.h */,
+				B8B338C91AFB295C00740CCE /* HouseViewController.mm */,
+				B8B338D71AFB2F0A00740CCE /* program */,
 			);
 			path = shadow;
 			sourceTree = "<group>";
@@ -109,6 +158,54 @@
 				B8B338AA1AFB258F00740CCE /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B8B338CF1AFB2A4E00740CCE /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				B8B338D01AFB2A4E00740CCE /* Shader.fsh */,
+				B8B338D11AFB2A4E00740CCE /* Shader.vsh */,
+			);
+			name = Shaders;
+			path = shadow/Shaders;
+			sourceTree = "<group>";
+		};
+		B8B338D71AFB2F0A00740CCE /* program */ = {
+			isa = PBXGroup;
+			children = (
+				B8B338D41AFB2EFC00740CCE /* Program.h */,
+				B8B338D51AFB2EFC00740CCE /* Program.m */,
+				B8B338D81AFB2F3400740CCE /* DepthProgram.h */,
+				B8B338D91AFB2F3400740CCE /* DepthProgram.m */,
+				B8B338DB1AFB2F5E00740CCE /* NormalProgram.h */,
+				B8B338DC1AFB2F5E00740CCE /* NormalProgram.m */,
+			);
+			name = program;
+			sourceTree = "<group>";
+		};
+		B8CD41971AFB492600262B08 /* objLoader */ = {
+			isa = PBXGroup;
+			children = (
+				B8CD41911AFB491800262B08 /* assimpMesh.cpp */,
+				B8CD41921AFB491800262B08 /* assimpMesh.h */,
+				B8CD41931AFB491800262B08 /* assimpModel.h */,
+				B8CD41941AFB491800262B08 /* assimpModel.mm */,
+			);
+			name = objLoader;
+			sourceTree = "<group>";
+		};
+		B8CD41A61AFB49F200262B08 /* frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B8CD41A41AFB49EA00262B08 /* libassimp.a */,
+				B8CD41A21AFB49C700262B08 /* libstdc++.dylib */,
+				B8CD41A01AFB49BD00262B08 /* libc++.dylib */,
+				B8CD419E1AFB49B000262B08 /* libz.dylib */,
+				B8CD419C1AFB49A800262B08 /* GLKit.framework */,
+				B8CD419A1AFB499E00262B08 /* QuartzCore.framework */,
+				B8CD41981AFB499000262B08 /* OpenGLES.framework */,
+			);
+			name = frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,6 +288,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8B338D31AFB2A6200740CCE /* Shader.vsh in Resources */,
+				B8B338D21AFB2A5A00740CCE /* Shader.fsh in Resources */,
 				B8B338A01AFB258F00740CCE /* LaunchScreen.xib in Resources */,
 				B8B3389D1AFB258F00740CCE /* Images.xcassets in Resources */,
 			);
@@ -210,8 +309,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8CD41951AFB491800262B08 /* assimpMesh.cpp in Sources */,
+				B8B338D61AFB2EFC00740CCE /* Program.m in Sources */,
+				B8B338CA1AFB295C00740CCE /* HouseViewController.mm in Sources */,
 				B8B3389B1AFB258F00740CCE /* AppDelegate.m in Sources */,
+				B8CD41961AFB491800262B08 /* assimpModel.mm in Sources */,
+				B8B338DA1AFB2F3400740CCE /* DepthProgram.m in Sources */,
 				B8B338981AFB258F00740CCE /* main.m in Sources */,
+				B8B338DD1AFB2F5E00740CCE /* NormalProgram.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,6 +438,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = shadow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/shadow",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -343,6 +452,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = shadow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/shadow",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -400,6 +513,7 @@
 				B8B338B11AFB258F00740CCE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B8B338B21AFB258F00740CCE /* Build configuration list for PBXNativeTarget "shadowTests" */ = {
 			isa = XCConfigurationList;
@@ -408,6 +522,7 @@
 				B8B338B41AFB258F00740CCE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

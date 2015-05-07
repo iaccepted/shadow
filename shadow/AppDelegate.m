@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "HouseViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,12 +18,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
-    UIWindow *window = [[UIWindow alloc] initWithFrame:screenBounds];
-
-    // Set the window rootViewController here
-
-    [window makeKeyAndVisible];
-    [self setWindow:window];
+    self.window = [[UIWindow alloc] initWithFrame:screenBounds];
+    HouseViewController *rootViewController = [[HouseViewController alloc] init];
+    self.window.rootViewController = rootViewController;
+    [self.window makeKeyAndVisible];
     						
     return YES;
 }
