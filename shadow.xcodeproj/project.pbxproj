@@ -35,6 +35,7 @@
 		B8CD41B41AFB55CB00262B08 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41B31AFB55CB00262B08 /* Foundation.framework */; };
 		B8CD41B61AFB570900262B08 /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41B51AFB570900262B08 /* libstdc++.6.0.9.dylib */; };
 		B8EA62971AFB7E7A00C4BC31 /* box in Resources */ = {isa = PBXBuildFile; fileRef = B8EA62961AFB7E7A00C4BC31 /* box */; };
+		B8EA629A1AFB8E5500C4BC31 /* ShadowMapProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8EA62991AFB8E5500C4BC31 /* ShadowMapProgram.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,8 @@
 		B8CD41B31AFB55CB00262B08 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B8CD41B51AFB570900262B08 /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
 		B8EA62961AFB7E7A00C4BC31 /* box */ = {isa = PBXFileReference; lastKnownFileType = folder; name = box; path = shadow/box; sourceTree = "<group>"; };
+		B8EA62981AFB8E5500C4BC31 /* ShadowMapProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadowMapProgram.h; sourceTree = "<group>"; };
+		B8EA62991AFB8E5500C4BC31 /* ShadowMapProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShadowMapProgram.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +207,8 @@
 				B8B338D91AFB2F3400740CCE /* DepthProgram.m */,
 				B8B338DB1AFB2F5E00740CCE /* NormalProgram.h */,
 				B8B338DC1AFB2F5E00740CCE /* NormalProgram.m */,
+				B8EA62981AFB8E5500C4BC31 /* ShadowMapProgram.h */,
+				B8EA62991AFB8E5500C4BC31 /* ShadowMapProgram.m */,
 			);
 			name = program;
 			sourceTree = "<group>";
@@ -352,6 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B8CD41951AFB491800262B08 /* assimpMesh.cpp in Sources */,
+				B8EA629A1AFB8E5500C4BC31 /* ShadowMapProgram.m in Sources */,
 				B8B338D61AFB2EFC00740CCE /* Program.m in Sources */,
 				B8B338CA1AFB295C00740CCE /* HouseViewController.mm in Sources */,
 				B8B3389B1AFB258F00740CCE /* AppDelegate.m in Sources */,

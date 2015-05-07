@@ -10,6 +10,7 @@
 #import <OpenGLES/ES2/glext.h>
 #import "DepthProgram.h"
 #import "NormalProgram.h"
+#import "ShadowMapProgram.h"
 #import "assimpModel.h"
 #import "Camera.h"
 #import <glm/glm.hpp>
@@ -17,6 +18,16 @@
 #import <glm/gtc/type_ptr.hpp>
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
+
+GLfloat cube[] =
+{
+    -0.5, 0.5, 0.0, 0.0, 1.0,
+    -0.5, -0.5, 0.0, 0.0, 0.0,
+    0.5, -0.5, 0.0, 1.0, 0.0,
+    -0.5, 0.5, 0.0, 0.0, 1.0,
+    0.5, -0.5, 0.0, 1.0, 0.0,
+    0.5, 0.5, 0.0, 1.0, 1.0
+};
 
 
 @interface HouseViewController () {
@@ -27,8 +38,11 @@
 @property (strong, nonatomic) EAGLContext *context;
 @property (nonatomic) DepthProgram *depthProgram;
 @property (nonatomic) NormalProgram *normalProgram;
+@property (nonatomic) ShadowMapProgram *shadowMapProgram;
 @property (nonatomic) GLuint depthFbo;
 @property (nonatomic) GLuint depthTexture;
+@property (nonatomic, assign) GLuint vao;
+@property (nonatomic, assign) GLuint vbo;
 
 - (void)setupGL;
 - (void)tearDownGL;
@@ -93,6 +107,58 @@
     glUniform3f(lightDirection, 1.0f, 1.0f, 1.0f);
 }
 
+
+- (void)setupGL
+{
+    [EAGLContext setCurrentContext:self.context];
+    
+    //init and link depthProgram and normalProgram
+    _depthProgram = [[DepthProgram alloc] linkProgramWithShaderName:@"depth"];
+    _normalProgram = [[NormalProgram alloc] linkProgramWithShaderName:@"normal"];
+    _shadowMapProgram = [[ShadowMapProgram alloc] linkProgramWithShaderName:@"Shader"];
+    
+    glGenVertexArraysOES(1, &_vao);
+    glBindVertexArrayOES(_vao);
+    glGenBuffers(1, &_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cube), cube, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid *)0);
+    
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid *)(3 * sizeof(GLfloat)));
+    
+    glBindVertexArrayOES(0);
+    
+    
+    const char *path = [self getPath:@"box/newest" : @"obj"];
+    model.loadModel(path);
+    model.bindVertexData();
+    model.bindTexturesData();
+    
+    [self initDepthFramebuffer];
+
+    glEnable(GL_DEPTH_TEST);
+}
+
+- (void)tearDownGL
+{
+    [EAGLContext setCurrentContext:self.context];
+    
+    if (self.depthProgram.program) {
+        glDeleteProgram(self.depthProgram.program);
+        self.depthProgram.program = 0;
+    }
+    
+    if (self.normalProgram.program) {
+        glDeleteProgram(self.normalProgram.program);
+        self.normalProgram.program = 0;
+    }
+}
+
+#pragma mark - render
+
 - (void) renderNormal
 {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -129,53 +195,42 @@
     model.drawNormal(self.normalProgram.program, _depthTexture);
 }
 
-- (void)setupGL
+-(void)renderDepth
 {
-    [EAGLContext setCurrentContext:self.context];
+    glUseProgram(self.depthProgram.program);
+    glBindFramebuffer(GL_FRAMEBUFFER, _depthFbo);
+    glClearDepthf(1.0f);
+    glClear(GL_DEPTH_BUFFER_BIT);
+    glm::mat4 lightView = glm::lookAt(glm::vec3(100, 100, 100), glm::vec3(0), glm::vec3(0, 1, 0));
+    float aspect = self.view.frame.size.width / self.view.frame.size.height;
+    glm::mat4 lightProjection = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100000.0f);
+    glm::mat4 lightModel;
+    lightModel = glm::rotate(lightModel, glm::radians(-90.0f),  glm::vec3(1.0f, 0.0f, 0.0f));
+    lightModel = glm::translate(lightModel, glm::vec3(0.0f, 0.0f, -0.75f));
+    //lightModel = glm::scale(lightModel, glm::vec3(0.006f, 0.006f, 0.006f));
+    _shadowMVP = lightProjection * lightView * lightModel;
     
-    //init and link depthProgram and normalProgram
-    _depthProgram = [[DepthProgram alloc] linkProgramWithShaderName:@"depth"];
-    _normalProgram = [[NormalProgram alloc] linkProgramWithShaderName:@"normal"];
-    
-    const char *path = [self getPath:@"box/newest" : @"obj"];
-    model.loadModel(path);
-    model.bindVertexData();
-    model.bindTexturesData();
-
-    glEnable(GL_DEPTH_TEST);
-    
-    
-   
-//    glGenVertexArraysOES(1, &_vertexArray);
-//    glBindVertexArrayOES(_vertexArray);
-//    
-//    glGenBuffers(1, &_vertexBuffer);
-//    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(gCubeVertexData), gCubeVertexData, GL_STATIC_DRAW);
-//    
-//    glEnableVertexAttribArray(GLKVertexAttribPosition);
-//    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
-//    glEnableVertexAttribArray(GLKVertexAttribNormal);
-//    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
-//    
-//    glBindVertexArrayOES(0);
+    GLuint MVPLoc = glGetUniformLocation(self.depthProgram.program, "shadowMVP");
+    glUniformMatrix4fv(MVPLoc, 1, GL_FALSE, glm::value_ptr(_shadowMVP));
+    model.drawDepth();
 }
 
-- (void)tearDownGL
+- (void) drawShadowMapping
 {
-    [EAGLContext setCurrentContext:self.context];
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    if (self.depthProgram.program) {
-        glDeleteProgram(self.depthProgram.program);
-        self.depthProgram.program = 0;
-    }
+    glUseProgram(self.shadowMapProgram.program);
     
-    if (self.normalProgram.program) {
-        glDeleteProgram(self.normalProgram.program);
-        self.normalProgram.program = 0;
-    }
-
+    //glActiveTexture(GL_TEXTURE0);
+    //glBindTexture(GL_TEXTURE_2D, _depthTexture);
+    //glUniform1i(glGetUniformLocation(self.shadowMapProgram.program, "shadowMap"), 0);
+    
+    glBindVertexArrayOES(_vao);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArrayOES(0);
 }
+
 
 #pragma mark - GLKView and GLKViewController delegate methods
 
@@ -185,7 +240,12 @@
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-    [self renderNormal];
+    glUseProgram(self.depthProgram.program);
+    glBindFramebuffer(GL_FRAMEBUFFER, _depthFbo);
+    [self renderDepth];
+    [view bindDrawable];
+    [self drawShadowMapping];
+    //[self renderNormal];
 }
 
 

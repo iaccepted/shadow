@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 iaccepted. All rights reserved.
 //
 
-varying lowp vec4 colorVarying;
+varying lowp vec4 color;
 
 void main()
 {
-    gl_FragColor = colorVarying;
+    gl_FragColor = color;
 }
