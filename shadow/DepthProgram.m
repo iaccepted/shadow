@@ -39,8 +39,6 @@
     // Attach fragment shader to program.
     glAttachShader(self.program, fragShader);
     
-    // Bind attribute locations.
-    // This needs to be done prior to linking.
     glBindAttribLocation(self.program, 0, "vposition");
     
     // Link program.
