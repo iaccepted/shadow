@@ -34,6 +34,7 @@
 		B8CD41B11AFB54E200262B08 /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8CD41AF1AFB54E200262B08 /* camera.cpp */; };
 		B8CD41B41AFB55CB00262B08 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41B31AFB55CB00262B08 /* Foundation.framework */; };
 		B8CD41B61AFB570900262B08 /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41B51AFB570900262B08 /* libstdc++.6.0.9.dylib */; };
+		B8EA62971AFB7E7A00C4BC31 /* box in Resources */ = {isa = PBXBuildFile; fileRef = B8EA62961AFB7E7A00C4BC31 /* box */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		B8CD41B01AFB54E200262B08 /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = camera.h; path = shadow/camera.h; sourceTree = SOURCE_ROOT; };
 		B8CD41B31AFB55CB00262B08 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B8CD41B51AFB570900262B08 /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
+		B8EA62961AFB7E7A00C4BC31 /* box */ = {isa = PBXFileReference; lastKnownFileType = folder; name = box; path = shadow/box; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,7 +120,7 @@
 		B8B338891AFB258F00740CCE = {
 			isa = PBXGroup;
 			children = (
-				B8CD41B51AFB570900262B08 /* libstdc++.6.0.9.dylib */,
+				B8EA62961AFB7E7A00C4BC31 /* box */,
 				B8CD41A61AFB49F200262B08 /* frameworks */,
 				B8B338CF1AFB2A4E00740CCE /* Shaders */,
 				B8B338941AFB258F00740CCE /* shadow */,
@@ -220,6 +222,7 @@
 		B8CD41A61AFB49F200262B08 /* frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B8CD41B51AFB570900262B08 /* libstdc++.6.0.9.dylib */,
 				B8CD41B31AFB55CB00262B08 /* Foundation.framework */,
 				B8CD41A41AFB49EA00262B08 /* libassimp.a */,
 				B8CD41A21AFB49C700262B08 /* libstdc++.dylib */,
@@ -322,6 +325,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8EA62971AFB7E7A00C4BC31 /* box in Resources */,
 				B8CD41AD1AFB4DD900262B08 /* normal.fsh in Resources */,
 				B8B338D31AFB2A6200740CCE /* Shader.vsh in Resources */,
 				B8CD41AE1AFB4DD900262B08 /* normal.vsh in Resources */,
@@ -481,7 +485,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/shadow",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
@@ -495,7 +501,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/shadow",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};

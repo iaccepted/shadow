@@ -83,6 +83,52 @@
     return YES;
 }
 
+- (void)setLight {
+    
+    GLuint lightColor, lightDirection;
+    lightColor = glGetUniformLocation(self.normalProgram.program, "light.color");
+    lightDirection = glGetUniformLocation(self.normalProgram.program, "light.direction");
+    
+    glUniform3f(lightColor, 1.0, 1.0, 1.0);
+    glUniform3f(lightDirection, 1.0f, 1.0f, 1.0f);
+}
+
+- (void) renderNormal
+{
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glUseProgram(self.normalProgram.program);
+    [self setLight];
+    
+    GLuint shadowProjectionMatrixLoc = glGetUniformLocation(self.normalProgram.program, "shadowMVP");
+    glUniformMatrix4fv(shadowProjectionMatrixLoc, 1, GL_FALSE, glm::value_ptr(_shadowMVP));
+    
+    
+    GLuint modelViewProjectionLocation, normalMatrixLocation;
+    float aspect = self.view.frame.size.width / self.view.frame.size.height;
+    
+    modelViewProjectionLocation = glGetUniformLocation(self.normalProgram.program, "MVP");
+    normalMatrixLocation = glGetUniformLocation(self.normalProgram.program, "normalMatrix");
+    
+    glm::mat4 modelMatrix, viewMatrix, projection, modelView, modelViewProjection, normalMatrix;
+    
+    modelMatrix = glm::rotate(modelMatrix, glm::radians(-90.0f),  glm::vec3(1.0f, 0.0f, 0.0f));
+    modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, 0.0f, -0.75f));
+    modelMatrix = glm::scale(modelMatrix, glm::vec3(0.006f, 0.006f, 0.006f));
+    viewMatrix = camera.getView();
+    projection = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
+    
+    modelView = viewMatrix * modelMatrix;
+    modelViewProjection = projection * modelView;
+    normalMatrix = glm::transpose(glm::inverse(modelView));
+    
+    glUniformMatrix4fv(normalMatrixLocation, 1, GL_FALSE, glm::value_ptr(normalMatrix));
+    glUniformMatrix4fv(modelViewProjectionLocation, 1, GL_FALSE, glm::value_ptr(modelViewProjection));
+    
+    model.drawNormal(self.normalProgram.program, _depthTexture);
+}
+
 - (void)setupGL
 {
     [EAGLContext setCurrentContext:self.context];
@@ -91,7 +137,8 @@
     _depthProgram = [[DepthProgram alloc] linkProgramWithShaderName:@"depth"];
     _normalProgram = [[NormalProgram alloc] linkProgramWithShaderName:@"normal"];
     
-    model.loadModel("newest.obj");
+    const char *path = [self getPath:@"box/newest" : @"obj"];
+    model.loadModel(path);
     model.bindVertexData();
     model.bindTexturesData();
 
@@ -138,35 +185,7 @@
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    glUseProgram(self.normalProgram.program);
-    
-    glUniform3f(normalUniforms[NORMAL_UNIFORM_LIGHT_COLOR], 1.0, 1.0, 1.0);
-    glUniform3f(normalUniforms[NORMAL_UNIFORM_LIGHT_DIRECTION], 1.0f, 1.0f, 1.0f);
-    
-    glUniformMatrix4fv(normalUniforms[NORMAL_UNIFORM_MVP], 1, GL_FALSE, glm::value_ptr(_shadowMVP));
-    
-    float aspect = self.view.frame.size.width / self.view.frame.size.height;
-    
-    
-    glm::mat4 modelMatrix, viewMatrix, projectionMatrix, modelViewMatrix, modelViewProjectionMatrix, normalMatrix;
-    
-    modelMatrix = glm::rotate(modelMatrix, glm::radians(-90.0f),  glm::vec3(1.0f, 0.0f, 0.0f));
-    modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, 0.0f, -0.75f));
-    modelMatrix = glm::scale(modelMatrix, glm::vec3(0.006f, 0.006f, 0.006f));
-    viewMatrix = camera.getView();
-    projectionMatrix = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
-    
-    modelViewMatrix = viewMatrix * modelMatrix;
-    modelViewProjectionMatrix = projectionMatrix * modelViewMatrix;
-    normalMatrix = glm::transpose(glm::inverse(modelViewMatrix));
-    
-    glUniformMatrix4fv(normalUniforms[NORMAL_UNIFORM_NORMAL_MATRIX], 1, GL_FALSE, glm::value_ptr(normalMatrix));
-    glUniformMatrix4fv(normalUniforms[NORMAL_UNIFORM_MVP], 1, GL_FALSE, glm::value_ptr(modelViewProjectionMatrix));
-    
-    model.drawNormal(self.normalProgram.program, 0);
+    [self renderNormal];
 }
 
 
@@ -194,5 +213,12 @@
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, self.depthFbo, 0);
     
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+#pragma mark - get resource path
+- (const char *)getPath:(NSString *)filename :(NSString *)type {
+    NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:type];
+    const char *pathString = [path UTF8String];
+    return pathString;
 }
 @end

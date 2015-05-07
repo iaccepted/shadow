@@ -8,6 +8,28 @@
 
 #import "NormalProgram.h"
 
+//enum
+//{
+//    NORMAL_ATTRIB_POSITION,
+//    NORMAL_ATTRIB_NORMAL,
+//    NORMAL_ATTRIB_TEXTCOORD,
+//    NORMAL_ATTRIB_NUM
+//};
+//
+//enum{
+//    NORMAL_UNIFORM_SHADOW_MVP,
+//    NORMAL_UNIFORM_MVP,
+//    NORMAL_UNIFORM_NORMAL_MATRIX,
+//    NORMAL_UNIFORM_SHADOW_MAP,
+//    NORMAL_UNIFORM_LIGHT_DIRECTION,
+//    NORMAL_UNIFORM_LIGHT_COLOR,
+//    NORMAL_UNIFORM_AMBIENT,
+//    NORMAL_UNIFORM_DIFFUSE,
+//    NORMAL_UNIFORM_SPECULAR,
+//    NORMAL_UNIFORM_SHININESS,
+//    NORMAL_UNIFORM_ALPHA,
+//    NORMAL_UNIFORM_NUM
+//};
 
 @implementation NormalProgram
 
@@ -41,9 +63,9 @@
     
     // Bind attribute locations.
     // This needs to be done prior to linking.
-    glBindAttribLocation(self.program, NORMAL_ATTRIB_POSITION, "vposition");
-    glBindAttribLocation(self.program, NORMAL_ATTRIB_NORMAL, "vnormal");
-    glBindAttribLocation(self.program, NORMAL_ATTRIB_TEXTCOORD, "textcoord");
+    glBindAttribLocation(self.program, 0, "vposition");
+    glBindAttribLocation(self.program, 1, "vnormal");
+    glBindAttribLocation(self.program, 2, "textcoord");
     
     // Link program.
     if (![self linkProgram:self.program]) {
@@ -63,18 +85,6 @@
         }
         exit(-1);
     }
-    
-    normalUniforms[NORMAL_UNIFORM_MVP] = glGetUniformLocation(self.program, "MVP");
-    normalUniforms[NORMAL_UNIFORM_SHADOW_MVP] = glGetUniformLocation(self.program, "shadowMVP");
-    normalUniforms[NORMAL_UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(self.program, "normalMatrix");
-    normalUniforms[NORMAL_UNIFORM_SHADOW_MAP] = glGetUniformLocation(self.program, "shadowMap");
-    normalUniforms[NORMAL_UNIFORM_LIGHT_DIRECTION] = glGetUniformLocation(self.program, "light.direction");
-    normalUniforms[NORMAL_UNIFORM_LIGHT_COLOR] = glGetUniformLocation(self.program, "light.color");
-    normalUniforms[NORMAL_UNIFORM_AMBIENT] = glGetUniformLocation(self.program, "material.ambient");
-    normalUniforms[NORMAL_UNIFORM_DIFFUSE] = glGetUniformLocation(self.program, "material.diffuse");
-    normalUniforms[NORMAL_UNIFORM_SPECULAR] = glGetUniformLocation(self.program, "material.specular");
-    normalUniforms[NORMAL_UNIFORM_SHININESS] = glGetUniformLocation(self.program, "material.shininess");
-    normalUniforms[NORMAL_UNIFORM_ALPHA] = glGetUniformLocation(self.program, "material.alpha");
     
     
     // Release vertex and fragment shaders.

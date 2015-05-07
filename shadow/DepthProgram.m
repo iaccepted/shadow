@@ -9,7 +9,6 @@
 #import "DepthProgram.h"
 
 
-
 @implementation DepthProgram
 
 - (id)linkProgramWithShaderName:(NSString *)name
@@ -42,7 +41,7 @@
     
     // Bind attribute locations.
     // This needs to be done prior to linking.
-    glBindAttribLocation(self.program, DEPTH_ATTRIB_POSITION, "vposition");
+    glBindAttribLocation(self.program, 0, "vposition");
     
     // Link program.
     if (![self linkProgram:self.program]) {
@@ -62,8 +61,6 @@
         }
         exit(-1);
     }
-    
-    depthUniforms[DEPTH_UNIFORM_SHADOW_MVP] = glGetUniformLocation(self.program, "shadowMVP");
     
     // Release vertex and fragment shaders.
     if (vertShader) {

@@ -10,7 +10,6 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include "program.h"
 #include "assimpMesh.h"
 
 struct Material
