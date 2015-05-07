@@ -8,14 +8,21 @@
 
 #import "Program.h"
 
-enum{
-    UNIFORM_SHADOW_MVP,
-    UNIFORM_NUM
+enum
+{
+    DEPTH_ATTRIB_POSITION
 };
+
+enum{
+    DEPTH_UNIFORM_SHADOW_MVP,
+    DEPTH_UNIFORM_NUM
+};
+
+GLuint depthUniforms[DEPTH_UNIFORM_NUM];
 
 @interface DepthProgram : Program
 {
-    GLuint uniformLocs[UNIFORM_NUM];
+    
 }
 - (id)linkProgramWithShaderName: (NSString *) name;
 

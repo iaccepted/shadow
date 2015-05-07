@@ -42,7 +42,7 @@
     
     // Bind attribute locations.
     // This needs to be done prior to linking.
-    glBindAttribLocation(self.program, ATTRIB_POSITION, "vposition");
+    glBindAttribLocation(self.program, DEPTH_ATTRIB_POSITION, "vposition");
     
     // Link program.
     if (![self linkProgram:self.program]) {
@@ -63,7 +63,7 @@
         exit(-1);
     }
     
-    uniformLocs[UNIFORM_SHADOW_MVP] = glGetUniformLocation(self.program, "shadowMVP");
+    depthUniforms[DEPTH_UNIFORM_SHADOW_MVP] = glGetUniformLocation(self.program, "shadowMVP");
     
     // Release vertex and fragment shaders.
     if (vertShader) {

@@ -11,11 +11,18 @@
 #import "DepthProgram.h"
 #import "NormalProgram.h"
 #import "assimpModel.h"
+#import "Camera.h"
+#import <glm/glm.hpp>
+#import <glm/gtc/matrix_transform.hpp>
+#import <glm/gtc/type_ptr.hpp>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
 
 
 @interface HouseViewController () {
-    GLKMatrix4 _shadowMVP;
+    glm::mat4 _shadowMVP;
     Model model;
+    Camera camera;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (nonatomic) DepthProgram *depthProgram;
@@ -89,6 +96,8 @@
     model.bindTexturesData();
 
     glEnable(GL_DEPTH_TEST);
+    
+    
    
 //    glGenVertexArraysOES(1, &_vertexArray);
 //    glBindVertexArrayOES(_vertexArray);
@@ -129,20 +138,37 @@
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-//    glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//    
-//    glBindVertexArrayOES(_vertexArray);
-//    
-//    glUseProgram(_program);
-//    
-//    glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
-//    glUniformMatrix3fv(uniforms[UNIFORM_NORMAL_MATRIX], 1, 0, _normalMatrix.m);
-//    
-//    glDrawArrays(GL_TRIANGLES, 0, 36);
     glUseProgram(self.normalProgram.program);
+    
+    glUniform3f(normalUniforms[NORMAL_UNIFORM_LIGHT_COLOR], 1.0, 1.0, 1.0);
+    glUniform3f(normalUniforms[NORMAL_UNIFORM_LIGHT_DIRECTION], 1.0f, 1.0f, 1.0f);
+    
+    glUniformMatrix4fv(normalUniforms[NORMAL_UNIFORM_MVP], 1, GL_FALSE, glm::value_ptr(_shadowMVP));
+    
+    float aspect = self.view.frame.size.width / self.view.frame.size.height;
+    
+    
+    glm::mat4 modelMatrix, viewMatrix, projectionMatrix, modelViewMatrix, modelViewProjectionMatrix, normalMatrix;
+    
+    modelMatrix = glm::rotate(modelMatrix, glm::radians(-90.0f),  glm::vec3(1.0f, 0.0f, 0.0f));
+    modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, 0.0f, -0.75f));
+    modelMatrix = glm::scale(modelMatrix, glm::vec3(0.006f, 0.006f, 0.006f));
+    viewMatrix = camera.getView();
+    projectionMatrix = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
+    
+    modelViewMatrix = viewMatrix * modelMatrix;
+    modelViewProjectionMatrix = projectionMatrix * modelViewMatrix;
+    normalMatrix = glm::transpose(glm::inverse(modelViewMatrix));
+    
+    glUniformMatrix4fv(normalUniforms[NORMAL_UNIFORM_NORMAL_MATRIX], 1, GL_FALSE, glm::value_ptr(normalMatrix));
+    glUniformMatrix4fv(normalUniforms[NORMAL_UNIFORM_MVP], 1, GL_FALSE, glm::value_ptr(modelViewProjectionMatrix));
+    
+    model.drawNormal(self.normalProgram.program, 0);
 }
+
 
 #pragma mark - framebuffer
 

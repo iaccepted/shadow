@@ -27,6 +27,13 @@
 		B8CD41A11AFB49BD00262B08 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41A01AFB49BD00262B08 /* libc++.dylib */; };
 		B8CD41A31AFB49C700262B08 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41A21AFB49C700262B08 /* libstdc++.dylib */; };
 		B8CD41A51AFB49EA00262B08 /* libassimp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41A41AFB49EA00262B08 /* libassimp.a */; };
+		B8CD41AB1AFB4DD900262B08 /* depth.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8CD41A71AFB4DD900262B08 /* depth.fsh */; };
+		B8CD41AC1AFB4DD900262B08 /* depth.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8CD41A81AFB4DD900262B08 /* depth.vsh */; };
+		B8CD41AD1AFB4DD900262B08 /* normal.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8CD41A91AFB4DD900262B08 /* normal.fsh */; };
+		B8CD41AE1AFB4DD900262B08 /* normal.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8CD41AA1AFB4DD900262B08 /* normal.vsh */; };
+		B8CD41B11AFB54E200262B08 /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8CD41AF1AFB54E200262B08 /* camera.cpp */; };
+		B8CD41B41AFB55CB00262B08 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41B31AFB55CB00262B08 /* Foundation.framework */; };
+		B8CD41B61AFB570900262B08 /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41B51AFB570900262B08 /* libstdc++.6.0.9.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +78,14 @@
 		B8CD41A01AFB49BD00262B08 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		B8CD41A21AFB49C700262B08 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		B8CD41A41AFB49EA00262B08 /* libassimp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libassimp.a; path = shadow/libassimp.a; sourceTree = "<group>"; };
+		B8CD41A71AFB4DD900262B08 /* depth.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = depth.fsh; sourceTree = "<group>"; };
+		B8CD41A81AFB4DD900262B08 /* depth.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = depth.vsh; sourceTree = "<group>"; };
+		B8CD41A91AFB4DD900262B08 /* normal.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = normal.fsh; sourceTree = "<group>"; };
+		B8CD41AA1AFB4DD900262B08 /* normal.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = normal.vsh; sourceTree = "<group>"; };
+		B8CD41AF1AFB54E200262B08 /* camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = camera.cpp; path = shadow/camera.cpp; sourceTree = SOURCE_ROOT; };
+		B8CD41B01AFB54E200262B08 /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = camera.h; path = shadow/camera.h; sourceTree = SOURCE_ROOT; };
+		B8CD41B31AFB55CB00262B08 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B8CD41B51AFB570900262B08 /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +93,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8CD41B61AFB570900262B08 /* libstdc++.6.0.9.dylib in Frameworks */,
+				B8CD41B41AFB55CB00262B08 /* Foundation.framework in Frameworks */,
 				B8CD41A51AFB49EA00262B08 /* libassimp.a in Frameworks */,
 				B8CD41A31AFB49C700262B08 /* libstdc++.dylib in Frameworks */,
 				B8CD41A11AFB49BD00262B08 /* libc++.dylib in Frameworks */,
@@ -101,6 +118,7 @@
 		B8B338891AFB258F00740CCE = {
 			isa = PBXGroup;
 			children = (
+				B8CD41B51AFB570900262B08 /* libstdc++.6.0.9.dylib */,
 				B8CD41A61AFB49F200262B08 /* frameworks */,
 				B8B338CF1AFB2A4E00740CCE /* Shaders */,
 				B8B338941AFB258F00740CCE /* shadow */,
@@ -121,6 +139,7 @@
 		B8B338941AFB258F00740CCE /* shadow */ = {
 			isa = PBXGroup;
 			children = (
+				B8CD41B21AFB54E900262B08 /* camera */,
 				B8CD41971AFB492600262B08 /* objLoader */,
 				B8B338991AFB258F00740CCE /* AppDelegate.h */,
 				B8B3389A1AFB258F00740CCE /* AppDelegate.m */,
@@ -163,6 +182,10 @@
 		B8B338CF1AFB2A4E00740CCE /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				B8CD41A71AFB4DD900262B08 /* depth.fsh */,
+				B8CD41A81AFB4DD900262B08 /* depth.vsh */,
+				B8CD41A91AFB4DD900262B08 /* normal.fsh */,
+				B8CD41AA1AFB4DD900262B08 /* normal.vsh */,
 				B8B338D01AFB2A4E00740CCE /* Shader.fsh */,
 				B8B338D11AFB2A4E00740CCE /* Shader.vsh */,
 			);
@@ -197,6 +220,7 @@
 		B8CD41A61AFB49F200262B08 /* frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B8CD41B31AFB55CB00262B08 /* Foundation.framework */,
 				B8CD41A41AFB49EA00262B08 /* libassimp.a */,
 				B8CD41A21AFB49C700262B08 /* libstdc++.dylib */,
 				B8CD41A01AFB49BD00262B08 /* libc++.dylib */,
@@ -206,6 +230,16 @@
 				B8CD41981AFB499000262B08 /* OpenGLES.framework */,
 			);
 			name = frameworks;
+			sourceTree = "<group>";
+		};
+		B8CD41B21AFB54E900262B08 /* camera */ = {
+			isa = PBXGroup;
+			children = (
+				B8CD41AF1AFB54E200262B08 /* camera.cpp */,
+				B8CD41B01AFB54E200262B08 /* camera.h */,
+			);
+			name = camera;
+			path = Shaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,8 +322,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8CD41AD1AFB4DD900262B08 /* normal.fsh in Resources */,
 				B8B338D31AFB2A6200740CCE /* Shader.vsh in Resources */,
+				B8CD41AE1AFB4DD900262B08 /* normal.vsh in Resources */,
+				B8CD41AC1AFB4DD900262B08 /* depth.vsh in Resources */,
 				B8B338D21AFB2A5A00740CCE /* Shader.fsh in Resources */,
+				B8CD41AB1AFB4DD900262B08 /* depth.fsh in Resources */,
 				B8B338A01AFB258F00740CCE /* LaunchScreen.xib in Resources */,
 				B8B3389D1AFB258F00740CCE /* Images.xcassets in Resources */,
 			);
@@ -313,6 +351,7 @@
 				B8B338D61AFB2EFC00740CCE /* Program.m in Sources */,
 				B8B338CA1AFB295C00740CCE /* HouseViewController.mm in Sources */,
 				B8B3389B1AFB258F00740CCE /* AppDelegate.m in Sources */,
+				B8CD41B11AFB54E200262B08 /* camera.cpp in Sources */,
 				B8CD41961AFB491800262B08 /* assimpModel.mm in Sources */,
 				B8B338DA1AFB2F3400740CCE /* DepthProgram.m in Sources */,
 				B8B338981AFB258F00740CCE /* main.m in Sources */,

@@ -8,14 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <OpenGLES/ES2/glext.h>
-
-enum
-{
-    ATTRIB_POSITION,
-    ATTRIB_NORMAL,
-    ATTRIB_TEXTCOORD,
-    ATTRIB_NUM
-};
+#import <OpenGLES/ES2/gl.h>
 
 @interface Program : NSObject
 

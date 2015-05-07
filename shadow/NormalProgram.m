@@ -9,7 +9,6 @@
 #import "NormalProgram.h"
 
 
-
 @implementation NormalProgram
 
 - (id)linkProgramWithShaderName:(NSString *)name
@@ -42,9 +41,9 @@
     
     // Bind attribute locations.
     // This needs to be done prior to linking.
-    glBindAttribLocation(self.program, ATTRIB_POSITION, "vposition");
-    glBindAttribLocation(self.program, ATTRIB_NORMAL, "vnormal");
-    glBindAttribLocation(self.program, ATTRIB_TEXTCOORD, "textcoord");
+    glBindAttribLocation(self.program, NORMAL_ATTRIB_POSITION, "vposition");
+    glBindAttribLocation(self.program, NORMAL_ATTRIB_NORMAL, "vnormal");
+    glBindAttribLocation(self.program, NORMAL_ATTRIB_TEXTCOORD, "textcoord");
     
     // Link program.
     if (![self linkProgram:self.program]) {
@@ -65,17 +64,17 @@
         exit(-1);
     }
     
-    uniformLocs[UNIFORM_MVP] = glGetUniformLocation(self.program, "MVP");
-    uniformLocs[UNIFORM_SHADOW_MVP] = glGetUniformLocation(self.program, "shadowMVP");
-    uniformLocs[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(self.program, "normalMatrix");
-    uniformLocs[UNIFORM_SHADOW_MAP] = glGetUniformLocation(self.program, "shadowMap");
-    uniformLocs[UNIFORM_LIGHT_DIRECTION] = glGetUniformLocation(self.program, "light.direction");
-    uniformLocs[UNIFORM_LIGHT_COLOR] = glGetUniformLocation(self.program, "light.color");
-    uniformLocs[UNIFORM_AMBIENT] = glGetUniformLocation(self.program, "material.ambient");
-    uniformLocs[UNIFORM_DIFFUSE] = glGetUniformLocation(self.program, "material.diffuse");
-    uniformLocs[UNIFORM_SPECULAR] = glGetUniformLocation(self.program, "material.specular");
-    uniformLocs[UNIFORM_SHININESS] = glGetUniformLocation(self.program, "material.shininess");
-    uniformLocs[UNIFORM_ALPHA] = glGetUniformLocation(self.program, "material.alpha");
+    normalUniforms[NORMAL_UNIFORM_MVP] = glGetUniformLocation(self.program, "MVP");
+    normalUniforms[NORMAL_UNIFORM_SHADOW_MVP] = glGetUniformLocation(self.program, "shadowMVP");
+    normalUniforms[NORMAL_UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(self.program, "normalMatrix");
+    normalUniforms[NORMAL_UNIFORM_SHADOW_MAP] = glGetUniformLocation(self.program, "shadowMap");
+    normalUniforms[NORMAL_UNIFORM_LIGHT_DIRECTION] = glGetUniformLocation(self.program, "light.direction");
+    normalUniforms[NORMAL_UNIFORM_LIGHT_COLOR] = glGetUniformLocation(self.program, "light.color");
+    normalUniforms[NORMAL_UNIFORM_AMBIENT] = glGetUniformLocation(self.program, "material.ambient");
+    normalUniforms[NORMAL_UNIFORM_DIFFUSE] = glGetUniformLocation(self.program, "material.diffuse");
+    normalUniforms[NORMAL_UNIFORM_SPECULAR] = glGetUniformLocation(self.program, "material.specular");
+    normalUniforms[NORMAL_UNIFORM_SHININESS] = glGetUniformLocation(self.program, "material.shininess");
+    normalUniforms[NORMAL_UNIFORM_ALPHA] = glGetUniformLocation(self.program, "material.alpha");
     
     
     // Release vertex and fragment shaders.
