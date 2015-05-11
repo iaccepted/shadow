@@ -203,11 +203,11 @@ GLfloat cube[] =
     glClear(GL_DEPTH_BUFFER_BIT);
     glm::mat4 lightView = glm::lookAt(glm::vec3(100, 100, 100), glm::vec3(0), glm::vec3(0, 1, 0));
     float aspect = self.view.frame.size.width / self.view.frame.size.height;
-    glm::mat4 lightProjection = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100000.0f);
+    glm::mat4 lightProjection = glm::perspective(glm::radians(75.0f), aspect, 0.1f, 100000.0f);
     glm::mat4 lightModel;
     lightModel = glm::rotate(lightModel, glm::radians(-90.0f),  glm::vec3(1.0f, 0.0f, 0.0f));
     lightModel = glm::translate(lightModel, glm::vec3(0.0f, 0.0f, -0.75f));
-    //lightModel = glm::scale(lightModel, glm::vec3(0.006f, 0.006f, 0.006f));
+    lightModel = glm::scale(lightModel, glm::vec3(0.006f, 0.006f, 0.006f));
     _shadowMVP = lightProjection * lightView * lightModel;
     
     GLuint MVPLoc = glGetUniformLocation(self.depthProgram.program, "shadowMVP");
