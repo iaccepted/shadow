@@ -199,9 +199,10 @@ GLfloat cube[] =
 {
     glUseProgram(self.depthProgram.program);
     glBindFramebuffer(GL_FRAMEBUFFER, _depthFbo);
+    glViewport(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     glClearDepthf(1.0f);
     glClear(GL_DEPTH_BUFFER_BIT);
-    glm::mat4 lightView = glm::lookAt(glm::vec3(100, 100, 100), glm::vec3(0), glm::vec3(0, 1, 0));
+    glm::mat4 lightView = glm::lookAt(glm::vec3(-40, -10, 12), glm::vec3(0), glm::vec3(0, 1, 0));
     float aspect = self.view.frame.size.width / self.view.frame.size.height;
     glm::mat4 lightProjection = glm::perspective(glm::radians(75.0f), aspect, 0.1f, 100000.0f);
     glm::mat4 lightModel;
@@ -222,9 +223,9 @@ GLfloat cube[] =
     
     glUseProgram(self.shadowMapProgram.program);
     
-    //glActiveTexture(GL_TEXTURE0);
-    //glBindTexture(GL_TEXTURE_2D, _depthTexture);
-    //glUniform1i(glGetUniformLocation(self.shadowMapProgram.program, "shadowMap"), 0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _depthTexture);
+    glUniform1i(glGetUniformLocation(self.shadowMapProgram.program, "shadowMap"), 0);
     
     glBindVertexArrayOES(_vao);
     glDrawArrays(GL_TRIANGLES, 0, 6);
