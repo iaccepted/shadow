@@ -202,14 +202,16 @@ GLfloat cube[] =
     glViewport(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     glClearDepthf(1.0f);
     glClear(GL_DEPTH_BUFFER_BIT);
-    glm::mat4 lightView = glm::lookAt(glm::vec3(-40, -10, 12), glm::vec3(0), glm::vec3(0, 1, 0));
+    //glm::mat4 lightView = glm::lookAt(glm::vec3(0, 5, 12), glm::vec3(0), glm::vec3(0, 1, 0));
+    //glm::mat4 lightView = glm::ortho<float>(-10, 10, -10, 10, -10, 20);
     float aspect = self.view.frame.size.width / self.view.frame.size.height;
-    glm::mat4 lightProjection = glm::perspective(glm::radians(75.0f), aspect, 0.1f, 100000.0f);
+    glm::mat4 lightProjection = glm::perspective(glm::radians(75.0f), aspect, 0.1f, 100.0f);
     glm::mat4 lightModel;
     lightModel = glm::rotate(lightModel, glm::radians(-90.0f),  glm::vec3(1.0f, 0.0f, 0.0f));
     lightModel = glm::translate(lightModel, glm::vec3(0.0f, 0.0f, -0.75f));
     lightModel = glm::scale(lightModel, glm::vec3(0.006f, 0.006f, 0.006f));
-    _shadowMVP = lightProjection * lightView * lightModel;
+    //_shadowMVP = lightProjection * lightView * lightModel;
+    _shadowMVP = lightProjection * lightModel;
     
     GLuint MVPLoc = glGetUniformLocation(self.depthProgram.program, "shadowMVP");
     glUniformMatrix4fv(MVPLoc, 1, GL_FALSE, glm::value_ptr(_shadowMVP));
@@ -218,7 +220,7 @@ GLfloat cube[] =
 
 - (void) drawShadowMapping
 {
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glUseProgram(self.shadowMapProgram.program);
@@ -232,7 +234,6 @@ GLfloat cube[] =
     glBindVertexArrayOES(0);
 }
 
-
 #pragma mark - GLKView and GLKViewController delegate methods
 
 - (void)update
@@ -245,8 +246,8 @@ GLfloat cube[] =
     glBindFramebuffer(GL_FRAMEBUFFER, _depthFbo);
     [self renderDepth];
     [view bindDrawable];
-    [self drawShadowMapping];
-    //[self renderNormal];
+    //[self drawShadowMapping];
+    [self renderNormal];
 }
 
 
@@ -267,11 +268,10 @@ GLfloat cube[] =
     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, self.view.frame.size.width, self.view.frame.size.height, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
     
     glBindTexture(GL_TEXTURE_2D, 0);
-    
     glGenFramebuffers(1, &_depthFbo);
     glBindFramebuffer(GL_FRAMEBUFFER, _depthFbo);
     
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, self.depthFbo, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, self.depthTexture, 0);
     
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

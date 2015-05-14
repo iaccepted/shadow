@@ -73,8 +73,11 @@ void main()
     vec3 specular = spec * material.specular * light.color;
     vec3 ds = diffuse + specular;
     ds = ds * ((1.0 - kShadowAmount) + kShadowAmount * shadow2DProjEXT(shadowMap, shadowCoord));
-    
+    //ds = kShadowAmount * shadow2DProjEXT(shadowMap, shadowCoord) * ds;
     fcolor = vec4(ambient + ds, material.alph);
+    
+//    highp float r = shadow2DProjEXT(shadowMap, shadowCoord);
+//    fcolor = vec4(r, r, r, 1.0);
 }
 
 
