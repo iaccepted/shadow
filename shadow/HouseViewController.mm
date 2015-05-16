@@ -166,9 +166,20 @@ GLfloat cube[] =
     
     glUseProgram(self.normalProgram.program);
     [self setLight];
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
     
+    glm::mat4 bias = glm::mat4 (glm::vec4(0.5f, 0.0f, 0.0f, 0.0f),
+                                glm::vec4(0.0f, 0.5f, 0.0f, 0.0f),
+                                glm::vec4(0.0f, 0.0f, 0.5f, 0.0f),
+                                glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
     GLuint shadowProjectionMatrixLoc = glGetUniformLocation(self.normalProgram.program, "shadowMVP");
-    glUniformMatrix4fv(shadowProjectionMatrixLoc, 1, GL_FALSE, glm::value_ptr(_shadowMVP));
+
+    glm::mat4 depthBiasMVP = bias * _shadowMVP;
+    
+    glUniformMatrix4fv(shadowProjectionMatrixLoc, 1, GL_FALSE, glm::value_ptr(depthBiasMVP));
+    //glUniformMatrix4fv(shadowProjectionMatrixLoc, 1, GL_FALSE, glm::value_ptr(_shadowMVP));
     
     
     GLuint modelViewProjectionLocation, normalMatrixLocation;
@@ -202,20 +213,34 @@ GLfloat cube[] =
     glViewport(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     glClearDepthf(1.0f);
     glClear(GL_DEPTH_BUFFER_BIT);
-    //glm::mat4 lightView = glm::lookAt(glm::vec3(0, 5, 12), glm::vec3(0), glm::vec3(0, 1, 0));
-    //glm::mat4 lightView = glm::ortho<float>(-10, 10, -10, 10, -10, 20);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+    //glm::mat4 lightView = glm::lookAt(glm::vec3(0, 50, 120), glm::vec3(0), glm::vec3(0, 1, 0));
+//    static float c = 0.0, f = 0.05;
+//    
+//    c += f;
+    glm::mat4 lightView =glm::lookAt(glm::vec3(0, 0.48, 4.3), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+
+//    if(c > 2.5)f = -f;
+//    if(c < -2.5)f = -f;
+//    NSLog(@"%f", c);
     float aspect = self.view.frame.size.width / self.view.frame.size.height;
-    glm::mat4 lightProjection = glm::perspective(glm::radians(75.0f), aspect, 0.1f, 100.0f);
+    glm::mat4 lightProjection = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
+    //glm::mat4 lightProjection = glm::ortho<float>(-10, 10, -10, 10, -10, 100);
     glm::mat4 lightModel;
     lightModel = glm::rotate(lightModel, glm::radians(-90.0f),  glm::vec3(1.0f, 0.0f, 0.0f));
     lightModel = glm::translate(lightModel, glm::vec3(0.0f, 0.0f, -0.75f));
     lightModel = glm::scale(lightModel, glm::vec3(0.006f, 0.006f, 0.006f));
-    //_shadowMVP = lightProjection * lightView * lightModel;
-    _shadowMVP = lightProjection * lightModel;
+    _shadowMVP = lightProjection * lightView * lightModel;
+    //_shadowMVP = lightProjection * lightModel;
     
     GLuint MVPLoc = glGetUniformLocation(self.depthProgram.program, "shadowMVP");
     glUniformMatrix4fv(MVPLoc, 1, GL_FALSE, glm::value_ptr(_shadowMVP));
+    
+    glEnable(GL_POLYGON_OFFSET_FILL);
+    glPolygonOffset(2.0f, 4.0f);
     model.drawDepth();
+    glDisable(GL_POLYGON_OFFSET_FILL);
 }
 
 - (void) drawShadowMapping
@@ -274,6 +299,34 @@ GLfloat cube[] =
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, self.depthTexture, 0);
     
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+#pragma mark - 手势识别
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+    CGPoint current = [touch locationInView:self.view];
+    CGPoint previous = [touch previousLocationInView:self.view];
+    
+    float diffx = current.x - previous.x;
+    float diffy = current.y - previous.y;
+    
+    if(diffx > 0.0f) {
+        camera.progressKeyBoard(RIGHT);
+    } else {
+        camera.progressKeyBoard(LEFT);
+    }
+    
+    if(diffy > 0.0f) {
+        camera.progressKeyBoard(BACK);
+    } else {
+        camera.progressKeyBoard(FRONT);
+    }
+}
+
+- (void) motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    if (motion == UIEventSubtypeMotionShake) {
+        camera = Camera();
+    }
 }
 
 #pragma mark - get resource path

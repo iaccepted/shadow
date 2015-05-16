@@ -148,8 +148,6 @@
 				B8CD41971AFB492600262B08 /* objLoader */,
 				B8B338991AFB258F00740CCE /* AppDelegate.h */,
 				B8B3389A1AFB258F00740CCE /* AppDelegate.m */,
-				B8B3389C1AFB258F00740CCE /* Images.xcassets */,
-				B8B3389E1AFB258F00740CCE /* LaunchScreen.xib */,
 				B8B338951AFB258F00740CCE /* Supporting Files */,
 				B8B338C81AFB295C00740CCE /* HouseViewController.h */,
 				B8B338C91AFB295C00740CCE /* HouseViewController.mm */,
@@ -161,6 +159,8 @@
 		B8B338951AFB258F00740CCE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B8B3389C1AFB258F00740CCE /* Images.xcassets */,
+				B8B3389E1AFB258F00740CCE /* LaunchScreen.xib */,
 				B8B338961AFB258F00740CCE /* Info.plist */,
 				B8B338971AFB258F00740CCE /* main.m */,
 			);
