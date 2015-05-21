@@ -108,7 +108,6 @@ void Model::loadModel(const char *path)
                 aiString path;
                 mtl->GetTexture(aiTextureType_DIFFUSE, 0, &path);
                 fileName = path.C_Str();
-                //cout << fileName << endl;
                 for(size_t i = 0; i < fileName.length(); ++i)
                 {
                     if(fileName[i] == '\\')fileName[i] = '/';
@@ -125,7 +124,6 @@ void Model::processMesh(aiMesh *mesh)
     meshs.push_back(Mesh());
     vector<Vertex> &vertices = meshs.back().vertices;
     vector<GLuint> &indices = meshs.back().indices;
-    //vector<Texture> &textures = meshs.back().textures;
     
     for(unsigned int i = 0; i < mesh->mNumVertices; ++i)
     {

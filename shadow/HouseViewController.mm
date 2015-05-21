@@ -130,6 +130,7 @@ GLfloat cube[] =
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid *)(3 * sizeof(GLfloat)));
     
     glBindVertexArrayOES(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     
     const char *path = [self getPath:@"box/newest" : @"obj"];
@@ -179,8 +180,6 @@ GLfloat cube[] =
     glm::mat4 depthBiasMVP = bias * _shadowMVP;
     
     glUniformMatrix4fv(shadowProjectionMatrixLoc, 1, GL_FALSE, glm::value_ptr(depthBiasMVP));
-    //glUniformMatrix4fv(shadowProjectionMatrixLoc, 1, GL_FALSE, glm::value_ptr(_shadowMVP));
-    
     
     GLuint modelViewProjectionLocation, normalMatrixLocation;
     float aspect = self.view.frame.size.width / self.view.frame.size.height;
@@ -215,24 +214,17 @@ GLfloat cube[] =
     glClear(GL_DEPTH_BUFFER_BIT);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_FRONT);
-    //glm::mat4 lightView = glm::lookAt(glm::vec3(0, 50, 120), glm::vec3(0), glm::vec3(0, 1, 0));
-//    static float c = 0.0, f = 0.05;
-//    
-//    c += f;
+    
     glm::mat4 lightView =glm::lookAt(glm::vec3(0, 0.48, 4.3), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
 
-//    if(c > 2.5)f = -f;
-//    if(c < -2.5)f = -f;
-//    NSLog(@"%f", c);
+
     float aspect = self.view.frame.size.width / self.view.frame.size.height;
     glm::mat4 lightProjection = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
-    //glm::mat4 lightProjection = glm::ortho<float>(-10, 10, -10, 10, -10, 100);
     glm::mat4 lightModel;
     lightModel = glm::rotate(lightModel, glm::radians(-90.0f),  glm::vec3(1.0f, 0.0f, 0.0f));
     lightModel = glm::translate(lightModel, glm::vec3(0.0f, 0.0f, -0.75f));
     lightModel = glm::scale(lightModel, glm::vec3(0.006f, 0.006f, 0.006f));
     _shadowMVP = lightProjection * lightView * lightModel;
-    //_shadowMVP = lightProjection * lightModel;
     
     GLuint MVPLoc = glGetUniformLocation(self.depthProgram.program, "shadowMVP");
     glUniformMatrix4fv(MVPLoc, 1, GL_FALSE, glm::value_ptr(_shadowMVP));
