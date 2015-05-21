@@ -21,12 +21,12 @@
 
 GLfloat cube[] =
 {
-    -0.5, 0.5, 0.0, 0.0, 1.0,
-    -0.5, -0.5, 0.0, 0.0, 0.0,
-    0.5, -0.5, 0.0, 1.0, 0.0,
-    -0.5, 0.5, 0.0, 0.0, 1.0,
-    0.5, -0.5, 0.0, 1.0, 0.0,
-    0.5, 0.5, 0.0, 1.0, 1.0
+    -1.0, 1.0, 0.0, 0.0, 1.0,
+    -1.0, -1.0, 0.0, 0.0, 0.0,
+    1.0, -1.0, 0.0, 1.0, 0.0,
+    -1.0, 1.0, 0.0, 0.0, 1.0,
+    1.0, -1.0, 0.0, 1.0, 0.0,
+    1.0, 1.0, 0.0, 1.0, 1.0
 };
 
 
@@ -117,6 +117,9 @@ GLfloat cube[] =
     _normalProgram = [[NormalProgram alloc] linkProgramWithShaderName:@"normal"];
     _shadowMapProgram = [[ShadowMapProgram alloc] linkProgramWithShaderName:@"Shader"];
     
+    //提前获得需要的uniform变量对location，从而在渲染的时候直接使用，加快速度
+    model.getLocations(_normalProgram.program);
+    
     glGenVertexArraysOES(1, &_vao);
     glBindVertexArrayOES(_vao);
     glGenBuffers(1, &_vbo);
@@ -189,11 +192,11 @@ GLfloat cube[] =
     
     glm::mat4 modelMatrix, viewMatrix, projection, modelView, modelViewProjection, normalMatrix;
     
-    modelMatrix = glm::rotate(modelMatrix, glm::radians(-90.0f),  glm::vec3(1.0f, 0.0f, 0.0f));
+    modelMatrix = glm::rotate(modelMatrix, glm::radians(-90.0f),  glm::vec3(1.5f, 0.0f, 0.0f));
     modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, 0.0f, -0.75f));
     modelMatrix = glm::scale(modelMatrix, glm::vec3(0.006f, 0.006f, 0.006f));
     viewMatrix = camera.getView();
-    projection = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
+    projection = glm::perspective(glm::radians(45.0f), aspect, 1.0f, 100.0f);
     
     modelView = viewMatrix * modelMatrix;
     modelViewProjection = projection * modelView;
@@ -219,7 +222,7 @@ GLfloat cube[] =
 
 
     float aspect = self.view.frame.size.width / self.view.frame.size.height;
-    glm::mat4 lightProjection = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
+    glm::mat4 lightProjection = glm::perspective(glm::radians(45.0f), aspect, 1.5f, 100.0f);
     glm::mat4 lightModel;
     lightModel = glm::rotate(lightModel, glm::radians(-90.0f),  glm::vec3(1.0f, 0.0f, 0.0f));
     lightModel = glm::translate(lightModel, glm::vec3(0.0f, 0.0f, -0.75f));
@@ -233,14 +236,15 @@ GLfloat cube[] =
     glPolygonOffset(2.0f, 4.0f);
     model.drawDepth();
     glDisable(GL_POLYGON_OFFSET_FILL);
+    glDisable(GL_CULL_FACE);
 }
 
 - (void) drawShadowMapping
 {
+    glUseProgram(self.shadowMapProgram.program);
+    
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    glUseProgram(self.shadowMapProgram.program);
     
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _depthTexture);
@@ -259,8 +263,6 @@ GLfloat cube[] =
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-    glUseProgram(self.depthProgram.program);
-    glBindFramebuffer(GL_FRAMEBUFFER, _depthFbo);
     [self renderDepth];
     [view bindDrawable];
     //[self drawShadowMapping];

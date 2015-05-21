@@ -15,31 +15,36 @@ Model::Model()
 {
 }
 
+void Model::getLocations(unsigned int program)
+{
+    this->locs.ambient_loc = glGetUniformLocation(program, "material.ambient");
+    this->locs.diffuse_loc = glGetUniformLocation(program, "material.diffuse");
+    this->locs.specular_loc = glGetUniformLocation(program, "material.specular");
+    this->locs.shininess_loc = glGetUniformLocation(program, "material.shininess");
+    this->locs.alph_loc = glGetUniformLocation(program, "material.alph");
+    this->locs.shadowMap_loc = glGetUniformLocation(program, "shadowMap");
+    this->locs.texture_loc = glGetUniformLocation(program, "texture");
+}
+
 void Model::drawNormal(unsigned int program, unsigned int depthTexture)
 {
-    GLuint ambient_loc = glGetUniformLocation(program, "material.ambient");
-    GLuint diffuse_loc = glGetUniformLocation(program, "material.diffuse");
-    GLuint specular_loc = glGetUniformLocation(program, "material.specular");
-    GLuint shininess_loc = glGetUniformLocation(program, "material.shininess");
-    GLuint alph_loc = glGetUniformLocation(program, "material.alph");
-    
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, depthTexture);
-    glUniform1i(glGetUniformLocation(program, "shadowMap"), 1);
+    glUniform1i(this->locs.shadowMap_loc, 1);
     
     for (GLuint i = 0; i < meshs.size(); ++i)
     {
         Material *material = &materials[meshs[i].getIndex()];
         
-        glUniform3f(ambient_loc, material->ambient.r, material->ambient.g, material->ambient.b);
-        glUniform3f(diffuse_loc, material->diffuse.r, material->diffuse.g, material->diffuse.b);
-        glUniform3f(specular_loc, material->specular.r, material->specular.g, material->specular.b);
-        glUniform1f(shininess_loc, material->shininess);
-        glUniform1f(alph_loc, material->alph);
+        glUniform3f(this->locs.ambient_loc, material->ambient.r, material->ambient.g, material->ambient.b);
+        glUniform3f(this->locs.diffuse_loc, material->diffuse.r, material->diffuse.g, material->diffuse.b);
+        glUniform3f(this->locs.specular_loc, material->specular.r, material->specular.g, material->specular.b);
+        glUniform1f(this->locs.shininess_loc, material->shininess);
+        glUniform1f(this->locs.alph_loc, material->alph);
         
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, material->texture);
-        glUniform1i(glGetUniformLocation(program, "texture"), 0);
+        glUniform1i(this->locs.texture_loc, 0);
         
         this->meshs[i].draw();
     }

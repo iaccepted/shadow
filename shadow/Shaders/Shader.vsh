@@ -9,14 +9,12 @@
 attribute vec4 vposition;
 attribute vec2 textcoord;
 
-uniform sampler2D shadowMap;
-
-varying lowp vec4 color;
+varying lowp vec2 ftextcoord;
 
 void main()
 {
     gl_Position = vposition;
-    //color = vec4(texture2D(shadowMap, textcoord).rrr, 1.0);
+    ftextcoord = textcoord;
+    //color = vec4(texture2D(shadowMap, textcoord).rgb, 1.0);
     //color = vposition;
-    color = vec4(1.0, 0.0, 0.0, 1.0);
 }

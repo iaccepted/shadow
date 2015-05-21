@@ -12,6 +12,16 @@
 
 #include "assimpMesh.h"
 
+typedef struct {
+    GLuint ambient_loc;
+    GLuint diffuse_loc;
+    GLuint specular_loc;
+    GLuint shininess_loc;
+    GLuint alph_loc;
+    GLuint shadowMap_loc;
+    GLuint texture_loc;
+}uniformLocs;
+
 struct Material
 {
     glm::vec3 ambient;
@@ -48,6 +58,7 @@ class Model
 {
 public:
     Model();
+    void getLocations(unsigned int program);
     void drawNormal(unsigned int program, unsigned int depthTexture);
     void drawDepth();
     void loadModel(const char *);
@@ -58,6 +69,7 @@ private:
     
     void processMesh(aiMesh *);
     map<GLuint, Material> materials;
+    uniformLocs locs;
 };
 
 #endif
