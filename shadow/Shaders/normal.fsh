@@ -64,31 +64,8 @@ void main()
     highp float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), material.shininess);
     highp vec3 specular = spec * material.specular * light.color;
 
-    //test
-//    highp float r = texture2D(shadowMap,  (fshadowCoord / fshadowCoord.w).xy).z;
-//    //highp float r = fshadowCoord.z / fshadowCoord.w;
-//    gl_FragColor = vec4(r, r, r, material.alph);
     
-    //highp float r = tposition.z / tposition.w;
-    //gl_FragColor = vec4(r, r, r, material.alph);
-
     //使用shadow2DProj函数得结果     shadowMap是samper2DShadow类型
-        highp float r = (1.0 - kShadowAmount) + kShadowAmount * shadow2DProjEXT(shadowMap, fshadowCoord);
-        gl_FragColor = vec4(r * (ambient + specular + diffuse), material.alph);
-    
-    //直接计算深度然后比较    shadowMap 是 samper2D类型
-//    highp float r = texture2D(shadowMap,  (fshadowCoord / fshadowCoord.w).xy).z;
-//    highp float visibility = 1.0;
-//    if( r < (fshadowCoord.z / fshadowCoord.w) + 0.005)
-//    {
-//        visibility = 0.4;
-//    }
-//    gl_FragColor = vec4(visibility * (ambient + specular + diffuse), material.alph);
-//    highp float r = texture2D(shadowMap,  (fshadowCoord).xy).z;
-//    highp float visibility = 1.0;
-//    if( r < (fshadowCoord.z) + 0.005)
-//    {
-//        visibility = 0.4;
-//    }
-//    gl_FragColor = vec4(visibility * (ambient + specular + diffuse), material.alph);
+    highp float r = (1.0 - kShadowAmount) + kShadowAmount * shadow2DProjEXT(shadowMap, fshadowCoord);
+    gl_FragColor = vec4(r * (ambient + specular + diffuse), material.alph);
 }
