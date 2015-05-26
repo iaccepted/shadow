@@ -11,6 +11,7 @@
 #import "DepthProgram.h"
 #import "NormalProgram.h"
 #import "ShadowMapProgram.h"
+#import "SSAOProgram.h"
 #import "assimpModel.h"
 #import "Camera.h"
 #import <glm/glm.hpp>
@@ -38,6 +39,7 @@ GLfloat cube[] =
 @property (strong, nonatomic) EAGLContext *context;
 @property (nonatomic) DepthProgram *depthProgram;
 @property (nonatomic) NormalProgram *normalProgram;
+@property (nonatomic, strong) SSAOProgram *ssaoProgram;
 @property (nonatomic) ShadowMapProgram *shadowMapProgram;
 @property (nonatomic) GLuint depthFbo;
 @property (nonatomic) GLuint depthTexture;
@@ -116,6 +118,7 @@ GLfloat cube[] =
     _depthProgram = [[DepthProgram alloc] linkProgramWithShaderName:@"depth"];
     _normalProgram = [[NormalProgram alloc] linkProgramWithShaderName:@"normal"];
     _shadowMapProgram = [[ShadowMapProgram alloc] linkProgramWithShaderName:@"Shader"];
+    _ssaoProgram = [[SSAOProgram alloc] linkProgramWithShaderName:@"ssao"];
     
     //提前获得需要的uniform变量对location，从而在渲染的时候直接使用，加快速度
     model.getLocations(_normalProgram.program);

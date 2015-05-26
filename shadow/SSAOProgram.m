@@ -1,15 +1,14 @@
 //
-//  DepthProgram.m
+//  SSAOProgram.m
 //  shadow
 //
-//  Created by iaccepted on 15/5/7.
+//  Created by iaccepted on 15/5/25.
 //  Copyright (c) 2015年 iaccepted. All rights reserved.
 //
 
-#import "DepthProgram.h"
+#import "SSAOProgram.h"
 
-
-@implementation DepthProgram
+@implementation SSAOProgram
 
 - (id)linkProgramWithShaderName:(NSString *)name
 {
@@ -33,15 +32,11 @@
         exit(-1);
     }
     
-    // Attach vertex shader to program.
     glAttachShader(self.program, vertShader);
-    
-    // Attach fragment shader to program.
     glAttachShader(self.program, fragShader);
     
-    glBindAttribLocation(self.program, 0, "vposition");
-    
-    // Link program.
+    glBindAttribLocation(self.program, 0, "textcoord");
+
     if (![self linkProgram:self.program]) {
         NSLog(@"Failed to link program: %d", self.program);
         
@@ -60,7 +55,6 @@
         exit(-1);
     }
     
-    // Release vertex and fragment shaders.
     if (vertShader) {
         glDetachShader(self.program, vertShader);
         glDeleteShader(vertShader);

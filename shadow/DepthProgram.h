@@ -13,8 +13,7 @@
 
 
 @interface DepthProgram : Program
-{
-}
+
 - (id)linkProgramWithShaderName: (NSString *) name;
 
 @end

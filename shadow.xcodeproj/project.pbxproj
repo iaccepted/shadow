@@ -34,6 +34,7 @@
 		B8CD41B11AFB54E200262B08 /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8CD41AF1AFB54E200262B08 /* camera.cpp */; };
 		B8CD41B41AFB55CB00262B08 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41B31AFB55CB00262B08 /* Foundation.framework */; };
 		B8CD41B61AFB570900262B08 /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41B51AFB570900262B08 /* libstdc++.6.0.9.dylib */; };
+		B8D752171B13141F00D9B2CB /* SSAOProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8D752161B13141F00D9B2CB /* SSAOProgram.m */; };
 		B8D7E3091B0F489100ADC31E /* ssao.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8D7E3081B0F489100ADC31E /* ssao.vsh */; };
 		B8D7E30B1B0F489C00ADC31E /* ssao.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8D7E30A1B0F489C00ADC31E /* ssao.fsh */; };
 		B8EA62971AFB7E7A00C4BC31 /* box in Resources */ = {isa = PBXBuildFile; fileRef = B8EA62961AFB7E7A00C4BC31 /* box */; };
@@ -90,6 +91,8 @@
 		B8CD41B01AFB54E200262B08 /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = camera.h; path = shadow/camera.h; sourceTree = SOURCE_ROOT; };
 		B8CD41B31AFB55CB00262B08 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B8CD41B51AFB570900262B08 /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
+		B8D752151B13141F00D9B2CB /* SSAOProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSAOProgram.h; sourceTree = "<group>"; };
+		B8D752161B13141F00D9B2CB /* SSAOProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSAOProgram.m; sourceTree = "<group>"; };
 		B8D7E3081B0F489100ADC31E /* ssao.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao.vsh; sourceTree = "<group>"; };
 		B8D7E30A1B0F489C00ADC31E /* ssao.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao.fsh; sourceTree = "<group>"; };
 		B8EA62961AFB7E7A00C4BC31 /* box */ = {isa = PBXFileReference; lastKnownFileType = folder; name = box; path = shadow/box; sourceTree = "<group>"; };
@@ -215,6 +218,8 @@
 				B8B338DC1AFB2F5E00740CCE /* NormalProgram.m */,
 				B8EA62981AFB8E5500C4BC31 /* ShadowMapProgram.h */,
 				B8EA62991AFB8E5500C4BC31 /* ShadowMapProgram.m */,
+				B8D752151B13141F00D9B2CB /* SSAOProgram.h */,
+				B8D752161B13141F00D9B2CB /* SSAOProgram.m */,
 			);
 			name = program;
 			sourceTree = "<group>";
@@ -374,6 +379,7 @@
 				B8B338DA1AFB2F3400740CCE /* DepthProgram.m in Sources */,
 				B8B338981AFB258F00740CCE /* main.m in Sources */,
 				B8B338DD1AFB2F5E00740CCE /* NormalProgram.m in Sources */,
+				B8D752171B13141F00D9B2CB /* SSAOProgram.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

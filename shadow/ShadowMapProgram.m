@@ -19,14 +19,14 @@
     self.program = glCreateProgram();
     
     // Create and compile vertex shader.
-    vpath = [self getPath:@"Shader" :@"vsh"] ;
+    vpath = [self getPath:name :@"vsh"] ;
     if (![self compileShader:&vertShader type:GL_VERTEX_SHADER file:vpath]) {
         NSLog(@"Failed to compile vertex shader");
         exit(-1);
     }
     
     // Create and compile fragment shader.
-    fpath = [self getPath:@"Shader" :@"fsh"];
+    fpath = [self getPath:name :@"fsh"];
     if (![self compileShader:&fragShader type:GL_FRAGMENT_SHADER file:fpath]) {
         NSLog(@"Failed to compile fragment shader");
         exit(-1);
