@@ -18,7 +18,7 @@ typedef struct {
     GLuint specular_loc;
     GLuint shininess_loc;
     GLuint alph_loc;
-    GLuint shadowMap_loc;
+    GLuint depthTexture_loc;
     GLuint texture_loc;
 }uniformLocs;
 

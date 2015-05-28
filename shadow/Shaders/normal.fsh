@@ -33,8 +33,7 @@ struct Material
 uniform Light light;
 uniform Material material;
 
-//uniform sampler2D shadowMap;
-uniform sampler2DShadow shadowMap;
+uniform sampler2DShadow depthTexture;
 const lowp float kShadowAmount = 0.4;
 
 void main()
@@ -65,7 +64,7 @@ void main()
     highp vec3 specular = spec * material.specular * light.color;
 
     
-    //使用shadow2DProj函数得结果     shadowMap是samper2DShadow类型
-    highp float r = (1.0 - kShadowAmount) + kShadowAmount * shadow2DProjEXT(shadowMap, fshadowCoord);
+    //使用shadow2DProj函数得结果     depthTexture是samper2DShadow类型
+    highp float r = (1.0 - kShadowAmount) + kShadowAmount * shadow2DProjEXT(depthTexture, fshadowCoord);
     gl_FragColor = vec4(r * (ambient + specular + diffuse), material.alph);
 }

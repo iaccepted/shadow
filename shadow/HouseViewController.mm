@@ -30,19 +30,52 @@ GLfloat cube[] =
     1.0, 1.0, 0.0, 1.0, 1.0
 };
 
+typedef struct depthLocations
+{
+    GLuint shadowMVPLocation;
+}depthLocations;
+
+typedef struct normalLocations
+{
+    GLuint MVPLocation;
+    GLuint shadowMVPLocation;
+    GLuint normalMatrixLocation;
+}normalLocations;
+
+typedef struct ssaoLocations
+{
+    GLuint depthTextureLocation;
+    GLuint projectionMatrixLocation;
+    GLuint winParamesLocation;
+}ssaoLocations;
+
 
 @interface HouseViewController () {
     glm::mat4 _shadowMVP;
+    glm::mat4 _projectionMatrix;
+    glm::mat4 _modelMatrix;
+    depthLocations _depthLocations;
+    normalLocations _normalLocations;
+    ssaoLocations _ssaoLocations;
     Model model;
     Camera camera;
 }
 @property (strong, nonatomic) EAGLContext *context;
-@property (nonatomic) DepthProgram *depthProgram;
-@property (nonatomic) NormalProgram *normalProgram;
+
+#pragma mark - program
+@property (nonatomic, strong) DepthProgram *depthProgram;
+@property (nonatomic, strong) NormalProgram *normalProgram;
 @property (nonatomic, strong) SSAOProgram *ssaoProgram;
-@property (nonatomic) ShadowMapProgram *shadowMapProgram;
-@property (nonatomic) GLuint depthFbo;
-@property (nonatomic) GLuint depthTexture;
+@property (nonatomic, strong) ShadowMapProgram *shadowMapProgram;
+
+#pragma mark - fbo
+@property(nonatomic, assign) GLuint ssaoFbo;
+@property (nonatomic, assign) GLuint depthFbo;
+
+#pragma mark - texture
+@property (nonatomic, assign) GLuint depthTexture;
+@property (nonatomic, assign) GLuint ssaoTexture;
+
 @property (nonatomic, assign) GLuint vao;
 @property (nonatomic, assign) GLuint vbo;
 
@@ -145,7 +178,10 @@ GLfloat cube[] =
     model.bindTexturesData();
     
     [self initDepthFramebuffer];
+    [self initSSAOFramebuffer];
 
+    [self initMatrix];
+    [self getLocations];
     glEnable(GL_DEPTH_TEST);
 }
 
@@ -164,6 +200,34 @@ GLfloat cube[] =
     }
 }
 
+#pragma mark - initMatrix
+- (void)initMatrix
+{
+    GLfloat aspect = self.view.frame.size.width / self.view.frame.size.height;
+    _projectionMatrix = glm::perspective(glm::radians(45.0f), aspect, 1.5f, 100.0f);
+    _modelMatrix = glm::rotate(_modelMatrix, glm::radians(-90.0f),  glm::vec3(1.5f, 0.0f, 0.0f));
+    _modelMatrix = glm::translate(_modelMatrix, glm::vec3(0.0f, 0.0f, -0.75f));
+    _modelMatrix = glm::scale(_modelMatrix, glm::vec3(0.006f, 0.006f, 0.006f));
+}
+
+#pragma mark - location
+-(void)getLocations
+{
+    /**get the first pass**/
+    _depthLocations.shadowMVPLocation = glGetUniformLocation(self.depthProgram.program, "shadowMVP");
+    
+    /**get the second pass**/
+    _normalLocations.shadowMVPLocation = glGetUniformLocation(self.normalProgram.program, "shadowMVP");
+    _normalLocations.MVPLocation = glGetUniformLocation(self.normalProgram.program, "MVP");
+    _normalLocations.normalMatrixLocation = glGetUniformLocation(self.normalProgram.program, "normalMatrix");
+    
+    
+    /**get the ssao pass**/
+    _ssaoLocations.depthTextureLocation = glGetUniformLocation(self.ssaoProgram.program, "depthTexture");
+    _ssaoLocations.winParamesLocation = glGetUniformLocation(self.ssaoProgram.program, "winParames");
+    _ssaoLocations.projectionMatrixLocation = glGetUniformLocation(self.ssaoProgram.program, "P");
+}
+
 #pragma mark - render
 
 - (void) renderNormal
@@ -173,40 +237,27 @@ GLfloat cube[] =
     
     glUseProgram(self.normalProgram.program);
     [self setLight];
-    glDisable(GL_CULL_FACE);
-    glDisable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
     
     glm::mat4 bias = glm::mat4 (glm::vec4(0.5f, 0.0f, 0.0f, 0.0f),
                                 glm::vec4(0.0f, 0.5f, 0.0f, 0.0f),
                                 glm::vec4(0.0f, 0.0f, 0.5f, 0.0f),
                                 glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
-    GLuint shadowProjectionMatrixLoc = glGetUniformLocation(self.normalProgram.program, "shadowMVP");
+    //GLuint shadowProjectionMatrixLoc = glGetUniformLocation(self.normalProgram.program, "shadowMVP");
 
     glm::mat4 depthBiasMVP = bias * _shadowMVP;
     
-    glUniformMatrix4fv(shadowProjectionMatrixLoc, 1, GL_FALSE, glm::value_ptr(depthBiasMVP));
-    
-    GLuint modelViewProjectionLocation, normalMatrixLocation;
-    float aspect = self.view.frame.size.width / self.view.frame.size.height;
-    
-    modelViewProjectionLocation = glGetUniformLocation(self.normalProgram.program, "MVP");
-    normalMatrixLocation = glGetUniformLocation(self.normalProgram.program, "normalMatrix");
+    glUniformMatrix4fv(_normalLocations.shadowMVPLocation, 1, GL_FALSE, glm::value_ptr(depthBiasMVP));
     
     glm::mat4 modelMatrix, viewMatrix, projection, modelView, modelViewProjection, normalMatrix;
     
-    modelMatrix = glm::rotate(modelMatrix, glm::radians(-90.0f),  glm::vec3(1.5f, 0.0f, 0.0f));
-    modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0f, 0.0f, -0.75f));
-    modelMatrix = glm::scale(modelMatrix, glm::vec3(0.006f, 0.006f, 0.006f));
     viewMatrix = camera.getView();
-    projection = glm::perspective(glm::radians(45.0f), aspect, 1.0f, 100.0f);
     
-    modelView = viewMatrix * modelMatrix;
-    modelViewProjection = projection * modelView;
+    modelView = viewMatrix * _modelMatrix;
+    modelViewProjection = _projectionMatrix * modelView;
     normalMatrix = glm::transpose(glm::inverse(modelView));
     
-    glUniformMatrix4fv(normalMatrixLocation, 1, GL_FALSE, glm::value_ptr(normalMatrix));
-    glUniformMatrix4fv(modelViewProjectionLocation, 1, GL_FALSE, glm::value_ptr(modelViewProjection));
+    glUniformMatrix4fv(_normalLocations.normalMatrixLocation, 1, GL_FALSE, glm::value_ptr(normalMatrix));
+    glUniformMatrix4fv(_normalLocations.MVPLocation, 1, GL_FALSE, glm::value_ptr(modelViewProjection));
     
     model.drawNormal(self.normalProgram.program, _depthTexture);
 }
@@ -218,28 +269,20 @@ GLfloat cube[] =
     glViewport(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     glClearDepthf(1.0f);
     glClear(GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT);
     
+    /***为实现ssao查看效果，暂时让光源的位置就在相机处，这样产生的深度信息与正常渲染的颜色缓存位置匹配**/
     glm::mat4 lightView =glm::lookAt(glm::vec3(0, 0.48, 4.3), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+    //glm::mat4 lightView = camera.getView();
 
-
-    float aspect = self.view.frame.size.width / self.view.frame.size.height;
-    glm::mat4 lightProjection = glm::perspective(glm::radians(45.0f), aspect, 1.5f, 100.0f);
-    glm::mat4 lightModel;
-    lightModel = glm::rotate(lightModel, glm::radians(-90.0f),  glm::vec3(1.0f, 0.0f, 0.0f));
-    lightModel = glm::translate(lightModel, glm::vec3(0.0f, 0.0f, -0.75f));
-    lightModel = glm::scale(lightModel, glm::vec3(0.006f, 0.006f, 0.006f));
-    _shadowMVP = lightProjection * lightView * lightModel;
+    _shadowMVP = _projectionMatrix * lightView * _modelMatrix;
     
-    GLuint MVPLoc = glGetUniformLocation(self.depthProgram.program, "shadowMVP");
-    glUniformMatrix4fv(MVPLoc, 1, GL_FALSE, glm::value_ptr(_shadowMVP));
+    //GLuint MVPLoc = glGetUniformLocation(self.depthProgram.program, "shadowMVP");
+    glUniformMatrix4fv(_depthLocations.shadowMVPLocation, 1, GL_FALSE, glm::value_ptr(_shadowMVP));
     
     glEnable(GL_POLYGON_OFFSET_FILL);
     glPolygonOffset(2.0f, 4.0f);
     model.drawDepth();
     glDisable(GL_POLYGON_OFFSET_FILL);
-    glDisable(GL_CULL_FACE);
 }
 
 - (void) drawShadowMapping
@@ -260,10 +303,6 @@ GLfloat cube[] =
 
 #pragma mark - GLKView and GLKViewController delegate methods
 
-- (void)update
-{
-}
-
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
     [self renderDepth];
@@ -272,8 +311,22 @@ GLfloat cube[] =
     [self renderNormal];
 }
 
+#pragma mark - ssaoFramebuffer
 
-#pragma mark - framebuffer
+- (void)initSSAOFramebuffer
+{
+    glGenTextures(1, &_ssaoTexture);
+    glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, self.view.frame.size.width, self.view.frame.size.height, 0, GL_ALPHA, GL_FLOAT, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    
+    glGenFramebuffers(1, &_ssaoFbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, _ssaoFbo);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, self.ssaoTexture, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+#pragma mark - deptFramebuffer
 
 -(void)initDepthFramebuffer
 {

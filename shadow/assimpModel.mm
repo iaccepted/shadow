@@ -22,7 +22,7 @@ void Model::getLocations(unsigned int program)
     this->locs.specular_loc = glGetUniformLocation(program, "material.specular");
     this->locs.shininess_loc = glGetUniformLocation(program, "material.shininess");
     this->locs.alph_loc = glGetUniformLocation(program, "material.alph");
-    this->locs.shadowMap_loc = glGetUniformLocation(program, "shadowMap");
+    this->locs.depthTexture_loc = glGetUniformLocation(program, "depthTexture");
     this->locs.texture_loc = glGetUniformLocation(program, "texture");
 }
 
@@ -30,7 +30,7 @@ void Model::drawNormal(unsigned int program, unsigned int depthTexture)
 {
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, depthTexture);
-    glUniform1i(this->locs.shadowMap_loc, 1);
+    glUniform1i(this->locs.depthTexture_loc, 1);
     
     for (GLuint i = 0; i < meshs.size(); ++i)
     {

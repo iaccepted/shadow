@@ -4,8 +4,8 @@ varying highp vec2 uv;
 
 uniform sampler2D depthTexture;
 uniform highp mat4 P;
-
 uniform highp vec4 winParames;//winRatio, near, far, winWidth
+
 highp vec2 filterRadius = vec2(10.0 / winParames[3], 10.0 / (winParames[3] / winParames[0]));
 highp float distanceThreshold = 5.0;
 
