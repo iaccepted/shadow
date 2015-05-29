@@ -12,6 +12,6 @@ varying lowp vec2 ftextcoord;
 
 void main()
 {
-    highp float r = texture2D(shadowMap, ftextcoord).r;
-    gl_FragColor = vec4(r, r, r, 1.0);
+    highp vec4 rgb = texture2D(shadowMap, ftextcoord);
+    gl_FragColor = rgb;
 }

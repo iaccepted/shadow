@@ -20,6 +20,10 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 
+#define kNear 1.5
+#define kFar 100.0
+
+
 GLfloat cube[] =
 {
     -1.0, 1.0, 0.0, 0.0, 1.0,
@@ -28,6 +32,16 @@ GLfloat cube[] =
     -1.0, 1.0, 0.0, 0.0, 1.0,
     1.0, -1.0, 0.0, 1.0, 0.0,
     1.0, 1.0, 0.0, 1.0, 1.0
+};
+
+GLfloat screenXYs[] =
+{
+    -1.0, 1.0,
+    -1.0, -1.0,
+    1.0, -1.0,
+    -1.0, 1.0,
+    1.0, -1.0,
+    1.0, 1.0
 };
 
 typedef struct depthLocations
@@ -76,6 +90,11 @@ typedef struct ssaoLocations
 @property (nonatomic, assign) GLuint depthTexture;
 @property (nonatomic, assign) GLuint ssaoTexture;
 
+#pragma mark - 存储ssao中使用的坐标信息
+@property (nonatomic, assign) GLuint ssaoVao;
+@property (nonatomic, assign) GLuint ssaoVbo;
+
+#pragma mark - 存储显示绘制的纹理结果的坐标信息
 @property (nonatomic, assign) GLuint vao;
 @property (nonatomic, assign) GLuint vbo;
 
@@ -156,6 +175,25 @@ typedef struct ssaoLocations
     //提前获得需要的uniform变量对location，从而在渲染的时候直接使用，加快速度
     model.getLocations(_normalProgram.program);
     
+    [self bindShowTexture];
+    [self bindSSAOData];
+    
+    
+    const char *path = [self getPath:@"box/newest" : @"obj"];
+    model.loadModel(path);
+    model.bindVertexData();
+    model.bindTexturesData();
+    
+    [self initDepthFramebuffer];
+    [self initSSAOFramebuffer];
+
+    [self initMatrix];
+    [self getLocations];
+    glEnable(GL_DEPTH_TEST);
+}
+
+- (void)bindShowTexture
+{
     glGenVertexArraysOES(1, &_vao);
     glBindVertexArrayOES(_vao);
     glGenBuffers(1, &_vbo);
@@ -170,19 +208,23 @@ typedef struct ssaoLocations
     
     glBindVertexArrayOES(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
-    
-    const char *path = [self getPath:@"box/newest" : @"obj"];
-    model.loadModel(path);
-    model.bindVertexData();
-    model.bindTexturesData();
-    
-    [self initDepthFramebuffer];
-    [self initSSAOFramebuffer];
 
-    [self initMatrix];
-    [self getLocations];
-    glEnable(GL_DEPTH_TEST);
+}
+
+- (void)bindSSAOData
+{
+    glGenVertexArraysOES(1, &_ssaoVao);
+
+    glBindVertexArrayOES(_ssaoVao);
+    glGenBuffers(1, &_ssaoVbo);
+    glBindBuffer(GL_ARRAY_BUFFER, _ssaoVbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(screenXYs), screenXYs, GL_STATIC_DRAW);
+    
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid *)0);
+    
+    glBindVertexArrayOES(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 - (void)tearDownGL
@@ -242,13 +284,12 @@ typedef struct ssaoLocations
                                 glm::vec4(0.0f, 0.5f, 0.0f, 0.0f),
                                 glm::vec4(0.0f, 0.0f, 0.5f, 0.0f),
                                 glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
-    //GLuint shadowProjectionMatrixLoc = glGetUniformLocation(self.normalProgram.program, "shadowMVP");
-
+    
     glm::mat4 depthBiasMVP = bias * _shadowMVP;
     
     glUniformMatrix4fv(_normalLocations.shadowMVPLocation, 1, GL_FALSE, glm::value_ptr(depthBiasMVP));
     
-    glm::mat4 modelMatrix, viewMatrix, projection, modelView, modelViewProjection, normalMatrix;
+    glm::mat4 viewMatrix, modelView, modelViewProjection, normalMatrix;
     
     viewMatrix = camera.getView();
     
@@ -271,18 +312,40 @@ typedef struct ssaoLocations
     glClear(GL_DEPTH_BUFFER_BIT);
     
     /***为实现ssao查看效果，暂时让光源的位置就在相机处，这样产生的深度信息与正常渲染的颜色缓存位置匹配**/
-    glm::mat4 lightView =glm::lookAt(glm::vec3(0, 0.48, 4.3), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-    //glm::mat4 lightView = camera.getView();
+    //glm::mat4 lightView =glm::lookAt(glm::vec3(0, 0.48, 4.3), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+    glm::mat4 lightView = camera.getView();
 
     _shadowMVP = _projectionMatrix * lightView * _modelMatrix;
     
-    //GLuint MVPLoc = glGetUniformLocation(self.depthProgram.program, "shadowMVP");
     glUniformMatrix4fv(_depthLocations.shadowMVPLocation, 1, GL_FALSE, glm::value_ptr(_shadowMVP));
     
     glEnable(GL_POLYGON_OFFSET_FILL);
     glPolygonOffset(2.0f, 4.0f);
     model.drawDepth();
     glDisable(GL_POLYGON_OFFSET_FILL);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+- (void)renderSSAO
+{
+    glUseProgram(self.ssaoProgram.program);
+    //glBindFramebuffer(GL_FRAMEBUFFER, _ssaoFbo);
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glUniformMatrix4fv(_ssaoLocations.projectionMatrixLocation, 1, GL_FALSE,glm::value_ptr(_projectionMatrix));
+    ////winRatio, near, far, winWidth
+    glUniform4f(_ssaoLocations.winParamesLocation, self.view.frame.size.width / self.view.frame.size.height, kNear, kFar, self.view.frame.size.width);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, self.depthTexture);
+    glUniform1i(_ssaoLocations.depthTextureLocation, 0);
+    
+    glBindVertexArrayOES(_ssaoVao);
+    glBindBuffer(GL_ARRAY_BUFFER, _ssaoVbo);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArrayOES(0);
 }
 
 - (void) drawShadowMapping
@@ -294,6 +357,7 @@ typedef struct ssaoLocations
     
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _depthTexture);
+    //glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
     glUniform1i(glGetUniformLocation(self.shadowMapProgram.program, "shadowMap"), 0);
     
     glBindVertexArrayOES(_vao);
@@ -307,8 +371,11 @@ typedef struct ssaoLocations
 {
     [self renderDepth];
     [view bindDrawable];
+
+    [self renderSSAO];
+    
     //[self drawShadowMapping];
-    [self renderNormal];
+    //[self renderNormal];
 }
 
 #pragma mark - ssaoFramebuffer
@@ -317,7 +384,7 @@ typedef struct ssaoLocations
 {
     glGenTextures(1, &_ssaoTexture);
     glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, self.view.frame.size.width, self.view.frame.size.height, 0, GL_ALPHA, GL_FLOAT, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, self.view.frame.size.width, self.view.frame.size.height, 0, GL_RGB32F_EXT, GL_UNSIGNED_BYTE, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
     
     glGenFramebuffers(1, &_ssaoFbo);

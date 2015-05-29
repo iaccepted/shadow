@@ -80,5 +80,7 @@ void main()
         
         ambientOcclusion += (a * b);
     }
-    gl_FragColor.r = 1.0 - (ambientOcclusion / samplesCountF);
+    highp float factor = 1.0 - (ambientOcclusion / samplesCountF);
+
+    gl_FragColor = vec4(factor, factor, factor, 1.0);
 }

@@ -35,7 +35,7 @@
     glAttachShader(self.program, vertShader);
     glAttachShader(self.program, fragShader);
     
-    glBindAttribLocation(self.program, 0, "textcoord");
+    glBindAttribLocation(self.program, 0, "screenPosXY");
 
     if (![self linkProgram:self.program]) {
         NSLog(@"Failed to link program: %d", self.program);
