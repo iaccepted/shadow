@@ -23,6 +23,9 @@
 #define kNear 1.5
 #define kFar 100.0
 
+#define kWindowWidth  self.view.frame.size.width
+#define kWindowHeight self.view.frame.size.height
+
 
 GLfloat cube[] =
 {
@@ -329,7 +332,7 @@ typedef struct ssaoLocations
 - (void)renderSSAO
 {
     glUseProgram(self.ssaoProgram.program);
-    //glBindFramebuffer(GL_FRAMEBUFFER, _ssaoFbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, _ssaoFbo);
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -354,10 +357,11 @@ typedef struct ssaoLocations
     
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glViewport(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, _depthTexture);
-    //glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
+    //glBindTexture(GL_TEXTURE_2D, _depthTexture);
+    glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
     glUniform1i(glGetUniformLocation(self.shadowMapProgram.program, "shadowMap"), 0);
     
     glBindVertexArrayOES(_vao);
@@ -370,11 +374,10 @@ typedef struct ssaoLocations
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
     [self renderDepth];
-    [view bindDrawable];
-
     [self renderSSAO];
+    [view bindDrawable];
     
-    //[self drawShadowMapping];
+//    [self drawShadowMapping];
     //[self renderNormal];
 }
 
@@ -382,9 +385,22 @@ typedef struct ssaoLocations
 
 - (void)initSSAOFramebuffer
 {
+    /*测试使用的图片数据*/
+//    GLubyte image[(int)kWindowWidth][(int)kWindowHeight][3];
+//    for (int i = 0; i < (int)kWindowWidth; ++i) {
+//        for (int j = 0; j < (int)kWindowHeight; ++j) {
+//            image[i][j][1] =  255;
+//            image[i][j][0] = image[i][j][2] = 0;
+//         }
+//    }
     glGenTextures(1, &_ssaoTexture);
     glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, self.view.frame.size.width, self.view.frame.size.height, 0, GL_RGB32F_EXT, GL_UNSIGNED_BYTE, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, self.view.frame.size.width, self.view.frame.size.height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
     
     glGenFramebuffers(1, &_ssaoFbo);
