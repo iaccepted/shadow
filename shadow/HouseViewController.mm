@@ -88,10 +88,17 @@ typedef struct ssaoLocations
 #pragma mark - fbo
 @property(nonatomic, assign) GLuint ssaoFbo;
 @property (nonatomic, assign) GLuint depthFbo;
+@property (nonatomic, assign) GLuint normalFbo;
 
 #pragma mark - texture
-@property (nonatomic, assign) GLuint depthTexture;
+//深度纹理，存储深度信息
+@property (nonatomic, assign) GLuint lightDepthTexture;
+@property (nonatomic, assign) GLuint cameraDepthTexture;
+
+//ssao纹理，存储ao信息
 @property (nonatomic, assign) GLuint ssaoTexture;
+//正常渲染效果纹理，存储正常渲染出的效果图
+@property (nonatomic, assign) GLuint normalTextue;
 
 #pragma mark - 存储ssao中使用的坐标信息
 @property (nonatomic, assign) GLuint ssaoVao;
@@ -189,6 +196,7 @@ typedef struct ssaoLocations
     
     [self initDepthFramebuffer];
     [self initSSAOFramebuffer];
+    [self initNormalFramebuffer];
 
     [self initMatrix];
     [self getLocations];
@@ -275,12 +283,37 @@ typedef struct ssaoLocations
 
 #pragma mark - render
 
+-(void)renderDepth
+{
+    glUseProgram(self.depthProgram.program);
+    glBindFramebuffer(GL_FRAMEBUFFER, _depthFbo);
+    glViewport(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    glClearDepthf(1.0f);
+    glClear(GL_DEPTH_BUFFER_BIT);
+    
+    /***为实现ssao查看效果，暂时让光源的位置就在相机处，这样产生的深度信息与正常渲染的颜色缓存位置匹配**/
+    glm::mat4 lightView =glm::lookAt(glm::vec3(0, 0.48, 4.3), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+    //glm::mat4 lightView = camera.getView();
+    
+    _shadowMVP = _projectionMatrix * lightView * _modelMatrix;
+    
+    glUniformMatrix4fv(_depthLocations.shadowMVPLocation, 1, GL_FALSE, glm::value_ptr(_shadowMVP));
+    
+    glEnable(GL_POLYGON_OFFSET_FILL);
+    glPolygonOffset(2.0f, 4.0f);
+    model.drawDepth();
+    glDisable(GL_POLYGON_OFFSET_FILL);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
 - (void) renderNormal
 {
+    glUseProgram(self.normalProgram.program);
+    glBindFramebuffer(GL_FRAMEBUFFER, self.normalFbo);
+    glViewport(0, 0, kWindowWidth, kWindowHeight);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    glUseProgram(self.normalProgram.program);
     [self setLight];
     
     glm::mat4 bias = glm::mat4 (glm::vec4(0.5f, 0.0f, 0.0f, 0.0f),
@@ -303,30 +336,7 @@ typedef struct ssaoLocations
     glUniformMatrix4fv(_normalLocations.normalMatrixLocation, 1, GL_FALSE, glm::value_ptr(normalMatrix));
     glUniformMatrix4fv(_normalLocations.MVPLocation, 1, GL_FALSE, glm::value_ptr(modelViewProjection));
     
-    model.drawNormal(self.normalProgram.program, _depthTexture);
-}
-
--(void)renderDepth
-{
-    glUseProgram(self.depthProgram.program);
-    glBindFramebuffer(GL_FRAMEBUFFER, _depthFbo);
-    glViewport(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    glClearDepthf(1.0f);
-    glClear(GL_DEPTH_BUFFER_BIT);
-    
-    /***为实现ssao查看效果，暂时让光源的位置就在相机处，这样产生的深度信息与正常渲染的颜色缓存位置匹配**/
-    //glm::mat4 lightView =glm::lookAt(glm::vec3(0, 0.48, 4.3), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-    glm::mat4 lightView = camera.getView();
-
-    _shadowMVP = _projectionMatrix * lightView * _modelMatrix;
-    
-    glUniformMatrix4fv(_depthLocations.shadowMVPLocation, 1, GL_FALSE, glm::value_ptr(_shadowMVP));
-    
-    glEnable(GL_POLYGON_OFFSET_FILL);
-    glPolygonOffset(2.0f, 4.0f);
-    model.drawDepth();
-    glDisable(GL_POLYGON_OFFSET_FILL);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    model.drawNormal(self.normalProgram.program, _lightDepthTexture);
 }
 
 - (void)renderSSAO
@@ -341,7 +351,7 @@ typedef struct ssaoLocations
     glUniform4f(_ssaoLocations.winParamesLocation, self.view.frame.size.width / self.view.frame.size.height, kNear, kFar, self.view.frame.size.width);
 
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, self.depthTexture);
+    glBindTexture(GL_TEXTURE_2D, self.cameraDepthTexture);
     glUniform1i(_ssaoLocations.depthTextureLocation, 0);
     
     glBindVertexArrayOES(_ssaoVao);
@@ -349,6 +359,12 @@ typedef struct ssaoLocations
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArrayOES(0);
+}
+
+/**在颜色纹理上施加AO**/
+- (void)renderResult
+{
+    
 }
 
 - (void) drawShadowMapping
@@ -360,8 +376,10 @@ typedef struct ssaoLocations
     glViewport(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     
     glActiveTexture(GL_TEXTURE0);
-    //glBindTexture(GL_TEXTURE_2D, _depthTexture);
+    //glBindTexture(GL_TEXTURE_2D, _lightDepthTexture);
     glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
+    //glBindTexture(GL_TEXTURE_2D, _normalTextue);
+    //glBindTexture(GL_TEXTURE_2D, _cameraDepthTexture);
     glUniform1i(glGetUniformLocation(self.shadowMapProgram.program, "shadowMap"), 0);
     
     glBindVertexArrayOES(_vao);
@@ -374,14 +392,13 @@ typedef struct ssaoLocations
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
     [self renderDepth];
+    [self renderNormal];
     [self renderSSAO];
     [view bindDrawable];
-    
-//    [self drawShadowMapping];
-    //[self renderNormal];
+    [self drawShadowMapping];
 }
 
-#pragma mark - ssaoFramebuffer
+#pragma mark - 初始化不同阶段要使用的Framebuffer
 
 - (void)initSSAOFramebuffer
 {
@@ -400,7 +417,7 @@ typedef struct ssaoLocations
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, self.view.frame.size.width, self.view.frame.size.height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, kWindowWidth, kWindowHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
     
     glGenFramebuffers(1, &_ssaoFbo);
@@ -409,12 +426,10 @@ typedef struct ssaoLocations
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-#pragma mark - deptFramebuffer
-
 -(void)initDepthFramebuffer
 {
-    glGenTextures(1, &_depthTexture);
-    glBindTexture(GL_TEXTURE_2D, _depthTexture);
+    glGenTextures(1, &_lightDepthTexture);
+    glBindTexture(GL_TEXTURE_2D, _lightDepthTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -423,14 +438,51 @@ typedef struct ssaoLocations
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC_EXT, GL_LEQUAL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE_EXT, GL_COMPARE_REF_TO_TEXTURE_EXT);
     
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, self.view.frame.size.width, self.view.frame.size.height, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, kWindowWidth, kWindowHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
     
     glBindTexture(GL_TEXTURE_2D, 0);
     glGenFramebuffers(1, &_depthFbo);
     glBindFramebuffer(GL_FRAMEBUFFER, _depthFbo);
     
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, self.depthTexture, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, self.lightDepthTexture, 0);
     
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+- (void)initNormalFramebuffer
+{
+    glGenTextures(1, &_normalTextue);
+    glBindTexture(GL_TEXTURE_2D, _normalTextue);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, kWindowWidth, kWindowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    
+    glGenTextures(1, &_cameraDepthTexture);
+    glBindTexture(GL_TEXTURE_2D, _cameraDepthTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC_EXT, GL_LEQUAL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE_EXT, GL_COMPARE_REF_TO_TEXTURE_EXT);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, kWindowWidth, kWindowHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    
+    //GLuint depthBuffer;
+    //glGenRenderbuffers(1, &depthBuffer);
+    //glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
+    //glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24_OES, kWindowWidth, kWindowHeight);
+    
+    glGenFramebuffers(1, &_normalFbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, _normalFbo);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, self.normalTextue, 0);
+//    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, self.cameraDepthTexture, 0);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
