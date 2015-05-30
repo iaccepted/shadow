@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 iaccepted. All rights reserved.
 //
 
-#import "ShadowMapProgram.h"
+#import "DrawTextureProgram.h"
 
-@implementation ShadowMapProgram
+@implementation DrawTextureProgram
 
 - (id)linkProgramWithShaderName: (NSString *) name
 {

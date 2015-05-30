@@ -10,7 +10,7 @@
 #import <OpenGLES/ES2/glext.h>
 #import "DepthProgram.h"
 #import "NormalProgram.h"
-#import "ShadowMapProgram.h"
+#import "DrawTextureProgram.h"
 #import "SSAOProgram.h"
 #import "assimpModel.h"
 #import "Camera.h"
@@ -83,7 +83,7 @@ typedef struct ssaoLocations
 @property (nonatomic, strong) DepthProgram *depthProgram;
 @property (nonatomic, strong) NormalProgram *normalProgram;
 @property (nonatomic, strong) SSAOProgram *ssaoProgram;
-@property (nonatomic, strong) ShadowMapProgram *shadowMapProgram;
+@property (nonatomic, strong) DrawTextureProgram *drawTextureProgram;
 
 #pragma mark - fbo
 @property(nonatomic, assign) GLuint ssaoFbo;
@@ -98,7 +98,7 @@ typedef struct ssaoLocations
 //ssao纹理，存储ao信息
 @property (nonatomic, assign) GLuint ssaoTexture;
 //正常渲染效果纹理，存储正常渲染出的效果图
-@property (nonatomic, assign) GLuint normalTextue;
+@property (nonatomic, assign) GLuint cameraColorTextue;
 
 #pragma mark - 存储ssao中使用的坐标信息
 @property (nonatomic, assign) GLuint ssaoVao;
@@ -179,7 +179,7 @@ typedef struct ssaoLocations
     //init and link depthProgram and normalProgram
     _depthProgram = [[DepthProgram alloc] linkProgramWithShaderName:@"depth"];
     _normalProgram = [[NormalProgram alloc] linkProgramWithShaderName:@"normal"];
-    _shadowMapProgram = [[ShadowMapProgram alloc] linkProgramWithShaderName:@"Shader"];
+    _drawTextureProgram = [[DrawTextureProgram alloc] linkProgramWithShaderName:@"Shader"];
     _ssaoProgram = [[SSAOProgram alloc] linkProgramWithShaderName:@"ssao"];
     
     //提前获得需要的uniform变量对location，从而在渲染的时候直接使用，加快速度
@@ -292,8 +292,8 @@ typedef struct ssaoLocations
     glClear(GL_DEPTH_BUFFER_BIT);
     
     /***为实现ssao查看效果，暂时让光源的位置就在相机处，这样产生的深度信息与正常渲染的颜色缓存位置匹配**/
-    glm::mat4 lightView =glm::lookAt(glm::vec3(0, 0.48, 4.3), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-    //glm::mat4 lightView = camera.getView();
+    //glm::mat4 lightView =glm::lookAt(glm::vec3(0, 0.48, 4.3), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+    glm::mat4 lightView = camera.getView();
     
     _shadowMVP = _projectionMatrix * lightView * _modelMatrix;
     
@@ -361,15 +361,9 @@ typedef struct ssaoLocations
     glBindVertexArrayOES(0);
 }
 
-/**在颜色纹理上施加AO**/
-- (void)renderResult
+- (void) drawTexture
 {
-    
-}
-
-- (void) drawShadowMapping
-{
-    glUseProgram(self.shadowMapProgram.program);
+    glUseProgram(self.drawTextureProgram.program);
     
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -380,7 +374,7 @@ typedef struct ssaoLocations
     glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
     //glBindTexture(GL_TEXTURE_2D, _normalTextue);
     //glBindTexture(GL_TEXTURE_2D, _cameraDepthTexture);
-    glUniform1i(glGetUniformLocation(self.shadowMapProgram.program, "shadowMap"), 0);
+    glUniform1i(glGetUniformLocation(self.drawTextureProgram.program, "texture"), 0);
     
     glBindVertexArrayOES(_vao);
     glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -395,7 +389,7 @@ typedef struct ssaoLocations
     [self renderNormal];
     [self renderSSAO];
     [view bindDrawable];
-    [self drawShadowMapping];
+    [self drawTexture];
 }
 
 #pragma mark - 初始化不同阶段要使用的Framebuffer
@@ -451,8 +445,8 @@ typedef struct ssaoLocations
 
 - (void)initNormalFramebuffer
 {
-    glGenTextures(1, &_normalTextue);
-    glBindTexture(GL_TEXTURE_2D, _normalTextue);
+    glGenTextures(1, &_cameraColorTextue);
+    glBindTexture(GL_TEXTURE_2D, _cameraColorTextue);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -472,16 +466,9 @@ typedef struct ssaoLocations
     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, kWindowWidth, kWindowHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    
-    //GLuint depthBuffer;
-    //glGenRenderbuffers(1, &depthBuffer);
-    //glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
-    //glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24_OES, kWindowWidth, kWindowHeight);
-    
     glGenFramebuffers(1, &_normalFbo);
     glBindFramebuffer(GL_FRAMEBUFFER, _normalFbo);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, self.normalTextue, 0);
-//    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, self.cameraColorTextue, 0);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, self.cameraDepthTexture, 0);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

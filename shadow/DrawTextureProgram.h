@@ -8,7 +8,7 @@
 
 #import "Program.h"
 
-@interface ShadowMapProgram : Program
+@interface DrawTextureProgram : Program
 
 - (id)linkProgramWithShaderName: (NSString *) name;
 

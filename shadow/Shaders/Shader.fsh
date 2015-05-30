@@ -6,11 +6,11 @@
 //  Copyright (c) 2015年 iaccepted. All rights reserved.
 //
 
-uniform sampler2D shadowMap;
+uniform sampler2D texture;
 
 varying lowp vec2 ftextcoord;
 
 void main()
 {
-    gl_FragColor = texture2D(shadowMap, ftextcoord);
+    gl_FragColor = texture2D(texture, ftextcoord);
 }
