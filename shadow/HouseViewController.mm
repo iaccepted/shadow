@@ -292,8 +292,8 @@ typedef struct ssaoLocations
     glClear(GL_DEPTH_BUFFER_BIT);
     
     /***为实现ssao查看效果，暂时让光源的位置就在相机处，这样产生的深度信息与正常渲染的颜色缓存位置匹配**/
-    //glm::mat4 lightView =glm::lookAt(glm::vec3(0, 0.48, 4.3), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-    glm::mat4 lightView = camera.getView();
+    glm::mat4 lightView =glm::lookAt(glm::vec3(0, 0.48, 4.3), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+    //glm::mat4 lightView = camera.getView();
     
     _shadowMVP = _projectionMatrix * lightView * _modelMatrix;
     
@@ -371,9 +371,9 @@ typedef struct ssaoLocations
     
     glActiveTexture(GL_TEXTURE0);
     //glBindTexture(GL_TEXTURE_2D, _lightDepthTexture);
-    glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
-    //glBindTexture(GL_TEXTURE_2D, _normalTextue);
+    //glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
     //glBindTexture(GL_TEXTURE_2D, _cameraDepthTexture);
+    glBindTexture(GL_TEXTURE_2D, _cameraColorTextue);
     glUniform1i(glGetUniformLocation(self.drawTextureProgram.program, "texture"), 0);
     
     glBindVertexArrayOES(_vao);
