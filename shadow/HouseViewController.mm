@@ -62,6 +62,7 @@ typedef struct normalLocations
 typedef struct ssaoLocations
 {
     GLuint depthTextureLocation;
+    GLuint colorTextrueLocation;
     GLuint projectionMatrixLocation;
     GLuint winParamesLocation;
 }ssaoLocations;
@@ -98,7 +99,7 @@ typedef struct ssaoLocations
 //ssao纹理，存储ao信息
 @property (nonatomic, assign) GLuint ssaoTexture;
 //正常渲染效果纹理，存储正常渲染出的效果图
-@property (nonatomic, assign) GLuint cameraColorTextue;
+@property (nonatomic, assign) GLuint cameraColorTexture;
 
 #pragma mark - 存储ssao中使用的坐标信息
 @property (nonatomic, assign) GLuint ssaoVao;
@@ -279,6 +280,7 @@ typedef struct ssaoLocations
     _ssaoLocations.depthTextureLocation = glGetUniformLocation(self.ssaoProgram.program, "depthTexture");
     _ssaoLocations.winParamesLocation = glGetUniformLocation(self.ssaoProgram.program, "winParames");
     _ssaoLocations.projectionMatrixLocation = glGetUniformLocation(self.ssaoProgram.program, "P");
+    _ssaoLocations.colorTextrueLocation = glGetUniformLocation(self.ssaoProgram.program, "colorTexture");
 }
 
 #pragma mark - render
@@ -342,7 +344,7 @@ typedef struct ssaoLocations
 - (void)renderSSAO
 {
     glUseProgram(self.ssaoProgram.program);
-    glBindFramebuffer(GL_FRAMEBUFFER, _ssaoFbo);
+    //glBindFramebuffer(GL_FRAMEBUFFER, _ssaoFbo);
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -353,6 +355,10 @@ typedef struct ssaoLocations
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, self.cameraDepthTexture);
     glUniform1i(_ssaoLocations.depthTextureLocation, 0);
+    
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, self.cameraColorTexture);
+    glUniform1i(_ssaoLocations.colorTextrueLocation, 1);
     
     glBindVertexArrayOES(_ssaoVao);
     glBindBuffer(GL_ARRAY_BUFFER, _ssaoVbo);
@@ -373,7 +379,7 @@ typedef struct ssaoLocations
     //glBindTexture(GL_TEXTURE_2D, _lightDepthTexture);
     //glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
     //glBindTexture(GL_TEXTURE_2D, _cameraDepthTexture);
-    glBindTexture(GL_TEXTURE_2D, _cameraColorTextue);
+    glBindTexture(GL_TEXTURE_2D, _cameraColorTexture);
     glUniform1i(glGetUniformLocation(self.drawTextureProgram.program, "texture"), 0);
     
     glBindVertexArrayOES(_vao);
@@ -387,9 +393,10 @@ typedef struct ssaoLocations
 {
     [self renderDepth];
     [self renderNormal];
-    [self renderSSAO];
+    
     [view bindDrawable];
-    [self drawTexture];
+    [self renderSSAO];
+    //[self drawTexture];
 }
 
 #pragma mark - 初始化不同阶段要使用的Framebuffer
@@ -445,8 +452,8 @@ typedef struct ssaoLocations
 
 - (void)initNormalFramebuffer
 {
-    glGenTextures(1, &_cameraColorTextue);
-    glBindTexture(GL_TEXTURE_2D, _cameraColorTextue);
+    glGenTextures(1, &_cameraColorTexture);
+    glBindTexture(GL_TEXTURE_2D, _cameraColorTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -468,7 +475,7 @@ typedef struct ssaoLocations
 
     glGenFramebuffers(1, &_normalFbo);
     glBindFramebuffer(GL_FRAMEBUFFER, _normalFbo);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, self.cameraColorTextue, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, self.cameraColorTexture, 0);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, self.cameraDepthTexture, 0);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
