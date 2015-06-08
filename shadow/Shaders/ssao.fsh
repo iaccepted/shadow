@@ -7,7 +7,7 @@ uniform sampler2D colorTexture;
 uniform highp mat4 P;
 uniform highp vec4 winParames;//winRatio, near, far, winWidth
 
-highp vec2 filterRadius = vec2(10.0 / winParames[3], 10.0 / (winParames[3] / winParames[0]));
+uniform highp float radius;
 highp float distanceThreshold = 5.0;
 
 const int samplesCount = 8;
@@ -23,7 +23,7 @@ highp vec2 poisson[samplesCount];
 //4    vec2( -0.91588581,   0.45771432 ),
 //5    vec2( -0.81544232,  -0.87912464 ),
 //6    vec2( -0.38277543,   0.27676845 ),
-//7    vec2(  0.97484398,   0.75648379 )
+//7    vec2(  0.97484398,   0.75648379 ),
 //8    vec2(  0.44323325,  -0.97511554 ),
 //9    vec2(  0.53742981,  -0.47373420 ),
 //10    vec2( -0.26496911,  -0.41893023 ),
@@ -66,6 +66,7 @@ void initPoisson()
 void main()
 {
     initPoisson();
+    highp vec2 filterRadius = vec2(radius / winParames[3], radius / (winParames[3] / winParames[0]));
     highp vec3 viewPos = calculatePosition(uv);
     highp vec3 viewNorm = calculateNormal(viewPos);
     highp float ambientOcclusion = 0.0;
@@ -75,7 +76,6 @@ void main()
         highp vec3 sampleDir = normalize(samplePos - viewPos);
         highp float dotNS = max(dot(viewNorm, sampleDir), 0.0);
         highp float distanceSV = distance(viewPos, samplePos);
-        
         highp float a = 1.0 - smoothstep(distanceThreshold, distanceThreshold * 2.0, distanceSV);
         highp float b = dotNS;
         
@@ -83,5 +83,6 @@ void main()
     }
     highp float factor = 1.0 - (ambientOcclusion / samplesCountF);
 
+    //gl_FragColor = vec4(factor, factor, factor, 1.0);
     gl_FragColor = factor * texture2D(colorTexture, uv);
 }
