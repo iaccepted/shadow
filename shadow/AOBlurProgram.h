@@ -1,14 +1,14 @@
 //
-//  DepthProgram.h
+//  AOBlurProgram.h
 //  shadow
 //
-//  Created by iaccepted on 15/5/7.
+//  Created by iaccepted on 15/6/8.
 //  Copyright (c) 2015年 iaccepted. All rights reserved.
 //
 
 #import "Program.h"
 
-@interface DepthProgram : Program
+@interface AOBlurProgram : Program
 
 - (id)linkProgramWithShaderName: (NSString *) name;
 

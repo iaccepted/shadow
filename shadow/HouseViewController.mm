@@ -12,6 +12,7 @@
 #import "NormalProgram.h"
 #import "DrawTextureProgram.h"
 #import "SSAOProgram.h"
+#import "AOBlurProgram.h"
 #import "assimpModel.h"
 #import "Camera.h"
 #import <glm/glm.hpp>
@@ -68,6 +69,14 @@ typedef struct ssaoLocations
     GLuint radiusLocation;
 }ssaoLocations;
 
+typedef struct
+{
+    GLuint aoTextureLocation;
+    GLuint colorTextureLocation;
+    GLuint blurSizeLocation;
+    GLuint textSizeLocation;
+}blurLocations;
+
 
 @interface HouseViewController () {
     glm::mat4 _shadowMVP;
@@ -76,6 +85,7 @@ typedef struct ssaoLocations
     depthLocations _depthLocations;
     normalLocations _normalLocations;
     ssaoLocations _ssaoLocations;
+    blurLocations _blurLocations;
     Model model;
     Camera camera;
 }
@@ -86,6 +96,7 @@ typedef struct ssaoLocations
 @property (nonatomic, strong) NormalProgram *normalProgram;
 @property (nonatomic, strong) SSAOProgram *ssaoProgram;
 @property (nonatomic, strong) DrawTextureProgram *drawTextureProgram;
+@property (nonatomic, strong) AOBlurProgram *aoBlurProgram;
 
 #pragma mark - fbo
 @property(nonatomic, assign) GLuint ssaoFbo;
@@ -183,6 +194,7 @@ typedef struct ssaoLocations
     _normalProgram = [[NormalProgram alloc] linkProgramWithShaderName:@"normal"];
     _drawTextureProgram = [[DrawTextureProgram alloc] linkProgramWithShaderName:@"Shader"];
     _ssaoProgram = [[SSAOProgram alloc] linkProgramWithShaderName:@"ssao"];
+    _aoBlurProgram = [[AOBlurProgram alloc] linkProgramWithShaderName:@"blur"];
     
     //提前获得需要的uniform变量对location，从而在渲染的时候直接使用，加快速度
     model.getLocations(_normalProgram.program);
@@ -283,6 +295,12 @@ typedef struct ssaoLocations
     _ssaoLocations.projectionMatrixLocation = glGetUniformLocation(self.ssaoProgram.program, "P");
     _ssaoLocations.colorTextrueLocation = glGetUniformLocation(self.ssaoProgram.program, "colorTexture");
     _ssaoLocations.radiusLocation = glGetUniformLocation(self.ssaoProgram.program, "radius");
+    
+    /**get the blur pass**/
+    _blurLocations.aoTextureLocation = glGetUniformLocation(self.aoBlurProgram.program, "aoTexture");
+    _blurLocations.colorTextureLocation = glGetUniformLocation(self.aoBlurProgram.program, "colorTexture");
+    _blurLocations.blurSizeLocation = glGetUniformLocation(self.aoBlurProgram.program, "blurSize");
+    _blurLocations.textSizeLocation = glGetUniformLocation(self.aoBlurProgram.program, "textSize");
 }
 
 #pragma mark - render
@@ -346,7 +364,7 @@ typedef struct ssaoLocations
 - (void)renderSSAO
 {
     glUseProgram(self.ssaoProgram.program);
-    //glBindFramebuffer(GL_FRAMEBUFFER, _ssaoFbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, _ssaoFbo);
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -372,6 +390,34 @@ typedef struct ssaoLocations
     glBindVertexArrayOES(0);
 }
 
+-(void)renderBlur
+{
+    glUseProgram(self.aoBlurProgram.program);
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glUniform2f(_blurLocations.textSizeLocation, self.view.frame.size.width, self.view.frame.size.height);
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, self.ssaoTexture);
+    glUniform1i(_blurLocations.aoTextureLocation, 0);
+    
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, self.cameraColorTexture);
+    glUniform1i(_blurLocations.colorTextureLocation, 1);
+    
+    /**blur size**/
+    glUniform1i(_blurLocations.blurSizeLocation, 4);
+    
+    //由于只需要屏幕坐标就可以了，所以这里直接与绘制ao factor的过程使用同组数据
+    glBindVertexArrayOES(_ssaoVao);
+    glBindBuffer(GL_ARRAY_BUFFER, _ssaoVbo);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArrayOES(0);
+
+}
+
 - (void) drawTexture
 {
     glUseProgram(self.drawTextureProgram.program);
@@ -382,9 +428,9 @@ typedef struct ssaoLocations
     
     glActiveTexture(GL_TEXTURE0);
     //glBindTexture(GL_TEXTURE_2D, _lightDepthTexture);
-    glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
+    //glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
     //glBindTexture(GL_TEXTURE_2D, _cameraDepthTexture);
-    //glBindTexture(GL_TEXTURE_2D, _cameraColorTexture);
+    glBindTexture(GL_TEXTURE_2D, _cameraColorTexture);
     glUniform1i(glGetUniformLocation(self.drawTextureProgram.program, "texture"), 0);
     
     glBindVertexArrayOES(_vao);
@@ -400,6 +446,9 @@ typedef struct ssaoLocations
     [self renderNormal];
     [view bindDrawable];
     [self renderSSAO];
+    
+    [view bindDrawable];
+    [self renderBlur];
     
 //    [view bindDrawable];
 //    [self drawTexture];

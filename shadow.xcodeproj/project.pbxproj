@@ -39,6 +39,9 @@
 		B8D7E30B1B0F489C00ADC31E /* ssao.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8D7E30A1B0F489C00ADC31E /* ssao.fsh */; };
 		B8EA62971AFB7E7A00C4BC31 /* box in Resources */ = {isa = PBXBuildFile; fileRef = B8EA62961AFB7E7A00C4BC31 /* box */; };
 		B8EA629A1AFB8E5500C4BC31 /* DrawTextureProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8EA62991AFB8E5500C4BC31 /* DrawTextureProgram.m */; };
+		B8EDC4AB1B253F15007AD235 /* AOBlurProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8EDC4AA1B253F15007AD235 /* AOBlurProgram.m */; };
+		B8EDC4AD1B254086007AD235 /* blur.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8EDC4AC1B254086007AD235 /* blur.vsh */; };
+		B8EDC4AF1B25409C007AD235 /* blur.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8EDC4AE1B25409C007AD235 /* blur.fsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +101,10 @@
 		B8EA62961AFB7E7A00C4BC31 /* box */ = {isa = PBXFileReference; lastKnownFileType = folder; name = box; path = shadow/box; sourceTree = "<group>"; };
 		B8EA62981AFB8E5500C4BC31 /* DrawTextureProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawTextureProgram.h; sourceTree = "<group>"; };
 		B8EA62991AFB8E5500C4BC31 /* DrawTextureProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawTextureProgram.m; sourceTree = "<group>"; };
+		B8EDC4A91B253F15007AD235 /* AOBlurProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOBlurProgram.h; sourceTree = "<group>"; };
+		B8EDC4AA1B253F15007AD235 /* AOBlurProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOBlurProgram.m; sourceTree = "<group>"; };
+		B8EDC4AC1B254086007AD235 /* blur.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blur.vsh; sourceTree = "<group>"; };
+		B8EDC4AE1B25409C007AD235 /* blur.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blur.fsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +209,8 @@
 				B8B338D11AFB2A4E00740CCE /* Shader.vsh */,
 				B8D7E3081B0F489100ADC31E /* ssao.vsh */,
 				B8D7E30A1B0F489C00ADC31E /* ssao.fsh */,
+				B8EDC4AC1B254086007AD235 /* blur.vsh */,
+				B8EDC4AE1B25409C007AD235 /* blur.fsh */,
 			);
 			name = Shaders;
 			path = shadow/Shaders;
@@ -220,6 +229,8 @@
 				B8EA62991AFB8E5500C4BC31 /* DrawTextureProgram.m */,
 				B8D752151B13141F00D9B2CB /* SSAOProgram.h */,
 				B8D752161B13141F00D9B2CB /* SSAOProgram.m */,
+				B8EDC4A91B253F15007AD235 /* AOBlurProgram.h */,
+				B8EDC4AA1B253F15007AD235 /* AOBlurProgram.m */,
 			);
 			name = program;
 			sourceTree = "<group>";
@@ -343,9 +354,11 @@
 			files = (
 				B8EA62971AFB7E7A00C4BC31 /* box in Resources */,
 				B8D7E3091B0F489100ADC31E /* ssao.vsh in Resources */,
+				B8EDC4AD1B254086007AD235 /* blur.vsh in Resources */,
 				B8D7E30B1B0F489C00ADC31E /* ssao.fsh in Resources */,
 				B8CD41AD1AFB4DD900262B08 /* normal.fsh in Resources */,
 				B8B338D31AFB2A6200740CCE /* Shader.vsh in Resources */,
+				B8EDC4AF1B25409C007AD235 /* blur.fsh in Resources */,
 				B8CD41AE1AFB4DD900262B08 /* normal.vsh in Resources */,
 				B8CD41AC1AFB4DD900262B08 /* depth.vsh in Resources */,
 				B8B338D21AFB2A5A00740CCE /* Shader.fsh in Resources */,
@@ -376,6 +389,7 @@
 				B8B3389B1AFB258F00740CCE /* AppDelegate.m in Sources */,
 				B8CD41B11AFB54E200262B08 /* camera.cpp in Sources */,
 				B8CD41961AFB491800262B08 /* assimpModel.mm in Sources */,
+				B8EDC4AB1B253F15007AD235 /* AOBlurProgram.m in Sources */,
 				B8B338DA1AFB2F3400740CCE /* DepthProgram.m in Sources */,
 				B8B338981AFB258F00740CCE /* main.m in Sources */,
 				B8B338DD1AFB2F5E00740CCE /* NormalProgram.m in Sources */,
