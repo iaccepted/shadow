@@ -428,9 +428,9 @@ typedef struct
     
     glActiveTexture(GL_TEXTURE0);
     //glBindTexture(GL_TEXTURE_2D, _lightDepthTexture);
-    //glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
+    glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
     //glBindTexture(GL_TEXTURE_2D, _cameraDepthTexture);
-    glBindTexture(GL_TEXTURE_2D, _cameraColorTexture);
+    //glBindTexture(GL_TEXTURE_2D, _cameraColorTexture);
     glUniform1i(glGetUniformLocation(self.drawTextureProgram.program, "texture"), 0);
     
     glBindVertexArrayOES(_vao);
@@ -444,14 +444,13 @@ typedef struct
 {
     [self renderDepth];
     [self renderNormal];
-    [view bindDrawable];
     [self renderSSAO];
     
     [view bindDrawable];
-    [self renderBlur];
+    //[self renderBlur];
     
-//    [view bindDrawable];
-//    [self drawTexture];
+    [view bindDrawable];
+    [self drawTexture];
 }
 
 #pragma mark - 初始化不同阶段要使用的Framebuffer
