@@ -313,8 +313,8 @@ typedef struct
     glClearDepthf(1.0f);
     glClear(GL_DEPTH_BUFFER_BIT);
     
-    /***为实现ssao查看效果，暂时让光源的位置就在相机处，这样产生的深度信息与正常渲染的颜色缓存位置匹配**/
     glm::mat4 lightView =glm::lookAt(glm::vec3(0, 0.48, 4.3), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+    /***为实现ssao查看效果，暂时让光源的位置就在相机处，这样产生的深度信息与正常渲染的颜色缓存位置匹配**/
     //glm::mat4 lightView = camera.getView();
     
     _shadowMVP = _projectionMatrix * lightView * _modelMatrix;
@@ -447,10 +447,10 @@ typedef struct
     [self renderSSAO];
     
     [view bindDrawable];
-    //[self renderBlur];
+    [self renderBlur];
     
-    [view bindDrawable];
-    [self drawTexture];
+    //[view bindDrawable];
+    //[self drawTexture];
 }
 
 #pragma mark - 初始化不同阶段要使用的Framebuffer

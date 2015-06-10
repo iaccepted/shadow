@@ -20,12 +20,6 @@ struct Vertex
     Vertex() : position(0, 0, 0), normal(0, 0, 0), textcoord(0, 0){}
 };
 
-struct Texture
-{
-    GLuint id;
-    string type;
-};
-
 class Mesh
 {
 private:
@@ -40,7 +34,6 @@ public:
     }
     vector<Vertex> vertices;
     vector<unsigned int> indices;
-    vector<Texture> textures;
     unsigned int cntIndex;
     unsigned int material_index;
 };

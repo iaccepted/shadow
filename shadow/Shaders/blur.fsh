@@ -29,6 +29,6 @@ void main()
     }
     highp float factor = result / float(blurSize * blurSize);
     
-//    gl_FragColor = factor * texture2D(colorTexture, uv);
-    gl_FragColor = vec4(factor, factor, factor, 1.0);
+    gl_FragColor = factor * texture2D(colorTexture, uv);
+//    gl_FragColor = vec4(factor, factor, factor, 1.0);
 }
