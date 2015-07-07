@@ -359,6 +359,7 @@ typedef struct
     glUniformMatrix4fv(_normalLocations.MVPLocation, 1, GL_FALSE, glm::value_ptr(modelViewProjection));
     
     model.drawNormal(self.normalProgram.program, _lightDepthTexture);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 - (void)renderSSAO
@@ -367,6 +368,7 @@ typedef struct
     glBindFramebuffer(GL_FRAMEBUFFER, _ssaoFbo);
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
 
     glUniformMatrix4fv(_ssaoLocations.projectionMatrixLocation, 1, GL_FALSE,glm::value_ptr(_projectionMatrix));
     ////winRatio, near, far, winWidth
@@ -388,6 +390,7 @@ typedef struct
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArrayOES(0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 -(void)renderBlur
@@ -424,7 +427,7 @@ typedef struct
     
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glViewport(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    //glViewport(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     
     glActiveTexture(GL_TEXTURE0);
     //glBindTexture(GL_TEXTURE_2D, _lightDepthTexture);
