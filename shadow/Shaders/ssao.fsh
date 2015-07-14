@@ -3,7 +3,6 @@
 varying highp vec2 uv;
 
 uniform sampler2D depthTexture;
-uniform sampler2D colorTexture;
 uniform highp mat4 P;
 uniform highp vec4 winParames;//winRatio, near, far, winWidth
 
@@ -84,5 +83,4 @@ void main()
     highp float factor = 1.0 - (ambientOcclusion / samplesCountF);
     
     gl_FragColor = vec4(factor, factor, factor, 1.0);
-    //gl_FragColor = factor * texture2D(colorTexture, uv);
 }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B89DEF9E1B54E69F005F8321 /* fxaa.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B89DEF9D1B54E69F005F8321 /* fxaa.vsh */; };
+		B89DEFA01B54E6B1005F8321 /* fxaa.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B89DEF9F1B54E6B1005F8321 /* fxaa.fsh */; };
+		B89DEFA31B54FD87005F8321 /* FxaaProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B89DEFA21B54FD87005F8321 /* FxaaProgram.m */; };
 		B8B338981AFB258F00740CCE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B338971AFB258F00740CCE /* main.m */; };
 		B8B3389B1AFB258F00740CCE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B3389A1AFB258F00740CCE /* AppDelegate.m */; };
 		B8B3389D1AFB258F00740CCE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8B3389C1AFB258F00740CCE /* Images.xcassets */; };
@@ -55,6 +58,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B89DEF9D1B54E69F005F8321 /* fxaa.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fxaa.vsh; sourceTree = "<group>"; };
+		B89DEF9F1B54E6B1005F8321 /* fxaa.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fxaa.fsh; sourceTree = "<group>"; };
+		B89DEFA11B54FD87005F8321 /* FxaaProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FxaaProgram.h; sourceTree = "<group>"; };
+		B89DEFA21B54FD87005F8321 /* FxaaProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FxaaProgram.m; sourceTree = "<group>"; };
 		B8B338921AFB258F00740CCE /* shadow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shadow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8B338961AFB258F00740CCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B8B338971AFB258F00740CCE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -211,6 +218,8 @@
 				B8D7E30A1B0F489C00ADC31E /* ssao.fsh */,
 				B8EDC4AC1B254086007AD235 /* blur.vsh */,
 				B8EDC4AE1B25409C007AD235 /* blur.fsh */,
+				B89DEF9D1B54E69F005F8321 /* fxaa.vsh */,
+				B89DEF9F1B54E6B1005F8321 /* fxaa.fsh */,
 			);
 			name = Shaders;
 			path = shadow/Shaders;
@@ -231,6 +240,8 @@
 				B8D752161B13141F00D9B2CB /* SSAOProgram.m */,
 				B8EDC4A91B253F15007AD235 /* AOBlurProgram.h */,
 				B8EDC4AA1B253F15007AD235 /* AOBlurProgram.m */,
+				B89DEFA11B54FD87005F8321 /* FxaaProgram.h */,
+				B89DEFA21B54FD87005F8321 /* FxaaProgram.m */,
 			);
 			name = program;
 			sourceTree = "<group>";
@@ -353,6 +364,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B8EA62971AFB7E7A00C4BC31 /* box in Resources */,
+				B89DEF9E1B54E69F005F8321 /* fxaa.vsh in Resources */,
 				B8D7E3091B0F489100ADC31E /* ssao.vsh in Resources */,
 				B8EDC4AD1B254086007AD235 /* blur.vsh in Resources */,
 				B8D7E30B1B0F489C00ADC31E /* ssao.fsh in Resources */,
@@ -364,6 +376,7 @@
 				B8B338D21AFB2A5A00740CCE /* Shader.fsh in Resources */,
 				B8CD41AB1AFB4DD900262B08 /* depth.fsh in Resources */,
 				B8B338A01AFB258F00740CCE /* LaunchScreen.xib in Resources */,
+				B89DEFA01B54E6B1005F8321 /* fxaa.fsh in Resources */,
 				B8B3389D1AFB258F00740CCE /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -383,6 +396,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B8CD41951AFB491800262B08 /* assimpMesh.cpp in Sources */,
+				B89DEFA31B54FD87005F8321 /* FxaaProgram.m in Sources */,
 				B8EA629A1AFB8E5500C4BC31 /* DrawTextureProgram.m in Sources */,
 				B8B338D61AFB2EFC00740CCE /* Program.m in Sources */,
 				B8B338CA1AFB295C00740CCE /* HouseViewController.mm in Sources */,

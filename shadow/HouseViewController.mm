@@ -13,6 +13,7 @@
 #import "DrawTextureProgram.h"
 #import "SSAOProgram.h"
 #import "AOBlurProgram.h"
+#import "FxaaProgram.h"
 #import "assimpModel.h"
 #import "Camera.h"
 #import <glm/glm.hpp>
@@ -60,10 +61,15 @@ typedef struct normalLocations
     GLuint normalMatrixLocation;
 }normalLocations;
 
+typedef struct
+{
+    GLuint colorTextureLocation;
+    GLuint textSizeLocation;
+}fxaaLocations;
+
 typedef struct ssaoLocations
 {
     GLuint depthTextureLocation;
-    GLuint colorTextrueLocation;
     GLuint projectionMatrixLocation;
     GLuint winParamesLocation;
     GLuint radiusLocation;
@@ -86,6 +92,7 @@ typedef struct
     normalLocations _normalLocations;
     ssaoLocations _ssaoLocations;
     blurLocations _blurLocations;
+    fxaaLocations _fxaaLocations;
     Model model;
     Camera camera;
 }
@@ -97,6 +104,7 @@ typedef struct
 @property (nonatomic, strong) SSAOProgram *ssaoProgram;
 @property (nonatomic, strong) DrawTextureProgram *drawTextureProgram;
 @property (nonatomic, strong) AOBlurProgram *aoBlurProgram;
+@property (nonatomic, strong) FxaaProgram *fxaaProgram;
 
 #pragma mark - fbo
 @property(nonatomic, assign) GLuint ssaoFbo;
@@ -121,8 +129,9 @@ typedef struct
 @property (nonatomic, assign) GLuint vao;
 @property (nonatomic, assign) GLuint vbo;
 
-- (void)setupGL;
-- (void)tearDownGL;
+#pragma mark - fxaa
+@property (nonatomic, assign) GLuint fxaaFbo;
+@property (nonatomic, assign) GLuint fxaaTexture;
 
 @end
 
@@ -195,6 +204,7 @@ typedef struct
     _drawTextureProgram = [[DrawTextureProgram alloc] linkProgramWithShaderName:@"Shader"];
     _ssaoProgram = [[SSAOProgram alloc] linkProgramWithShaderName:@"ssao"];
     _aoBlurProgram = [[AOBlurProgram alloc] linkProgramWithShaderName:@"blur"];
+    _fxaaProgram = [[FxaaProgram alloc] linkProgramWithShaderName:@"fxaa"];
     
     //提前获得需要的uniform变量对location，从而在渲染的时候直接使用，加快速度
     model.getLocations(_normalProgram.program);
@@ -211,6 +221,7 @@ typedef struct
     [self initDepthFramebuffer];
     [self initSSAOFramebuffer];
     [self initNormalFramebuffer];
+    [self initFxaaFramebuffer];
 
     [self initMatrix];
     [self getLocations];
@@ -293,7 +304,7 @@ typedef struct
     _ssaoLocations.depthTextureLocation = glGetUniformLocation(self.ssaoProgram.program, "depthTexture");
     _ssaoLocations.winParamesLocation = glGetUniformLocation(self.ssaoProgram.program, "winParames");
     _ssaoLocations.projectionMatrixLocation = glGetUniformLocation(self.ssaoProgram.program, "P");
-    _ssaoLocations.colorTextrueLocation = glGetUniformLocation(self.ssaoProgram.program, "colorTexture");
+//    _ssaoLocations.colorTextrueLocation = glGetUniformLocation(self.ssaoProgram.program, "colorTexture");
     _ssaoLocations.radiusLocation = glGetUniformLocation(self.ssaoProgram.program, "radius");
     
     /**get the blur pass**/
@@ -301,6 +312,10 @@ typedef struct
     _blurLocations.colorTextureLocation = glGetUniformLocation(self.aoBlurProgram.program, "colorTexture");
     _blurLocations.blurSizeLocation = glGetUniformLocation(self.aoBlurProgram.program, "blurSize");
     _blurLocations.textSizeLocation = glGetUniformLocation(self.aoBlurProgram.program, "textSize");
+    
+    /**get the fxaa pass**/
+    _fxaaLocations.colorTextureLocation = glGetUniformLocation(self.fxaaProgram.program, "colorTexture");
+    _fxaaLocations.textSizeLocation = glGetUniformLocation(self.fxaaProgram.program, "textSize");
 }
 
 #pragma mark - render
@@ -378,10 +393,6 @@ typedef struct
     glBindTexture(GL_TEXTURE_2D, self.cameraDepthTexture);
     glUniform1i(_ssaoLocations.depthTextureLocation, 0);
     
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, self.cameraColorTexture);
-    glUniform1i(_ssaoLocations.colorTextrueLocation, 1);
-    
     /**radius for sample**/
     glUniform1f(_ssaoLocations.radiusLocation, 5.0);
     
@@ -391,6 +402,27 @@ typedef struct
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArrayOES(0);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+-(void)renderFxaa
+{
+    glUseProgram(self.fxaaProgram.program);
+    glBindFramebuffer(GL_FRAMEBUFFER, _fxaaFbo);
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glUniform2f(_fxaaLocations.textSizeLocation, kWindowWidth, kWindowHeight);
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, self.cameraColorTexture);
+    glUniform1i(_fxaaLocations.colorTextureLocation, 0);
+    
+    glBindVertexArrayOES(_ssaoVao);
+    glBindBuffer(GL_ARRAY_BUFFER, _ssaoVbo);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArrayOES(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
 }
 
 -(void)renderBlur
@@ -406,7 +438,7 @@ typedef struct
     glUniform1i(_blurLocations.aoTextureLocation, 0);
     
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, self.cameraColorTexture);
+    glBindTexture(GL_TEXTURE_2D, self.fxaaTexture);
     glUniform1i(_blurLocations.colorTextureLocation, 1);
     
     /**blur size**/
@@ -416,8 +448,8 @@ typedef struct
     glBindVertexArrayOES(_ssaoVao);
     glBindBuffer(GL_ARRAY_BUFFER, _ssaoVbo);
     glDrawArrays(GL_TRIANGLES, 0, 6);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArrayOES(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 }
 
@@ -431,7 +463,8 @@ typedef struct
     
     glActiveTexture(GL_TEXTURE0);
     //glBindTexture(GL_TEXTURE_2D, _lightDepthTexture);
-    glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
+    //glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
+    glBindTexture(GL_TEXTURE_2D, _fxaaTexture);
     //glBindTexture(GL_TEXTURE_2D, _cameraDepthTexture);
     //glBindTexture(GL_TEXTURE_2D, _cameraColorTexture);
     glUniform1i(glGetUniformLocation(self.drawTextureProgram.program, "texture"), 0);
@@ -447,13 +480,14 @@ typedef struct
 {
     [self renderDepth];
     [self renderNormal];
+    [self renderFxaa];
     [self renderSSAO];
     
     [view bindDrawable];
     [self renderBlur];
     
-    //[view bindDrawable];
-    //[self drawTexture];
+//    [view bindDrawable];
+//    [self drawTexture];
 }
 
 #pragma mark - 初始化不同阶段要使用的Framebuffer
@@ -535,6 +569,24 @@ typedef struct
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, self.cameraColorTexture, 0);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, self.cameraDepthTexture, 0);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+- (void)initFxaaFramebuffer
+{
+    glGenTextures(1, &_fxaaTexture);
+    glBindTexture(GL_TEXTURE_2D, _fxaaTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, kWindowWidth, kWindowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    
+    glGenFramebuffers(1, &_fxaaFbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, _fxaaFbo);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _fxaaTexture, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    
 }
 
 #pragma mark - 手势识别
