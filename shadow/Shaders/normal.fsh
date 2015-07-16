@@ -53,7 +53,7 @@ highp float chebyshev_upper_bound(in highp vec2 uv, in highp float t)
     //highp float p = smoothstep(depthCurrent - 0.2, depthCurrent, moments.x);
     
     highp float p = 0.0;
-    if (t <= moments.x + 0.0001) {
+    if (t <= moments.x) {
         return 1.0;
     }
     highp float variance = moments.y - (moments.x * moments.x);
@@ -63,7 +63,7 @@ highp float chebyshev_upper_bound(in highp vec2 uv, in highp float t)
     highp float d = t - moments.x;
     highp float p_max = variance / (variance + d * d);
 
-    return linstep(0.25, 1.0, p_max);
+    return linstep(0.30, 1.0, p_max);
 }
 
 void main()
@@ -97,7 +97,7 @@ void main()
     highp float depthCurrent = fshadowCoord.z / fshadowCoord.w;
     highp float factor = chebyshev_upper_bound(depthUV, depthCurrent);
     
-    factor = 0.75 * factor + 0.25;
+    factor = 0.72 * factor + 0.28;
     gl_FragColor = factor * vec4(ambient + specular + diffuse, 1.0);
 //    gl_FragColor = vec4(factor, factor, factor, 1.0);
     //gl_FragColor = vec4(factor * (ambient + specular +  diffuse), material.alph);
