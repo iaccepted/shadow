@@ -52,23 +52,18 @@ highp float chebyshev_upper_bound(in highp vec2 uv, in highp float t)
     
     //highp float p = smoothstep(depthCurrent - 0.2, depthCurrent, moments.x);
     
-//    if (t <= moments.x) {
-//        return 1.0;
-//    }
     highp float p = 0.0;
     if (t <= moments.x + 0.0001) {
-        p = 1.0;
+        return 1.0;
     }
     highp float variance = moments.y - (moments.x * moments.x);
     variance = max(variance, g_minVariance);
     
 
     highp float d = t - moments.x;
-//    lowp float p_max = linstep(0.4, 1.0, variance / (variance + d * d));
     highp float p_max = variance / (variance + d * d);
-//    //p_max = linstep(0.4, 1.0, p_max);
-//    return clamp(max(p, p_max), 0.2, 1.0);
-    return smoothstep(0.2, 1.0, max(p, p_max));
+
+    return linstep(0.25, 1.0, p_max);
 }
 
 void main()
