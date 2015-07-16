@@ -40,6 +40,9 @@
 		B8D752171B13141F00D9B2CB /* SSAOProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8D752161B13141F00D9B2CB /* SSAOProgram.m */; };
 		B8D7E3091B0F489100ADC31E /* ssao.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8D7E3081B0F489100ADC31E /* ssao.vsh */; };
 		B8D7E30B1B0F489C00ADC31E /* ssao.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8D7E30A1B0F489C00ADC31E /* ssao.fsh */; };
+		B8EA5E501B5777CD00DAD589 /* varianceBlur.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8EA5E4F1B5777CD00DAD589 /* varianceBlur.fsh */; };
+		B8EA5E521B5777DB00DAD589 /* varianceBlur.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8EA5E511B5777DB00DAD589 /* varianceBlur.vsh */; };
+		B8EA5E551B5779CE00DAD589 /* VarianceBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = B8EA5E541B5779CE00DAD589 /* VarianceBlur.m */; };
 		B8EA62971AFB7E7A00C4BC31 /* box in Resources */ = {isa = PBXBuildFile; fileRef = B8EA62961AFB7E7A00C4BC31 /* box */; };
 		B8EA629A1AFB8E5500C4BC31 /* DrawTextureProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8EA62991AFB8E5500C4BC31 /* DrawTextureProgram.m */; };
 		B8EDC4AB1B253F15007AD235 /* AOBlurProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8EDC4AA1B253F15007AD235 /* AOBlurProgram.m */; };
@@ -105,6 +108,10 @@
 		B8D752161B13141F00D9B2CB /* SSAOProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSAOProgram.m; sourceTree = "<group>"; };
 		B8D7E3081B0F489100ADC31E /* ssao.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao.vsh; sourceTree = "<group>"; };
 		B8D7E30A1B0F489C00ADC31E /* ssao.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao.fsh; sourceTree = "<group>"; };
+		B8EA5E4F1B5777CD00DAD589 /* varianceBlur.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = varianceBlur.fsh; sourceTree = "<group>"; };
+		B8EA5E511B5777DB00DAD589 /* varianceBlur.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = varianceBlur.vsh; sourceTree = "<group>"; };
+		B8EA5E531B5779CE00DAD589 /* VarianceBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VarianceBlur.h; sourceTree = "<group>"; };
+		B8EA5E541B5779CE00DAD589 /* VarianceBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VarianceBlur.m; sourceTree = "<group>"; };
 		B8EA62961AFB7E7A00C4BC31 /* box */ = {isa = PBXFileReference; lastKnownFileType = folder; name = box; path = shadow/box; sourceTree = "<group>"; };
 		B8EA62981AFB8E5500C4BC31 /* DrawTextureProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawTextureProgram.h; sourceTree = "<group>"; };
 		B8EA62991AFB8E5500C4BC31 /* DrawTextureProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawTextureProgram.m; sourceTree = "<group>"; };
@@ -220,6 +227,8 @@
 				B8EDC4AE1B25409C007AD235 /* blur.fsh */,
 				B89DEF9D1B54E69F005F8321 /* fxaa.vsh */,
 				B89DEF9F1B54E6B1005F8321 /* fxaa.fsh */,
+				B8EA5E4F1B5777CD00DAD589 /* varianceBlur.fsh */,
+				B8EA5E511B5777DB00DAD589 /* varianceBlur.vsh */,
 			);
 			name = Shaders;
 			path = shadow/Shaders;
@@ -242,6 +251,8 @@
 				B8EDC4AA1B253F15007AD235 /* AOBlurProgram.m */,
 				B89DEFA11B54FD87005F8321 /* FxaaProgram.h */,
 				B89DEFA21B54FD87005F8321 /* FxaaProgram.m */,
+				B8EA5E531B5779CE00DAD589 /* VarianceBlur.h */,
+				B8EA5E541B5779CE00DAD589 /* VarianceBlur.m */,
 			);
 			name = program;
 			sourceTree = "<group>";
@@ -375,7 +386,9 @@
 				B8CD41AC1AFB4DD900262B08 /* depth.vsh in Resources */,
 				B8B338D21AFB2A5A00740CCE /* Shader.fsh in Resources */,
 				B8CD41AB1AFB4DD900262B08 /* depth.fsh in Resources */,
+				B8EA5E521B5777DB00DAD589 /* varianceBlur.vsh in Resources */,
 				B8B338A01AFB258F00740CCE /* LaunchScreen.xib in Resources */,
+				B8EA5E501B5777CD00DAD589 /* varianceBlur.fsh in Resources */,
 				B89DEFA01B54E6B1005F8321 /* fxaa.fsh in Resources */,
 				B8B3389D1AFB258F00740CCE /* Images.xcassets in Resources */,
 			);
@@ -400,6 +413,7 @@
 				B8EA629A1AFB8E5500C4BC31 /* DrawTextureProgram.m in Sources */,
 				B8B338D61AFB2EFC00740CCE /* Program.m in Sources */,
 				B8B338CA1AFB295C00740CCE /* HouseViewController.mm in Sources */,
+				B8EA5E551B5779CE00DAD589 /* VarianceBlur.m in Sources */,
 				B8B3389B1AFB258F00740CCE /* AppDelegate.m in Sources */,
 				B8CD41B11AFB54E200262B08 /* camera.cpp in Sources */,
 				B8CD41961AFB491800262B08 /* assimpModel.mm in Sources */,

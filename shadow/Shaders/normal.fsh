@@ -33,8 +33,43 @@ struct Material
 uniform Light light;
 uniform Material material;
 
-uniform sampler2DShadow depthTexture;
+//uniform sampler2DShadow depthTexture;
+uniform sampler2D depthTexture;
+
 const lowp float kShadowAmount = 0.4;
+
+const highp float g_minVariance = 0.0001;
+
+highp float linstep(in highp float low, in highp float high, in highp float v)
+{
+    return clamp((v-low) / (high - low), 0.0, 1.0);
+}
+
+//利用切比雪夫不等式计算遮挡的概率上界
+highp float chebyshev_upper_bound(in highp vec2 uv, in highp float t)
+{
+    highp vec2 moments = texture2D(depthTexture, uv).xy;
+    
+    //highp float p = smoothstep(depthCurrent - 0.2, depthCurrent, moments.x);
+    
+//    if (t <= moments.x) {
+//        return 1.0;
+//    }
+    highp float p = 0.0;
+    if (t <= moments.x + 0.0001) {
+        p = 1.0;
+    }
+    highp float variance = moments.y - (moments.x * moments.x);
+    variance = max(variance, g_minVariance);
+    
+
+    highp float d = t - moments.x;
+//    lowp float p_max = linstep(0.4, 1.0, variance / (variance + d * d));
+    highp float p_max = variance / (variance + d * d);
+//    //p_max = linstep(0.4, 1.0, p_max);
+//    return clamp(max(p, p_max), 0.2, 1.0);
+    return smoothstep(0.2, 1.0, max(p, p_max));
+}
 
 void main()
 {
@@ -63,8 +98,16 @@ void main()
     highp float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), material.shininess);
     highp vec3 specular = spec * material.specular * light.color;
 
+    highp vec2 depthUV = fshadowCoord.xy / fshadowCoord.w;
+    highp float depthCurrent = fshadowCoord.z / fshadowCoord.w;
+    highp float factor = chebyshev_upper_bound(depthUV, depthCurrent);
     
-    //使用shadow2DProj函数得结果     depthTexture是samper2DShadow类型
-    highp float r = (1.0 - kShadowAmount) + kShadowAmount * shadow2DProjEXT(depthTexture, fshadowCoord);
-    gl_FragColor = vec4(r * (ambient + specular + diffuse), material.alph);
+    factor = 0.75 * factor + 0.25;
+    gl_FragColor = factor * vec4(ambient + specular + diffuse, 1.0);
+//    gl_FragColor = vec4(factor, factor, factor, 1.0);
+    //gl_FragColor = vec4(factor * (ambient + specular +  diffuse), material.alph);
+    
+//    //使用shadow2DProj函数得结果     depthTexture是samper2DShadow类型
+//    highp float r = (1.0 - kShadowAmount) + kShadowAmount * shadow2DProjEXT(depthTexture, fshadowCoord);
+//    gl_FragColor = vec4(r * (ambient + specular + diffuse), material.alph);
 }

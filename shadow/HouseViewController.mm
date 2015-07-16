@@ -14,6 +14,7 @@
 #import "SSAOProgram.h"
 #import "AOBlurProgram.h"
 #import "FxaaProgram.h"
+#import "VarianceBlur.h"
 #import "assimpModel.h"
 #import "Camera.h"
 #import <glm/glm.hpp>
@@ -83,6 +84,12 @@ typedef struct
     GLuint textSizeLocation;
 }blurLocations;
 
+typedef struct
+{
+    GLuint inTextureLocation;
+    GLuint textSizeLocation;
+}varianceBlurLocations;
+
 
 @interface HouseViewController () {
     glm::mat4 _shadowMVP;
@@ -93,6 +100,7 @@ typedef struct
     ssaoLocations _ssaoLocations;
     blurLocations _blurLocations;
     fxaaLocations _fxaaLocations;
+    varianceBlurLocations _varianceBlurLocations;
     Model model;
     Camera camera;
 }
@@ -105,6 +113,7 @@ typedef struct
 @property (nonatomic, strong) DrawTextureProgram *drawTextureProgram;
 @property (nonatomic, strong) AOBlurProgram *aoBlurProgram;
 @property (nonatomic, strong) FxaaProgram *fxaaProgram;
+@property (nonatomic, strong) VarianceBlur *vblurProgram;
 
 #pragma mark - fbo
 @property(nonatomic, assign) GLuint ssaoFbo;
@@ -122,8 +131,8 @@ typedef struct
 @property (nonatomic, assign) GLuint cameraColorTexture;
 
 #pragma mark - 存储ssao中使用的坐标信息
-@property (nonatomic, assign) GLuint ssaoVao;
-@property (nonatomic, assign) GLuint ssaoVbo;
+@property (nonatomic, assign) GLuint screenXYVao;
+@property (nonatomic, assign) GLuint screenXYVbo;
 
 #pragma mark - 存储显示绘制的纹理结果的坐标信息
 @property (nonatomic, assign) GLuint vao;
@@ -132,6 +141,10 @@ typedef struct
 #pragma mark - fxaa
 @property (nonatomic, assign) GLuint fxaaFbo;
 @property (nonatomic, assign) GLuint fxaaTexture;
+
+#pragma mark - varianceBlur
+@property (nonatomic, assign) GLuint vBlurFbo;
+@property (nonatomic, assign) GLuint vBlurTexture;
 
 @end
 
@@ -205,6 +218,7 @@ typedef struct
     _ssaoProgram = [[SSAOProgram alloc] linkProgramWithShaderName:@"ssao"];
     _aoBlurProgram = [[AOBlurProgram alloc] linkProgramWithShaderName:@"blur"];
     _fxaaProgram = [[FxaaProgram alloc] linkProgramWithShaderName:@"fxaa"];
+    _vblurProgram = [[VarianceBlur alloc] linkProgramWithShaderName:@"varianceBlur"];
     
     //提前获得需要的uniform变量对location，从而在渲染的时候直接使用，加快速度
     model.getLocations(_normalProgram.program);
@@ -218,7 +232,9 @@ typedef struct
     model.bindVertexData();
     model.bindTexturesData();
     
+#warning  初始化（经常改动）
     [self initDepthFramebuffer];
+    [self initVarianceBlurFramebuffer];
     [self initSSAOFramebuffer];
     [self initNormalFramebuffer];
     [self initFxaaFramebuffer];
@@ -249,11 +265,11 @@ typedef struct
 
 - (void)bindSSAOData
 {
-    glGenVertexArraysOES(1, &_ssaoVao);
+    glGenVertexArraysOES(1, &_screenXYVao);
 
-    glBindVertexArrayOES(_ssaoVao);
-    glGenBuffers(1, &_ssaoVbo);
-    glBindBuffer(GL_ARRAY_BUFFER, _ssaoVbo);
+    glBindVertexArrayOES(_screenXYVao);
+    glGenBuffers(1, &_screenXYVbo);
+    glBindBuffer(GL_ARRAY_BUFFER, _screenXYVbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(screenXYs), screenXYs, GL_STATIC_DRAW);
     
     glEnableVertexAttribArray(0);
@@ -294,6 +310,10 @@ typedef struct
     /**get the first pass**/
     _depthLocations.shadowMVPLocation = glGetUniformLocation(self.depthProgram.program, "shadowMVP");
     
+    /**get varianceBlur pass**/
+    _varianceBlurLocations.inTextureLocation = glGetUniformLocation(self.vblurProgram.program, "inTexture");
+    _varianceBlurLocations.textSizeLocation = glGetUniformLocation(self.vblurProgram.program, "textSize");
+    
     /**get the second pass**/
     _normalLocations.shadowMVPLocation = glGetUniformLocation(self.normalProgram.program, "shadowMVP");
     _normalLocations.MVPLocation = glGetUniformLocation(self.normalProgram.program, "MVP");
@@ -324,22 +344,22 @@ typedef struct
 {
     glUseProgram(self.depthProgram.program);
     glBindFramebuffer(GL_FRAMEBUFFER, _depthFbo);
-    glViewport(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    glViewport(0, 0, kWindowWidth, kWindowHeight);
+    
+    glClearColor(0.0, 0.0, 0.0, 1.0);
     glClearDepthf(1.0f);
-    glClear(GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glm::mat4 lightView =glm::lookAt(glm::vec3(0, 0.48, 4.3), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-    /***为实现ssao查看效果，暂时让光源的位置就在相机处，这样产生的深度信息与正常渲染的颜色缓存位置匹配**/
-    //glm::mat4 lightView = camera.getView();
     
     _shadowMVP = _projectionMatrix * lightView * _modelMatrix;
     
     glUniformMatrix4fv(_depthLocations.shadowMVPLocation, 1, GL_FALSE, glm::value_ptr(_shadowMVP));
     
-    glEnable(GL_POLYGON_OFFSET_FILL);
-    glPolygonOffset(2.0f, 4.0f);
+//    glEnable(GL_POLYGON_OFFSET_FILL);
+//    glPolygonOffset(2.0f, 4.0f);
     model.drawDepth();
-    glDisable(GL_POLYGON_OFFSET_FILL);
+//    glDisable(GL_POLYGON_OFFSET_FILL);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -373,7 +393,7 @@ typedef struct
     glUniformMatrix4fv(_normalLocations.normalMatrixLocation, 1, GL_FALSE, glm::value_ptr(normalMatrix));
     glUniformMatrix4fv(_normalLocations.MVPLocation, 1, GL_FALSE, glm::value_ptr(modelViewProjection));
     
-    model.drawNormal(self.normalProgram.program, _lightDepthTexture);
+    model.drawNormal(self.normalProgram.program, _vBlurTexture);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -396,8 +416,8 @@ typedef struct
     /**radius for sample**/
     glUniform1f(_ssaoLocations.radiusLocation, 5.0);
     
-    glBindVertexArrayOES(_ssaoVao);
-    glBindBuffer(GL_ARRAY_BUFFER, _ssaoVbo);
+    glBindVertexArrayOES(_screenXYVao);
+    glBindBuffer(GL_ARRAY_BUFFER, _screenXYVbo);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArrayOES(0);
@@ -417,8 +437,8 @@ typedef struct
     glBindTexture(GL_TEXTURE_2D, self.cameraColorTexture);
     glUniform1i(_fxaaLocations.colorTextureLocation, 0);
     
-    glBindVertexArrayOES(_ssaoVao);
-    glBindBuffer(GL_ARRAY_BUFFER, _ssaoVbo);
+    glBindVertexArrayOES(_screenXYVao);
+    glBindBuffer(GL_ARRAY_BUFFER, _screenXYVbo);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArrayOES(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -431,7 +451,7 @@ typedef struct
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    glUniform2f(_blurLocations.textSizeLocation, self.view.frame.size.width, self.view.frame.size.height);
+    glUniform2f(_blurLocations.textSizeLocation, kWindowWidth, kWindowHeight);
     
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, self.ssaoTexture);
@@ -444,13 +464,33 @@ typedef struct
     /**blur size**/
     glUniform1i(_blurLocations.blurSizeLocation, 4);
     
-    //由于只需要屏幕坐标就可以了，所以这里直接与绘制ao factor的过程使用同组数据
-    glBindVertexArrayOES(_ssaoVao);
-    glBindBuffer(GL_ARRAY_BUFFER, _ssaoVbo);
+    glBindVertexArrayOES(_screenXYVao);
+    glBindBuffer(GL_ARRAY_BUFFER, _screenXYVbo);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArrayOES(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+}
+
+- (void)renderVarianceBlur
+{
+    glUseProgram(self.vblurProgram.program);
+    glBindFramebuffer(GL_FRAMEBUFFER, _vBlurFbo);
+    
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glUniform2f(_varianceBlurLocations.textSizeLocation, kWindowWidth, kWindowHeight);
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _lightDepthTexture);
+    glUniform1i(_varianceBlurLocations.inTextureLocation, 0);
+    
+    glBindVertexArrayOES(_screenXYVao);
+    glBindBuffer(GL_ARRAY_BUFFER, _screenXYVbo);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArrayOES(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 - (void) drawTexture
@@ -459,14 +499,14 @@ typedef struct
     
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //glViewport(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     
     glActiveTexture(GL_TEXTURE0);
     //glBindTexture(GL_TEXTURE_2D, _lightDepthTexture);
     //glBindTexture(GL_TEXTURE_2D, _ssaoTexture);
-    glBindTexture(GL_TEXTURE_2D, _fxaaTexture);
+    //glBindTexture(GL_TEXTURE_2D, _fxaaTexture);
     //glBindTexture(GL_TEXTURE_2D, _cameraDepthTexture);
-    //glBindTexture(GL_TEXTURE_2D, _cameraColorTexture);
+    glBindTexture(GL_TEXTURE_2D, _cameraColorTexture);
+//    glBindTexture(GL_TEXTURE_2D, _vBlurTexture);
     glUniform1i(glGetUniformLocation(self.drawTextureProgram.program, "texture"), 0);
     
     glBindVertexArrayOES(_vao);
@@ -474,11 +514,15 @@ typedef struct
     glBindVertexArrayOES(0);
 }
 
+
+
 #pragma mark - GLKView and GLKViewController delegate methods
 
+#warning  渲染顺序（经常改动）
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
     [self renderDepth];
+    [self renderVarianceBlur];
     [self renderNormal];
     [self renderFxaa];
     [self renderSSAO];
@@ -520,24 +564,52 @@ typedef struct
 
 -(void)initDepthFramebuffer
 {
+//    GLubyte image[(int)kWindowWidth][(int)kWindowHeight][3];
+//    for (int i = 0; i < (int)kWindowWidth; ++i) {
+//        for (int j = 0; j < (int)kWindowHeight; ++j) {
+//            image[i][j][1] =  255;
+//            image[i][j][0] = image[i][j][2] = 0;
+//        }
+//    }
+
     glGenTextures(1, &_lightDepthTexture);
     glBindTexture(GL_TEXTURE_2D, _lightDepthTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glGenerateMipmap(GL_TEXTURE_2D);
     
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC_EXT, GL_LEQUAL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE_EXT, GL_COMPARE_REF_TO_TEXTURE_EXT);
-    
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, kWindowWidth, kWindowHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, 0);
-    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, kWindowWidth, kWindowHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
+    
+    GLuint depthBuffer;
+    glGenRenderbuffers(1, &depthBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24_OES, kWindowWidth, kWindowHeight);
+    
+    
     glGenFramebuffers(1, &_depthFbo);
     glBindFramebuffer(GL_FRAMEBUFFER, _depthFbo);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, self.lightDepthTexture, 0);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+- (void)initVarianceBlurFramebuffer
+{
+    glGenTextures(1, &_vBlurTexture);
+    glBindTexture(GL_TEXTURE_2D, _vBlurTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, kWindowWidth, kWindowHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
     
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, self.lightDepthTexture, 0);
-    
+    glGenFramebuffers(1, &_vBlurFbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, _vBlurFbo);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _vBlurTexture, 0);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
