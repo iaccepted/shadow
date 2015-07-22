@@ -42,6 +42,7 @@ void Model::drawNormal(unsigned int program, unsigned int depthTexture)
         glUniform1f(this->locs.shininess_loc, material->shininess);
         glUniform1f(this->locs.alph_loc, material->alph);
         
+
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, material->texture);
         glUniform1i(this->locs.texture_loc, 0);

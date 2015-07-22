@@ -12,6 +12,8 @@ varying highp vec2 ftextcoord;
 varying highp vec4 fshadowCoord;
 varying highp vec3 feyeNormal;
 
+uniform int flag;
+
 uniform sampler2D texture;
 
 
@@ -38,7 +40,7 @@ uniform sampler2D depthTexture;
 
 const lowp float kShadowAmount = 0.4;
 
-const highp float g_minVariance = 0.0001;
+const highp float g_minVariance = 0.003;
 
 highp float linstep(in highp float low, in highp float high, in highp float v)
 {
@@ -59,11 +61,11 @@ highp float chebyshev_upper_bound(in highp vec2 uv, in highp float t)
     highp float variance = moments.y - (moments.x * moments.x);
     variance = max(variance, g_minVariance);
     
-
     highp float d = t - moments.x;
     highp float p_max = variance / (variance + d * d);
 
-    return linstep(0.30, 1.0, p_max);
+    return linstep(0.10, 1.0, p_max);
+//    return smoothstep(0.30, 1.0, p_max);
 }
 
 void main()
@@ -97,9 +99,8 @@ void main()
     highp float depthCurrent = fshadowCoord.z / fshadowCoord.w;
     highp float factor = chebyshev_upper_bound(depthUV, depthCurrent);
     
-    factor = 0.72 * factor + 0.28;
+    factor = 0.85 * factor + 0.15;
     gl_FragColor = factor * vec4(ambient + specular + diffuse, 1.0);
-//    gl_FragColor = vec4(factor, factor, factor, 1.0);
     //gl_FragColor = vec4(factor * (ambient + specular +  diffuse), material.alph);
     
 //    //使用shadow2DProj函数得结果     depthTexture是samper2DShadow类型

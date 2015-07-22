@@ -350,16 +350,16 @@ typedef struct
     glClearDepthf(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    glm::mat4 lightView =glm::lookAt(glm::vec3(0, 0.48, 4.3), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+    glm::mat4 lightView =glm::lookAt(glm::vec3(0.0, 0.48, 4.3), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
     
     _shadowMVP = _projectionMatrix * lightView * _modelMatrix;
     
     glUniformMatrix4fv(_depthLocations.shadowMVPLocation, 1, GL_FALSE, glm::value_ptr(_shadowMVP));
     
-//    glEnable(GL_POLYGON_OFFSET_FILL);
-//    glPolygonOffset(2.0f, 4.0f);
+    glEnable(GL_POLYGON_OFFSET_FILL);
+    glPolygonOffset(2.0f, 4.0f);
     model.drawDepth();
-//    glDisable(GL_POLYGON_OFFSET_FILL);
+    glDisable(GL_POLYGON_OFFSET_FILL);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -578,7 +578,7 @@ typedef struct
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glGenerateMipmap(GL_TEXTURE_2D);
+    
     
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, kWindowWidth, kWindowHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
