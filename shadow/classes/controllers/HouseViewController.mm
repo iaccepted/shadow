@@ -14,7 +14,7 @@
 #import "SSAOProgram.h"
 #import "AOBlurProgram.h"
 #import "FxaaProgram.h"
-#import "VarianceBlur.h"
+#import "VarianceBlurProgram.h"
 #import "assimpModel.h"
 #import "Camera.h"
 #import <glm/glm.hpp>

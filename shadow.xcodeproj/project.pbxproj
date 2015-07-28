@@ -7,15 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B89DEF9E1B54E69F005F8321 /* fxaa.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B89DEF9D1B54E69F005F8321 /* fxaa.vsh */; };
-		B89DEFA01B54E6B1005F8321 /* fxaa.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B89DEF9F1B54E6B1005F8321 /* fxaa.fsh */; };
 		B8B338981AFB258F00740CCE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B338971AFB258F00740CCE /* main.m */; };
 		B8B3389B1AFB258F00740CCE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B3389A1AFB258F00740CCE /* AppDelegate.m */; };
 		B8B3389D1AFB258F00740CCE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8B3389C1AFB258F00740CCE /* Images.xcassets */; };
-		B8B338A01AFB258F00740CCE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B3389E1AFB258F00740CCE /* LaunchScreen.xib */; };
 		B8B338AC1AFB258F00740CCE /* shadowTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B338AB1AFB258F00740CCE /* shadowTests.m */; };
-		B8B338D21AFB2A5A00740CCE /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8B338D01AFB2A4E00740CCE /* Shader.fsh */; };
-		B8B338D31AFB2A6200740CCE /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8B338D11AFB2A4E00740CCE /* Shader.vsh */; };
 		B8C148B31B67789400640395 /* AOBlurProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8C148A41B67789400640395 /* AOBlurProgram.m */; };
 		B8C148B41B67789400640395 /* DepthProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8C148A61B67789400640395 /* DepthProgram.m */; };
 		B8C148B51B67789400640395 /* DrawTextureProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8C148A81B67789400640395 /* DrawTextureProgram.m */; };
@@ -23,26 +18,27 @@
 		B8C148B71B67789400640395 /* NormalProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8C148AC1B67789400640395 /* NormalProgram.m */; };
 		B8C148B81B67789400640395 /* Program.m in Sources */ = {isa = PBXBuildFile; fileRef = B8C148AE1B67789400640395 /* Program.m */; };
 		B8C148B91B67789400640395 /* SSAOProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8C148B01B67789400640395 /* SSAOProgram.m */; };
-		B8C148BA1B67789400640395 /* VarianceBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = B8C148B21B67789400640395 /* VarianceBlur.m */; };
+		B8C148BA1B67789400640395 /* VarianceBlurProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8C148B21B67789400640395 /* VarianceBlurProgram.m */; };
 		B8C148DA1B6778C800640395 /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8C148BC1B6778C800640395 /* camera.cpp */; };
 		B8C148DB1B6778C800640395 /* HouseViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B8C148C11B6778C800640395 /* HouseViewController.mm */; };
 		B8C148DC1B6778C800640395 /* SkinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B8C148C31B6778C800640395 /* SkinViewController.m */; };
 		B8C148DD1B6778C800640395 /* assimpMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8C148C71B6778C800640395 /* assimpMesh.cpp */; };
 		B8C148DE1B6778C800640395 /* assimpModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = B8C148CA1B6778C800640395 /* assimpModel.mm */; };
-		B8C148DF1B6778C800640395 /* blur.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148CC1B6778C800640395 /* blur.fsh */; };
-		B8C148E01B6778C800640395 /* blur.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148CD1B6778C800640395 /* blur.vsh */; };
-		B8C148E11B6778C800640395 /* depth.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148CE1B6778C800640395 /* depth.fsh */; };
-		B8C148E21B6778C800640395 /* depth.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148CF1B6778C800640395 /* depth.vsh */; };
-		B8C148E31B6778C800640395 /* fxaa.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148D01B6778C800640395 /* fxaa.fsh */; };
-		B8C148E41B6778C800640395 /* fxaa.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148D11B6778C800640395 /* fxaa.vsh */; };
-		B8C148E51B6778C800640395 /* normal.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148D21B6778C800640395 /* normal.fsh */; };
-		B8C148E61B6778C800640395 /* normal.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148D31B6778C800640395 /* normal.vsh */; };
-		B8C148E71B6778C800640395 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148D41B6778C800640395 /* Shader.fsh */; };
-		B8C148E81B6778C800640395 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148D51B6778C800640395 /* Shader.vsh */; };
-		B8C148E91B6778C800640395 /* ssao.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148D61B6778C800640395 /* ssao.fsh */; };
-		B8C148EA1B6778C800640395 /* ssao.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148D71B6778C800640395 /* ssao.vsh */; };
-		B8C148EB1B6778C800640395 /* varianceBlur.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148D81B6778C800640395 /* varianceBlur.fsh */; };
-		B8C148EC1B6778C800640395 /* varianceBlur.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148D91B6778C800640395 /* varianceBlur.vsh */; };
+		B8C148FE1B677D0000640395 /* blur.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148EF1B677D0000640395 /* blur.fsh */; };
+		B8C148FF1B677D0000640395 /* blur.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148F01B677D0000640395 /* blur.vsh */; };
+		B8C149001B677D0000640395 /* depth.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148F11B677D0000640395 /* depth.fsh */; };
+		B8C149011B677D0000640395 /* depth.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148F21B677D0000640395 /* depth.vsh */; };
+		B8C149021B677D0000640395 /* fxaa.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148F31B677D0000640395 /* fxaa.fsh */; };
+		B8C149031B677D0000640395 /* fxaa.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148F41B677D0000640395 /* fxaa.vsh */; };
+		B8C149041B677D0000640395 /* normal.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148F51B677D0000640395 /* normal.fsh */; };
+		B8C149051B677D0000640395 /* normal.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148F61B677D0000640395 /* normal.vsh */; };
+		B8C149061B677D0000640395 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148F71B677D0000640395 /* Shader.fsh */; };
+		B8C149071B677D0000640395 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148F81B677D0000640395 /* Shader.vsh */; };
+		B8C149081B677D0000640395 /* ssao.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148F91B677D0000640395 /* ssao.fsh */; };
+		B8C149091B677D0000640395 /* ssao.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148FA1B677D0000640395 /* ssao.vsh */; };
+		B8C1490A1B677D0000640395 /* varianceBlur.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148FB1B677D0000640395 /* varianceBlur.fsh */; };
+		B8C1490B1B677D0000640395 /* varianceBlur.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148FC1B677D0000640395 /* varianceBlur.vsh */; };
+		B8C1490D1B677E9500640395 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8B3389E1AFB258F00740CCE /* LaunchScreen.xib */; };
 		B8CD41991AFB499000262B08 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41981AFB499000262B08 /* OpenGLES.framework */; };
 		B8CD419B1AFB499E00262B08 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD419A1AFB499E00262B08 /* QuartzCore.framework */; };
 		B8CD419D1AFB49A800262B08 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD419C1AFB49A800262B08 /* GLKit.framework */; };
@@ -50,19 +46,9 @@
 		B8CD41A11AFB49BD00262B08 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41A01AFB49BD00262B08 /* libc++.dylib */; };
 		B8CD41A31AFB49C700262B08 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41A21AFB49C700262B08 /* libstdc++.dylib */; };
 		B8CD41A51AFB49EA00262B08 /* libassimp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41A41AFB49EA00262B08 /* libassimp.a */; };
-		B8CD41AB1AFB4DD900262B08 /* depth.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8CD41A71AFB4DD900262B08 /* depth.fsh */; };
-		B8CD41AC1AFB4DD900262B08 /* depth.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8CD41A81AFB4DD900262B08 /* depth.vsh */; };
-		B8CD41AD1AFB4DD900262B08 /* normal.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8CD41A91AFB4DD900262B08 /* normal.fsh */; };
-		B8CD41AE1AFB4DD900262B08 /* normal.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8CD41AA1AFB4DD900262B08 /* normal.vsh */; };
 		B8CD41B41AFB55CB00262B08 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41B31AFB55CB00262B08 /* Foundation.framework */; };
 		B8CD41B61AFB570900262B08 /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CD41B51AFB570900262B08 /* libstdc++.6.0.9.dylib */; };
-		B8D7E3091B0F489100ADC31E /* ssao.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8D7E3081B0F489100ADC31E /* ssao.vsh */; };
-		B8D7E30B1B0F489C00ADC31E /* ssao.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8D7E30A1B0F489C00ADC31E /* ssao.fsh */; };
-		B8EA5E501B5777CD00DAD589 /* varianceBlur.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8EA5E4F1B5777CD00DAD589 /* varianceBlur.fsh */; };
-		B8EA5E521B5777DB00DAD589 /* varianceBlur.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8EA5E511B5777DB00DAD589 /* varianceBlur.vsh */; };
 		B8EA62971AFB7E7A00C4BC31 /* box in Resources */ = {isa = PBXBuildFile; fileRef = B8EA62961AFB7E7A00C4BC31 /* box */; };
-		B8EDC4AD1B254086007AD235 /* blur.vsh in Resources */ = {isa = PBXBuildFile; fileRef = B8EDC4AC1B254086007AD235 /* blur.vsh */; };
-		B8EDC4AF1B25409C007AD235 /* blur.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8EDC4AE1B25409C007AD235 /* blur.fsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,8 +90,8 @@
 		B8C148AE1B67789400640395 /* Program.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Program.m; sourceTree = "<group>"; };
 		B8C148AF1B67789400640395 /* SSAOProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSAOProgram.h; sourceTree = "<group>"; };
 		B8C148B01B67789400640395 /* SSAOProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSAOProgram.m; sourceTree = "<group>"; };
-		B8C148B11B67789400640395 /* VarianceBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VarianceBlur.h; sourceTree = "<group>"; };
-		B8C148B21B67789400640395 /* VarianceBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VarianceBlur.m; sourceTree = "<group>"; };
+		B8C148B11B67789400640395 /* VarianceBlurProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VarianceBlurProgram.h; sourceTree = "<group>"; };
+		B8C148B21B67789400640395 /* VarianceBlurProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VarianceBlurProgram.m; sourceTree = "<group>"; };
 		B8C148BC1B6778C800640395 /* camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = camera.cpp; sourceTree = "<group>"; };
 		B8C148BD1B6778C800640395 /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
 		B8C148C01B6778C800640395 /* HouseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HouseViewController.h; sourceTree = "<group>"; };
@@ -116,20 +102,20 @@
 		B8C148C81B6778C800640395 /* assimpMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assimpMesh.h; sourceTree = "<group>"; };
 		B8C148C91B6778C800640395 /* assimpModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assimpModel.h; sourceTree = "<group>"; };
 		B8C148CA1B6778C800640395 /* assimpModel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = assimpModel.mm; sourceTree = "<group>"; };
-		B8C148CC1B6778C800640395 /* blur.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blur.fsh; sourceTree = "<group>"; };
-		B8C148CD1B6778C800640395 /* blur.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blur.vsh; sourceTree = "<group>"; };
-		B8C148CE1B6778C800640395 /* depth.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = depth.fsh; sourceTree = "<group>"; };
-		B8C148CF1B6778C800640395 /* depth.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = depth.vsh; sourceTree = "<group>"; };
-		B8C148D01B6778C800640395 /* fxaa.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fxaa.fsh; sourceTree = "<group>"; };
-		B8C148D11B6778C800640395 /* fxaa.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fxaa.vsh; sourceTree = "<group>"; };
-		B8C148D21B6778C800640395 /* normal.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = normal.fsh; sourceTree = "<group>"; };
-		B8C148D31B6778C800640395 /* normal.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = normal.vsh; sourceTree = "<group>"; };
-		B8C148D41B6778C800640395 /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
-		B8C148D51B6778C800640395 /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
-		B8C148D61B6778C800640395 /* ssao.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao.fsh; sourceTree = "<group>"; };
-		B8C148D71B6778C800640395 /* ssao.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao.vsh; sourceTree = "<group>"; };
-		B8C148D81B6778C800640395 /* varianceBlur.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = varianceBlur.fsh; sourceTree = "<group>"; };
-		B8C148D91B6778C800640395 /* varianceBlur.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = varianceBlur.vsh; sourceTree = "<group>"; };
+		B8C148EF1B677D0000640395 /* blur.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blur.fsh; sourceTree = "<group>"; };
+		B8C148F01B677D0000640395 /* blur.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blur.vsh; sourceTree = "<group>"; };
+		B8C148F11B677D0000640395 /* depth.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = depth.fsh; sourceTree = "<group>"; };
+		B8C148F21B677D0000640395 /* depth.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = depth.vsh; sourceTree = "<group>"; };
+		B8C148F31B677D0000640395 /* fxaa.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fxaa.fsh; sourceTree = "<group>"; };
+		B8C148F41B677D0000640395 /* fxaa.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fxaa.vsh; sourceTree = "<group>"; };
+		B8C148F51B677D0000640395 /* normal.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = normal.fsh; sourceTree = "<group>"; };
+		B8C148F61B677D0000640395 /* normal.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = normal.vsh; sourceTree = "<group>"; };
+		B8C148F71B677D0000640395 /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
+		B8C148F81B677D0000640395 /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
+		B8C148F91B677D0000640395 /* ssao.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao.fsh; sourceTree = "<group>"; };
+		B8C148FA1B677D0000640395 /* ssao.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao.vsh; sourceTree = "<group>"; };
+		B8C148FB1B677D0000640395 /* varianceBlur.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = varianceBlur.fsh; sourceTree = "<group>"; };
+		B8C148FC1B677D0000640395 /* varianceBlur.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = varianceBlur.vsh; sourceTree = "<group>"; };
 		B8CD41981AFB499000262B08 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		B8CD419A1AFB499E00262B08 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B8CD419C1AFB49A800262B08 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -203,11 +189,11 @@
 		B8B338941AFB258F00740CCE /* shadow */ = {
 			isa = PBXGroup;
 			children = (
+				B8C148ED1B677D0000640395 /* shaders */,
+				B8C148A01B67789400640395 /* graphic */,
 				B8C148BB1B6778C800640395 /* camera */,
 				B8C148BE1B6778C800640395 /* classes */,
 				B8C148C61B6778C800640395 /* objLoader */,
-				B8C148CB1B6778C800640395 /* shaders */,
-				B8C148A01B67789400640395 /* graphic */,
 				B8B338951AFB258F00740CCE /* Supporting Files */,
 			);
 			path = shadow;
@@ -298,8 +284,8 @@
 				B8C148AE1B67789400640395 /* Program.m */,
 				B8C148AF1B67789400640395 /* SSAOProgram.h */,
 				B8C148B01B67789400640395 /* SSAOProgram.m */,
-				B8C148B11B67789400640395 /* VarianceBlur.h */,
-				B8C148B21B67789400640395 /* VarianceBlur.m */,
+				B8C148B11B67789400640395 /* VarianceBlurProgram.h */,
+				B8C148B21B67789400640395 /* VarianceBlurProgram.m */,
 			);
 			path = program;
 			sourceTree = "<group>";
@@ -359,25 +345,41 @@
 			path = objLoader;
 			sourceTree = "<group>";
 		};
-		B8C148CB1B6778C800640395 /* shaders */ = {
+		B8C148ED1B677D0000640395 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
-				B8C148CC1B6778C800640395 /* blur.fsh */,
-				B8C148CD1B6778C800640395 /* blur.vsh */,
-				B8C148CE1B6778C800640395 /* depth.fsh */,
-				B8C148CF1B6778C800640395 /* depth.vsh */,
-				B8C148D01B6778C800640395 /* fxaa.fsh */,
-				B8C148D11B6778C800640395 /* fxaa.vsh */,
-				B8C148D21B6778C800640395 /* normal.fsh */,
-				B8C148D31B6778C800640395 /* normal.vsh */,
-				B8C148D41B6778C800640395 /* Shader.fsh */,
-				B8C148D51B6778C800640395 /* Shader.vsh */,
-				B8C148D61B6778C800640395 /* ssao.fsh */,
-				B8C148D71B6778C800640395 /* ssao.vsh */,
-				B8C148D81B6778C800640395 /* varianceBlur.fsh */,
-				B8C148D91B6778C800640395 /* varianceBlur.vsh */,
+				B8C148EE1B677D0000640395 /* houseShader */,
+				B8C148FD1B677D0000640395 /* skinShader */,
 			);
 			path = shaders;
+			sourceTree = "<group>";
+		};
+		B8C148EE1B677D0000640395 /* houseShader */ = {
+			isa = PBXGroup;
+			children = (
+				B8C148EF1B677D0000640395 /* blur.fsh */,
+				B8C148F01B677D0000640395 /* blur.vsh */,
+				B8C148F11B677D0000640395 /* depth.fsh */,
+				B8C148F21B677D0000640395 /* depth.vsh */,
+				B8C148F31B677D0000640395 /* fxaa.fsh */,
+				B8C148F41B677D0000640395 /* fxaa.vsh */,
+				B8C148F51B677D0000640395 /* normal.fsh */,
+				B8C148F61B677D0000640395 /* normal.vsh */,
+				B8C148F71B677D0000640395 /* Shader.fsh */,
+				B8C148F81B677D0000640395 /* Shader.vsh */,
+				B8C148F91B677D0000640395 /* ssao.fsh */,
+				B8C148FA1B677D0000640395 /* ssao.vsh */,
+				B8C148FB1B677D0000640395 /* varianceBlur.fsh */,
+				B8C148FC1B677D0000640395 /* varianceBlur.vsh */,
+			);
+			path = houseShader;
+			sourceTree = "<group>";
+		};
+		B8C148FD1B677D0000640395 /* skinShader */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = skinShader;
 			sourceTree = "<group>";
 		};
 		B8CD41A61AFB49F200262B08 /* frameworks */ = {
@@ -476,36 +478,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8C1490D1B677E9500640395 /* LaunchScreen.xib in Resources */,
 				B8EA62971AFB7E7A00C4BC31 /* box in Resources */,
-				B89DEF9E1B54E69F005F8321 /* fxaa.vsh in Resources */,
-				B8C148E51B6778C800640395 /* normal.fsh in Resources */,
-				B8D7E3091B0F489100ADC31E /* ssao.vsh in Resources */,
-				B8EDC4AD1B254086007AD235 /* blur.vsh in Resources */,
-				B8C148EC1B6778C800640395 /* varianceBlur.vsh in Resources */,
-				B8C148EA1B6778C800640395 /* ssao.vsh in Resources */,
-				B8D7E30B1B0F489C00ADC31E /* ssao.fsh in Resources */,
-				B8C148EB1B6778C800640395 /* varianceBlur.fsh in Resources */,
-				B8C148E71B6778C800640395 /* Shader.fsh in Resources */,
-				B8C148E61B6778C800640395 /* normal.vsh in Resources */,
-				B8C148E01B6778C800640395 /* blur.vsh in Resources */,
-				B8CD41AD1AFB4DD900262B08 /* normal.fsh in Resources */,
-				B8C148E21B6778C800640395 /* depth.vsh in Resources */,
-				B8B338D31AFB2A6200740CCE /* Shader.vsh in Resources */,
-				B8EDC4AF1B25409C007AD235 /* blur.fsh in Resources */,
-				B8CD41AE1AFB4DD900262B08 /* normal.vsh in Resources */,
-				B8C148E81B6778C800640395 /* Shader.vsh in Resources */,
-				B8CD41AC1AFB4DD900262B08 /* depth.vsh in Resources */,
-				B8C148E41B6778C800640395 /* fxaa.vsh in Resources */,
-				B8B338D21AFB2A5A00740CCE /* Shader.fsh in Resources */,
-				B8CD41AB1AFB4DD900262B08 /* depth.fsh in Resources */,
-				B8EA5E521B5777DB00DAD589 /* varianceBlur.vsh in Resources */,
-				B8B338A01AFB258F00740CCE /* LaunchScreen.xib in Resources */,
-				B8EA5E501B5777CD00DAD589 /* varianceBlur.fsh in Resources */,
-				B89DEFA01B54E6B1005F8321 /* fxaa.fsh in Resources */,
-				B8C148E11B6778C800640395 /* depth.fsh in Resources */,
-				B8C148E31B6778C800640395 /* fxaa.fsh in Resources */,
-				B8C148E91B6778C800640395 /* ssao.fsh in Resources */,
-				B8C148DF1B6778C800640395 /* blur.fsh in Resources */,
+				B8C149041B677D0000640395 /* normal.fsh in Resources */,
+				B8C1490B1B677D0000640395 /* varianceBlur.vsh in Resources */,
+				B8C149091B677D0000640395 /* ssao.vsh in Resources */,
+				B8C1490A1B677D0000640395 /* varianceBlur.fsh in Resources */,
+				B8C149061B677D0000640395 /* Shader.fsh in Resources */,
+				B8C149051B677D0000640395 /* normal.vsh in Resources */,
+				B8C148FF1B677D0000640395 /* blur.vsh in Resources */,
+				B8C149011B677D0000640395 /* depth.vsh in Resources */,
+				B8C149071B677D0000640395 /* Shader.vsh in Resources */,
+				B8C149031B677D0000640395 /* fxaa.vsh in Resources */,
+				B8C149001B677D0000640395 /* depth.fsh in Resources */,
+				B8C149021B677D0000640395 /* fxaa.fsh in Resources */,
+				B8C149081B677D0000640395 /* ssao.fsh in Resources */,
+				B8C148FE1B677D0000640395 /* blur.fsh in Resources */,
 				B8B3389D1AFB258F00740CCE /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -528,7 +516,7 @@
 				B8C148B51B67789400640395 /* DrawTextureProgram.m in Sources */,
 				B8C148B41B67789400640395 /* DepthProgram.m in Sources */,
 				B8B3389B1AFB258F00740CCE /* AppDelegate.m in Sources */,
-				B8C148BA1B67789400640395 /* VarianceBlur.m in Sources */,
+				B8C148BA1B67789400640395 /* VarianceBlurProgram.m in Sources */,
 				B8C148DE1B6778C800640395 /* assimpModel.mm in Sources */,
 				B8C148B81B67789400640395 /* Program.m in Sources */,
 				B8C148B91B67789400640395 /* SSAOProgram.m in Sources */,

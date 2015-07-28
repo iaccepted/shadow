@@ -8,6 +8,13 @@
 
 #import "SkinViewController.h"
 
+@interface SkinViewController()
+
+@property (nonatomic, assign) GLuint phBeckmannTexture;
+
+@end
+
+
 @implementation SkinViewController
 
 @end

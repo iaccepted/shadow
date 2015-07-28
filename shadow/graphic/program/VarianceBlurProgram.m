@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 iaccepted. All rights reserved.
 //
 
-#import "VarianceBlur.h"
+#import "VarianceBlurProgram.h"
 
 @implementation VarianceBlur
 
