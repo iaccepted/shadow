@@ -68,6 +68,26 @@ highp float chebyshev_upper_bound(in highp vec2 uv, in highp float t)
 //    return smoothstep(0.30, 1.0, p_max);
 }
 
+/*code on github*/
+ 
+//highp float chebyshev_upper_bound(in highp vec2 uv, in highp float t)
+//{
+//    highp vec2 moments = texture2D(depthTexture, uv).xy;
+//    
+//    highp float p = 0.0;
+//    if (t <= moments.x) {
+//        p = 1.0;
+//    }
+//    highp float variance = moments.y - (moments.x * moments.x);
+//    variance = max(variance, 0.0001);
+//    
+//    highp float d = t - moments.x;
+//    highp float p_max = variance / (variance + d * d);
+//    p_max = linstep(0.2, 1.0, p_max);
+//    
+//    return min(max(p, p_max), 1.0);
+//}
+
 void main()
 {
     lowp vec4 textColor = texture2D(texture, ftextcoord);
@@ -99,7 +119,7 @@ void main()
     highp float depthCurrent = fshadowCoord.z / fshadowCoord.w;
     highp float factor = chebyshev_upper_bound(depthUV, depthCurrent);
     
-    factor = 0.85 * factor + 0.15;
+    //factor = 0.85 * factor + 0.15;
     gl_FragColor = factor * vec4(ambient + specular + diffuse, 1.0);
     //gl_FragColor = vec4(factor * (ambient + specular +  diffuse), material.alph);
     

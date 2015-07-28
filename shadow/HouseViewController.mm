@@ -394,6 +394,7 @@ typedef struct
     glUniformMatrix4fv(_normalLocations.MVPLocation, 1, GL_FALSE, glm::value_ptr(modelViewProjection));
     
     model.drawNormal(self.normalProgram.program, _vBlurTexture);
+//    model.drawNormal(self.normalProgram.program, _lightDepthTexture);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -513,6 +514,7 @@ typedef struct
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArrayOES(0);
 }
+
 
 
 

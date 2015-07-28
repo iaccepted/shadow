@@ -63,8 +63,8 @@
 /* Begin PBXFileReference section */
 		B89DEF9D1B54E69F005F8321 /* fxaa.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fxaa.vsh; sourceTree = "<group>"; };
 		B89DEF9F1B54E6B1005F8321 /* fxaa.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fxaa.fsh; sourceTree = "<group>"; };
-		B89DEFA11B54FD87005F8321 /* FxaaProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FxaaProgram.h; sourceTree = "<group>"; };
-		B89DEFA21B54FD87005F8321 /* FxaaProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FxaaProgram.m; sourceTree = "<group>"; };
+		B89DEFA11B54FD87005F8321 /* FxaaProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FxaaProgram.h; path = ../../FxaaProgram.h; sourceTree = "<group>"; };
+		B89DEFA21B54FD87005F8321 /* FxaaProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FxaaProgram.m; path = ../../FxaaProgram.m; sourceTree = "<group>"; };
 		B8B338921AFB258F00740CCE /* shadow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shadow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8B338961AFB258F00740CCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B8B338971AFB258F00740CCE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -75,16 +75,16 @@
 		B8B338A51AFB258F00740CCE /* shadowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = shadowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8B338AA1AFB258F00740CCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B8B338AB1AFB258F00740CCE /* shadowTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = shadowTests.m; sourceTree = "<group>"; };
-		B8B338C81AFB295C00740CCE /* HouseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HouseViewController.h; sourceTree = "<group>"; };
-		B8B338C91AFB295C00740CCE /* HouseViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HouseViewController.mm; sourceTree = "<group>"; };
+		B8B338C81AFB295C00740CCE /* HouseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HouseViewController.h; path = ../../HouseViewController.h; sourceTree = "<group>"; };
+		B8B338C91AFB295C00740CCE /* HouseViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = HouseViewController.mm; path = ../../HouseViewController.mm; sourceTree = "<group>"; };
 		B8B338D01AFB2A4E00740CCE /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
 		B8B338D11AFB2A4E00740CCE /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
-		B8B338D41AFB2EFC00740CCE /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Program.h; sourceTree = "<group>"; };
-		B8B338D51AFB2EFC00740CCE /* Program.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Program.m; sourceTree = "<group>"; };
-		B8B338D81AFB2F3400740CCE /* DepthProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DepthProgram.h; sourceTree = "<group>"; };
-		B8B338D91AFB2F3400740CCE /* DepthProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DepthProgram.m; sourceTree = "<group>"; };
-		B8B338DB1AFB2F5E00740CCE /* NormalProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NormalProgram.h; sourceTree = "<group>"; };
-		B8B338DC1AFB2F5E00740CCE /* NormalProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NormalProgram.m; sourceTree = "<group>"; };
+		B8B338D41AFB2EFC00740CCE /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Program.h; path = ../../Program.h; sourceTree = "<group>"; };
+		B8B338D51AFB2EFC00740CCE /* Program.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Program.m; path = ../../Program.m; sourceTree = "<group>"; };
+		B8B338D81AFB2F3400740CCE /* DepthProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DepthProgram.h; path = ../../DepthProgram.h; sourceTree = "<group>"; };
+		B8B338D91AFB2F3400740CCE /* DepthProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DepthProgram.m; path = ../../DepthProgram.m; sourceTree = "<group>"; };
+		B8B338DB1AFB2F5E00740CCE /* NormalProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NormalProgram.h; path = ../../NormalProgram.h; sourceTree = "<group>"; };
+		B8B338DC1AFB2F5E00740CCE /* NormalProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NormalProgram.m; path = ../../NormalProgram.m; sourceTree = "<group>"; };
 		B8CD41911AFB491800262B08 /* assimpMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = assimpMesh.cpp; sourceTree = "<group>"; };
 		B8CD41921AFB491800262B08 /* assimpMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assimpMesh.h; sourceTree = "<group>"; };
 		B8CD41931AFB491800262B08 /* assimpModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assimpModel.h; sourceTree = "<group>"; };
@@ -104,19 +104,19 @@
 		B8CD41B01AFB54E200262B08 /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = camera.h; path = shadow/camera.h; sourceTree = SOURCE_ROOT; };
 		B8CD41B31AFB55CB00262B08 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B8CD41B51AFB570900262B08 /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
-		B8D752151B13141F00D9B2CB /* SSAOProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSAOProgram.h; sourceTree = "<group>"; };
-		B8D752161B13141F00D9B2CB /* SSAOProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSAOProgram.m; sourceTree = "<group>"; };
+		B8D752151B13141F00D9B2CB /* SSAOProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSAOProgram.h; path = ../../SSAOProgram.h; sourceTree = "<group>"; };
+		B8D752161B13141F00D9B2CB /* SSAOProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSAOProgram.m; path = ../../SSAOProgram.m; sourceTree = "<group>"; };
 		B8D7E3081B0F489100ADC31E /* ssao.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao.vsh; sourceTree = "<group>"; };
 		B8D7E30A1B0F489C00ADC31E /* ssao.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao.fsh; sourceTree = "<group>"; };
 		B8EA5E4F1B5777CD00DAD589 /* varianceBlur.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = varianceBlur.fsh; sourceTree = "<group>"; };
 		B8EA5E511B5777DB00DAD589 /* varianceBlur.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = varianceBlur.vsh; sourceTree = "<group>"; };
-		B8EA5E531B5779CE00DAD589 /* VarianceBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VarianceBlur.h; sourceTree = "<group>"; };
-		B8EA5E541B5779CE00DAD589 /* VarianceBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VarianceBlur.m; sourceTree = "<group>"; };
+		B8EA5E531B5779CE00DAD589 /* VarianceBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VarianceBlur.h; path = ../../VarianceBlur.h; sourceTree = "<group>"; };
+		B8EA5E541B5779CE00DAD589 /* VarianceBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VarianceBlur.m; path = ../../VarianceBlur.m; sourceTree = "<group>"; };
 		B8EA62961AFB7E7A00C4BC31 /* box */ = {isa = PBXFileReference; lastKnownFileType = folder; name = box; path = shadow/box; sourceTree = "<group>"; };
-		B8EA62981AFB8E5500C4BC31 /* DrawTextureProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawTextureProgram.h; sourceTree = "<group>"; };
-		B8EA62991AFB8E5500C4BC31 /* DrawTextureProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawTextureProgram.m; sourceTree = "<group>"; };
-		B8EDC4A91B253F15007AD235 /* AOBlurProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOBlurProgram.h; sourceTree = "<group>"; };
-		B8EDC4AA1B253F15007AD235 /* AOBlurProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOBlurProgram.m; sourceTree = "<group>"; };
+		B8EA62981AFB8E5500C4BC31 /* DrawTextureProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DrawTextureProgram.h; path = ../../DrawTextureProgram.h; sourceTree = "<group>"; };
+		B8EA62991AFB8E5500C4BC31 /* DrawTextureProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DrawTextureProgram.m; path = ../../DrawTextureProgram.m; sourceTree = "<group>"; };
+		B8EDC4A91B253F15007AD235 /* AOBlurProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AOBlurProgram.h; path = ../../AOBlurProgram.h; sourceTree = "<group>"; };
+		B8EDC4AA1B253F15007AD235 /* AOBlurProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AOBlurProgram.m; path = ../../AOBlurProgram.m; sourceTree = "<group>"; };
 		B8EDC4AC1B254086007AD235 /* blur.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blur.vsh; sourceTree = "<group>"; };
 		B8EDC4AE1B25409C007AD235 /* blur.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blur.fsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,12 +148,84 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B869CC8D1B67750A00EFCAB4 /* classes */ = {
+			isa = PBXGroup;
+			children = (
+				B869CC8E1B67750A00EFCAB4 /* controllers */,
+				B869CC8F1B67750A00EFCAB4 /* models */,
+				B869CC901B67750A00EFCAB4 /* views */,
+			);
+			path = classes;
+			sourceTree = "<group>";
+		};
+		B869CC8E1B67750A00EFCAB4 /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B8B338C81AFB295C00740CCE /* HouseViewController.h */,
+				B8B338C91AFB295C00740CCE /* HouseViewController.mm */,
+			);
+			path = controllers;
+			sourceTree = "<group>";
+		};
+		B869CC8F1B67750A00EFCAB4 /* models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		B869CC901B67750A00EFCAB4 /* views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		B869CC931B67763100EFCAB4 /* graphic */ = {
+			isa = PBXGroup;
+			children = (
+				B869CC941B67763100EFCAB4 /* core */,
+				B869CC951B67763100EFCAB4 /* program */,
+			);
+			path = graphic;
+			sourceTree = "<group>";
+		};
+		B869CC941B67763100EFCAB4 /* core */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = core;
+			sourceTree = "<group>";
+		};
+		B869CC951B67763100EFCAB4 /* program */ = {
+			isa = PBXGroup;
+			children = (
+				B8B338D41AFB2EFC00740CCE /* Program.h */,
+				B8B338D51AFB2EFC00740CCE /* Program.m */,
+				B8B338D81AFB2F3400740CCE /* DepthProgram.h */,
+				B8B338D91AFB2F3400740CCE /* DepthProgram.m */,
+				B8B338DB1AFB2F5E00740CCE /* NormalProgram.h */,
+				B8B338DC1AFB2F5E00740CCE /* NormalProgram.m */,
+				B8EA62981AFB8E5500C4BC31 /* DrawTextureProgram.h */,
+				B8EA62991AFB8E5500C4BC31 /* DrawTextureProgram.m */,
+				B8D752151B13141F00D9B2CB /* SSAOProgram.h */,
+				B8D752161B13141F00D9B2CB /* SSAOProgram.m */,
+				B8EDC4A91B253F15007AD235 /* AOBlurProgram.h */,
+				B8EDC4AA1B253F15007AD235 /* AOBlurProgram.m */,
+				B89DEFA11B54FD87005F8321 /* FxaaProgram.h */,
+				B89DEFA21B54FD87005F8321 /* FxaaProgram.m */,
+				B8EA5E531B5779CE00DAD589 /* VarianceBlur.h */,
+				B8EA5E541B5779CE00DAD589 /* VarianceBlur.m */,
+			);
+			path = program;
+			sourceTree = "<group>";
+		};
 		B8B338891AFB258F00740CCE = {
 			isa = PBXGroup;
 			children = (
 				B8EA62961AFB7E7A00C4BC31 /* box */,
 				B8CD41A61AFB49F200262B08 /* frameworks */,
-				B8B338CF1AFB2A4E00740CCE /* Shaders */,
+				B8B338CF1AFB2A4E00740CCE /* shaders */,
 				B8B338941AFB258F00740CCE /* shadow */,
 				B8B338A81AFB258F00740CCE /* shadowTests */,
 				B8B338931AFB258F00740CCE /* Products */,
@@ -172,14 +244,11 @@
 		B8B338941AFB258F00740CCE /* shadow */ = {
 			isa = PBXGroup;
 			children = (
+				B869CC931B67763100EFCAB4 /* graphic */,
+				B869CC8D1B67750A00EFCAB4 /* classes */,
 				B8CD41B21AFB54E900262B08 /* camera */,
 				B8CD41971AFB492600262B08 /* objLoader */,
-				B8B338991AFB258F00740CCE /* AppDelegate.h */,
-				B8B3389A1AFB258F00740CCE /* AppDelegate.m */,
 				B8B338951AFB258F00740CCE /* Supporting Files */,
-				B8B338C81AFB295C00740CCE /* HouseViewController.h */,
-				B8B338C91AFB295C00740CCE /* HouseViewController.mm */,
-				B8B338D71AFB2F0A00740CCE /* program */,
 			);
 			path = shadow;
 			sourceTree = "<group>";
@@ -187,6 +256,8 @@
 		B8B338951AFB258F00740CCE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B8B338991AFB258F00740CCE /* AppDelegate.h */,
+				B8B3389A1AFB258F00740CCE /* AppDelegate.m */,
 				B8B3389C1AFB258F00740CCE /* Images.xcassets */,
 				B8B3389E1AFB258F00740CCE /* LaunchScreen.xib */,
 				B8B338961AFB258F00740CCE /* Info.plist */,
@@ -212,7 +283,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		B8B338CF1AFB2A4E00740CCE /* Shaders */ = {
+		B8B338CF1AFB2A4E00740CCE /* shaders */ = {
 			isa = PBXGroup;
 			children = (
 				B8CD41A71AFB4DD900262B08 /* depth.fsh */,
@@ -230,31 +301,8 @@
 				B8EA5E4F1B5777CD00DAD589 /* varianceBlur.fsh */,
 				B8EA5E511B5777DB00DAD589 /* varianceBlur.vsh */,
 			);
-			name = Shaders;
+			name = shaders;
 			path = shadow/Shaders;
-			sourceTree = "<group>";
-		};
-		B8B338D71AFB2F0A00740CCE /* program */ = {
-			isa = PBXGroup;
-			children = (
-				B8B338D41AFB2EFC00740CCE /* Program.h */,
-				B8B338D51AFB2EFC00740CCE /* Program.m */,
-				B8B338D81AFB2F3400740CCE /* DepthProgram.h */,
-				B8B338D91AFB2F3400740CCE /* DepthProgram.m */,
-				B8B338DB1AFB2F5E00740CCE /* NormalProgram.h */,
-				B8B338DC1AFB2F5E00740CCE /* NormalProgram.m */,
-				B8EA62981AFB8E5500C4BC31 /* DrawTextureProgram.h */,
-				B8EA62991AFB8E5500C4BC31 /* DrawTextureProgram.m */,
-				B8D752151B13141F00D9B2CB /* SSAOProgram.h */,
-				B8D752161B13141F00D9B2CB /* SSAOProgram.m */,
-				B8EDC4A91B253F15007AD235 /* AOBlurProgram.h */,
-				B8EDC4AA1B253F15007AD235 /* AOBlurProgram.m */,
-				B89DEFA11B54FD87005F8321 /* FxaaProgram.h */,
-				B89DEFA21B54FD87005F8321 /* FxaaProgram.m */,
-				B8EA5E531B5779CE00DAD589 /* VarianceBlur.h */,
-				B8EA5E541B5779CE00DAD589 /* VarianceBlur.m */,
-			);
-			name = program;
 			sourceTree = "<group>";
 		};
 		B8CD41971AFB492600262B08 /* objLoader */ = {
