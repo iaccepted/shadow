@@ -21,7 +21,6 @@
 		B8C148BA1B67789400640395 /* VarianceBlurProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = B8C148B21B67789400640395 /* VarianceBlurProgram.m */; };
 		B8C148DA1B6778C800640395 /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8C148BC1B6778C800640395 /* camera.cpp */; };
 		B8C148DB1B6778C800640395 /* HouseViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B8C148C11B6778C800640395 /* HouseViewController.mm */; };
-		B8C148DC1B6778C800640395 /* SkinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B8C148C31B6778C800640395 /* SkinViewController.m */; };
 		B8C148DD1B6778C800640395 /* assimpMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B8C148C71B6778C800640395 /* assimpMesh.cpp */; };
 		B8C148DE1B6778C800640395 /* assimpModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = B8C148CA1B6778C800640395 /* assimpModel.mm */; };
 		B8C148FE1B677D0000640395 /* blur.fsh in Resources */ = {isa = PBXBuildFile; fileRef = B8C148EF1B677D0000640395 /* blur.fsh */; };
@@ -62,8 +61,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B89DEF9D1B54E69F005F8321 /* fxaa.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fxaa.vsh; sourceTree = "<group>"; };
-		B89DEF9F1B54E6B1005F8321 /* fxaa.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = fxaa.fsh; sourceTree = "<group>"; };
 		B8B338921AFB258F00740CCE /* shadow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shadow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8B338961AFB258F00740CCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B8B338971AFB258F00740CCE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -74,8 +71,6 @@
 		B8B338A51AFB258F00740CCE /* shadowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = shadowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8B338AA1AFB258F00740CCE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B8B338AB1AFB258F00740CCE /* shadowTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = shadowTests.m; sourceTree = "<group>"; };
-		B8B338D01AFB2A4E00740CCE /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
-		B8B338D11AFB2A4E00740CCE /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
 		B8C148A31B67789400640395 /* AOBlurProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOBlurProgram.h; sourceTree = "<group>"; };
 		B8C148A41B67789400640395 /* AOBlurProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOBlurProgram.m; sourceTree = "<group>"; };
 		B8C148A51B67789400640395 /* DepthProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DepthProgram.h; sourceTree = "<group>"; };
@@ -96,8 +91,6 @@
 		B8C148BD1B6778C800640395 /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
 		B8C148C01B6778C800640395 /* HouseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HouseViewController.h; sourceTree = "<group>"; };
 		B8C148C11B6778C800640395 /* HouseViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HouseViewController.mm; sourceTree = "<group>"; };
-		B8C148C21B6778C800640395 /* SkinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkinViewController.h; sourceTree = "<group>"; };
-		B8C148C31B6778C800640395 /* SkinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkinViewController.m; sourceTree = "<group>"; };
 		B8C148C71B6778C800640395 /* assimpMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = assimpMesh.cpp; sourceTree = "<group>"; };
 		B8C148C81B6778C800640395 /* assimpMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assimpMesh.h; sourceTree = "<group>"; };
 		B8C148C91B6778C800640395 /* assimpModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assimpModel.h; sourceTree = "<group>"; };
@@ -123,19 +116,9 @@
 		B8CD41A01AFB49BD00262B08 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		B8CD41A21AFB49C700262B08 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		B8CD41A41AFB49EA00262B08 /* libassimp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libassimp.a; path = shadow/libassimp.a; sourceTree = "<group>"; };
-		B8CD41A71AFB4DD900262B08 /* depth.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = depth.fsh; sourceTree = "<group>"; };
-		B8CD41A81AFB4DD900262B08 /* depth.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = depth.vsh; sourceTree = "<group>"; };
-		B8CD41A91AFB4DD900262B08 /* normal.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = normal.fsh; sourceTree = "<group>"; };
-		B8CD41AA1AFB4DD900262B08 /* normal.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = normal.vsh; sourceTree = "<group>"; };
 		B8CD41B31AFB55CB00262B08 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B8CD41B51AFB570900262B08 /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
-		B8D7E3081B0F489100ADC31E /* ssao.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao.vsh; sourceTree = "<group>"; };
-		B8D7E30A1B0F489C00ADC31E /* ssao.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssao.fsh; sourceTree = "<group>"; };
-		B8EA5E4F1B5777CD00DAD589 /* varianceBlur.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = varianceBlur.fsh; sourceTree = "<group>"; };
-		B8EA5E511B5777DB00DAD589 /* varianceBlur.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = varianceBlur.vsh; sourceTree = "<group>"; };
 		B8EA62961AFB7E7A00C4BC31 /* box */ = {isa = PBXFileReference; lastKnownFileType = folder; name = box; path = shadow/box; sourceTree = "<group>"; };
-		B8EDC4AC1B254086007AD235 /* blur.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blur.vsh; sourceTree = "<group>"; };
-		B8EDC4AE1B25409C007AD235 /* blur.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = blur.fsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,7 +153,6 @@
 			children = (
 				B8EA62961AFB7E7A00C4BC31 /* box */,
 				B8CD41A61AFB49F200262B08 /* frameworks */,
-				B8B338CF1AFB2A4E00740CCE /* shaders */,
 				B8B338941AFB258F00740CCE /* shadow */,
 				B8B338A81AFB258F00740CCE /* shadowTests */,
 				B8B338931AFB258F00740CCE /* Products */,
@@ -189,10 +171,10 @@
 		B8B338941AFB258F00740CCE /* shadow */ = {
 			isa = PBXGroup;
 			children = (
+				B8C148BE1B6778C800640395 /* classes */,
 				B8C148ED1B677D0000640395 /* shaders */,
 				B8C148A01B67789400640395 /* graphic */,
 				B8C148BB1B6778C800640395 /* camera */,
-				B8C148BE1B6778C800640395 /* classes */,
 				B8C148C61B6778C800640395 /* objLoader */,
 				B8B338951AFB258F00740CCE /* Supporting Files */,
 			);
@@ -227,28 +209,6 @@
 				B8B338AA1AFB258F00740CCE /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		B8B338CF1AFB2A4E00740CCE /* shaders */ = {
-			isa = PBXGroup;
-			children = (
-				B8CD41A71AFB4DD900262B08 /* depth.fsh */,
-				B8CD41A81AFB4DD900262B08 /* depth.vsh */,
-				B8CD41A91AFB4DD900262B08 /* normal.fsh */,
-				B8CD41AA1AFB4DD900262B08 /* normal.vsh */,
-				B8B338D01AFB2A4E00740CCE /* Shader.fsh */,
-				B8B338D11AFB2A4E00740CCE /* Shader.vsh */,
-				B8D7E3081B0F489100ADC31E /* ssao.vsh */,
-				B8D7E30A1B0F489C00ADC31E /* ssao.fsh */,
-				B8EDC4AC1B254086007AD235 /* blur.vsh */,
-				B8EDC4AE1B25409C007AD235 /* blur.fsh */,
-				B89DEF9D1B54E69F005F8321 /* fxaa.vsh */,
-				B89DEF9F1B54E6B1005F8321 /* fxaa.fsh */,
-				B8EA5E4F1B5777CD00DAD589 /* varianceBlur.fsh */,
-				B8EA5E511B5777DB00DAD589 /* varianceBlur.vsh */,
-			);
-			name = shaders;
-			path = shadow/Shaders;
 			sourceTree = "<group>";
 		};
 		B8C148A01B67789400640395 /* graphic */ = {
@@ -314,8 +274,6 @@
 			children = (
 				B8C148C01B6778C800640395 /* HouseViewController.h */,
 				B8C148C11B6778C800640395 /* HouseViewController.mm */,
-				B8C148C21B6778C800640395 /* SkinViewController.h */,
-				B8C148C31B6778C800640395 /* SkinViewController.m */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -349,7 +307,6 @@
 			isa = PBXGroup;
 			children = (
 				B8C148EE1B677D0000640395 /* houseShader */,
-				B8C148FD1B677D0000640395 /* skinShader */,
 			);
 			path = shaders;
 			sourceTree = "<group>";
@@ -373,13 +330,6 @@
 				B8C148FC1B677D0000640395 /* varianceBlur.vsh */,
 			);
 			path = houseShader;
-			sourceTree = "<group>";
-		};
-		B8C148FD1B677D0000640395 /* skinShader */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = skinShader;
 			sourceTree = "<group>";
 		};
 		B8CD41A61AFB49F200262B08 /* frameworks */ = {
@@ -524,7 +474,6 @@
 				B8C148DD1B6778C800640395 /* assimpMesh.cpp in Sources */,
 				B8C148B61B67789400640395 /* FxaaProgram.m in Sources */,
 				B8C148DB1B6778C800640395 /* HouseViewController.mm in Sources */,
-				B8C148DC1B6778C800640395 /* SkinViewController.m in Sources */,
 				B8B338981AFB258F00740CCE /* main.m in Sources */,
 				B8C148B71B67789400640395 /* NormalProgram.m in Sources */,
 			);

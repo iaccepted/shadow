@@ -28,9 +28,9 @@ void Model::getLocations(unsigned int program)
 
 void Model::drawNormal(unsigned int program, unsigned int depthTexture)
 {
-    glActiveTexture(GL_TEXTURE1);
+    glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, depthTexture);
-    glUniform1i(this->locs.depthTexture_loc, 1);
+    glUniform1i(this->locs.depthTexture_loc, 2);
     
     for (GLuint i = 0; i < meshs.size(); ++i)
     {
@@ -43,9 +43,9 @@ void Model::drawNormal(unsigned int program, unsigned int depthTexture)
         glUniform1f(this->locs.alph_loc, material->alph);
         
 
-        glActiveTexture(GL_TEXTURE0);
+        glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, material->texture);
-        glUniform1i(this->locs.texture_loc, 0);
+        glUniform1i(this->locs.texture_loc, 3);
         
         this->meshs[i].draw();
     }
@@ -71,7 +71,7 @@ void Model::bindVertexData()
 void Model::loadModel(const char *path)
 {
     Importer importer;
-    const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals);
+    const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals);
     if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
     {
         std::cerr << "Failed to load model : " << importer.GetErrorString() << endl;

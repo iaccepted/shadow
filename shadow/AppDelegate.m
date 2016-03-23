@@ -20,6 +20,7 @@
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     HouseViewController *rootViewController = [[HouseViewController alloc] init];
+    //SkinViewController *rootViewController = [[SkinViewController alloc] init];
     self.window.rootViewController = rootViewController;
     [self.window makeKeyAndVisible];
     						

@@ -23,6 +23,7 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 
+
 #define kNear 1.5
 #define kFar 100.0
 
@@ -297,7 +298,7 @@ typedef struct
 #pragma mark - initMatrix
 - (void)initMatrix
 {
-    GLfloat aspect = self.view.frame.size.width / self.view.frame.size.height;
+    GLfloat aspect = self.view.frame.size.width / self.view.frame.size.height;                             
     _projectionMatrix = glm::perspective(glm::radians(45.0f), aspect, 1.5f, 100.0f);
     _modelMatrix = glm::rotate(_modelMatrix, glm::radians(-90.0f),  glm::vec3(1.5f, 0.0f, 0.0f));
     _modelMatrix = glm::translate(_modelMatrix, glm::vec3(0.0f, 0.0f, -0.75f));
